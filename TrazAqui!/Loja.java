@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class Loja
 {
+   private String codLoja;
    private String nome;
    private Point2D pos;
    private int tamanhoFila;
@@ -20,6 +21,7 @@ public class Loja
    private List<Encomenda> pedidosProntos;
    
    public Loja() {
+       this.codLoja="";
        this.nome="Loja Standard";
        this.pos= (Point2D)new Point2D.Double(0,0);
        this.tamanhoFila = 0;
@@ -27,7 +29,8 @@ public class Loja
        this.pedidosProntos=new ArrayList<Encomenda>();
    }
    
-   public Loja(String nome,Point2D pos,int tF,float tA,List<Encomenda> lE) {
+   public Loja(String codLoja,String nome,Point2D pos,int tF,float tA,List<Encomenda> lE) {
+       this.codLoja=codLoja;
        this.nome=nome;
        this.pos= (Point2D)pos.clone();
        this.tamanhoFila = tF;
@@ -36,11 +39,16 @@ public class Loja
    }
    
    public Loja(Loja l) {
-       this.nome=l.nome;
-       this.pos= (Point2D)l.pos.clone();
-       this.tamanhoFila = l.tamanhoFila;
-       this.tempoAtendimento=l.tempoAtendimento;
-       this.pedidosProntos=l.pedidosProntos.stream().map(e -> e.clone()).collect(Collectors.toList());
+       this.codLoja=l.getCodLoja();
+       this.nome=l.getNome();
+       this.pos= (Point2D)l.getPos().clone();
+       this.tamanhoFila = l.getTamFila();
+       this.tempoAtendimento=l.getTempoAtendimento();
+       this.pedidosProntos=l.getPedidos().stream().map(e -> e.clone()).collect(Collectors.toList());
+   }
+   
+   public void setCodLoja(String codLoja) {
+       this.codLoja=codLoja;
    }
    
    public void setNome(String nome) {
@@ -63,6 +71,10 @@ public class Loja
        this.pedidosProntos=lE.stream().map(e -> e.clone()).collect(Collectors.toList());
    }
    
+   public String getCodLoja() {
+       return this.codLoja;
+   }
+   
    public String getNome() {
        return this.nome;
    }
@@ -79,13 +91,14 @@ public class Loja
        return this.tempoAtendimento;
    }
    
-   public List<Encomenda> getEncomendas() {
+   public List<Encomenda> getPedidos() {
        return this.pedidosProntos.stream().map(e -> e.clone()).collect(Collectors.toList());
    }
    
    public String toString() {
        StringBuilder s = new StringBuilder();
-       s.append("Nome da Loja: ").append(this.nome)
+       s.append("Codigo de Loja: ").append(this.codLoja)
+       .append("\nNome da Loja: ").append(this.nome)
        .append("\nPosiçao: ").append(this.pos.getX()).append(",").append(this.pos.getY()).append(")")
        .append("\nTamanho da Fila: ").append(this.tamanhoFila)
        .append("\nTempo de Atendimento: ").append(this.tempoAtendimento)
@@ -97,7 +110,7 @@ public class Loja
        Loja l;
        if (loja==null || loja.getClass()==this.getClass()) return false;
        l=(Loja)loja;
-       return l.nome.equals(this.nome) && l.pos.equals(this.pos);
+       return l.codLoja.equals(this.codLoja);
    }
    
    public Loja clone() {
