@@ -21,7 +21,7 @@ public class Loja
    private List<Encomenda> pedidosProntos;
    
    public Loja() {
-       this.codLoja="";
+       this.codLoja="n/a";
        this.nome="Loja Standard";
        this.pos= (Point2D)new Point2D.Double(0,0);
        this.tamanhoFila = 0;
