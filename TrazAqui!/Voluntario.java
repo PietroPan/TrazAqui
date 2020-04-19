@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class Voluntario
 {
     private String nome;
+    private String codVoluntario;
     private Point2D pos;
     private float raio;
     private boolean levaMedical;
@@ -23,6 +24,7 @@ public class Voluntario
     
     public Voluntario () {
         this.nome="Voluntario Standard";
+        this.codVoluntario="n/a";
         this.pos=(Point2D)new Point2D.Double(0,0);
         this.raio=0;
         this.levaMedical=false;
@@ -31,8 +33,9 @@ public class Voluntario
         this.historicoEncomendas=new ArrayList<Encomenda>();
     }
     
-    public Voluntario (String nome,Point2D pos,float raio,boolean levaMedical,float velocidadeDeEntrega,Encomenda e,List<Encomenda> lE) {
+    public Voluntario (String nome,String codVoluntario,Point2D pos,float raio,boolean levaMedical,float velocidadeDeEntrega,Encomenda e,List<Encomenda> lE) {
         this.nome=nome;
+        this.codVoluntario=codVoluntario;
         this.pos=(Point2D)pos.clone();
         this.raio=raio;
         this.levaMedical=levaMedical;
@@ -43,6 +46,7 @@ public class Voluntario
     
    public Voluntario (Voluntario v) {
        this.nome=v.nome;
+       this.codVoluntario=v.codVoluntario;
        this.pos=(Point2D)v.pos.clone();
        this.raio=v.raio;
        this.levaMedical=v.levaMedical;
@@ -53,6 +57,10 @@ public class Voluntario
    
    public void setNome(String nome) {
        this.nome=nome;
+   }
+   
+   public void setCodVoluntario(String codVoluntario) {
+       this.codVoluntario=codVoluntario;
    }
     
    public void setPos(Point2D pos) {
@@ -83,6 +91,10 @@ public class Voluntario
        return this.nome;
    }
    
+   public String getCodVoluntario() {
+       return this.codVoluntario;
+   }
+   
    public Point2D getPos() {
        return (Point2D)this.pos.clone();
    }
@@ -110,6 +122,7 @@ public class Voluntario
    public String toString() {
        StringBuilder s = new StringBuilder();
        s.append("Nome da Empresa: ").append(this.nome)
+       .append("\nCodigo do Voluntario: ").append(this.codVoluntario)
        .append("\nPosiçao: (").append(this.pos.getY()).append(",").append(this.pos.getX()).append(")")
        .append("\nRaio de açao: ").append(this.raio)
        .append("\nTransporta encomendas Medicas: ").append(this.levaMedical)
@@ -120,7 +133,7 @@ public class Voluntario
    }
    
    public boolean equals(Voluntario v) {
-       return v.nome.equals(this.nome) && v.pos.equals(this.pos);
+       return v.codVoluntario.equals(this.codVoluntario);
    }
    
    public Voluntario clone() {

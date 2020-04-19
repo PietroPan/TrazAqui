@@ -14,8 +14,10 @@ import java.util.stream.Collectors;
 public class Empresa
 {
    private String nome;
+   private String codEmpresa;
    private Point2D pos;
    private float raio;
+   private String NIF;
    private double custoKm;
    private double custoKg;
    private boolean levaMedical;
@@ -26,8 +28,10 @@ public class Empresa
    
    public Empresa () {
        this.nome="Empresa Standard";
+       this.codEmpresa="n/a";
        this.pos=(Point2D)new Point2D.Double(0,0);
        this.raio=0;
+       this.NIF="n/a";
        this.custoKm=0;
        this.custoKg=0;
        this.levaMedical=false;
@@ -37,10 +41,12 @@ public class Empresa
        this.historicoEncomendas=new ArrayList<Encomenda>();
    }
    
-   public Empresa (String nome,Point2D pos,float raio,double custoKm,double custoKg,boolean levaMedical,float velocidadeDeEntrega,int numeroDeEncomendas,List<Encomenda> encomendaAtual,List<Encomenda> historicoEncomendas) {
+   public Empresa (String nome,String codEmpresa,Point2D pos,float raio,String NIF,double custoKm,double custoKg,boolean levaMedical,float velocidadeDeEntrega,int numeroDeEncomendas,List<Encomenda> encomendaAtual,List<Encomenda> historicoEncomendas) {
        this.nome=nome;
+       this.codEmpresa=codEmpresa;
        this.pos=(Point2D)pos.clone();
        this.raio=raio;
+       this.NIF=NIF;
        this.custoKm=custoKm;
        this.custoKg=custoKg;
        this.levaMedical=levaMedical;
@@ -52,8 +58,10 @@ public class Empresa
    
    public Empresa (Empresa e) {
        this.nome=e.nome;
+       this.codEmpresa=codEmpresa;
        this.pos=(Point2D)e.pos.clone();
        this.raio=e.raio;
+       this.NIF=e.NIF;
        this.custoKm=e.custoKm;
        this.custoKg=e.custoKg;
        this.levaMedical=e.levaMedical;
@@ -66,6 +74,10 @@ public class Empresa
    public void setNome(String nome) {
        this.nome=nome;
    }
+   
+   public void setCodEmpresa(String codEmpresa) {
+       this.codEmpresa=codEmpresa;
+   }
     
    public void setPos(Point2D pos) {
        this.pos=(Point2D.Double)pos.clone();
@@ -73,6 +85,10 @@ public class Empresa
    
    public void setRaio(float raio) {
        this.raio=raio;
+   }
+   
+   public void setNIF(String NIF) {
+       this.NIF=NIF;
    }
    
    public void setCustoKm(double custoKm) {
@@ -107,12 +123,20 @@ public class Empresa
        return this.nome;
    }
    
+   public String getCodEmpresa() {
+       return this.codEmpresa;
+   }
+   
    public Point2D getPos() {
        return (Point2D)this.pos.clone();
    }
    
    public float getRaio() {
        return this.raio;
+   }
+   
+   public String getNIF() {
+       return this.NIF;
    }
    
    public double getCustoKg() {
@@ -146,8 +170,10 @@ public class Empresa
    public String toString() {
        StringBuilder s= new StringBuilder();
        s.append("Nome de Empresa de Entregas: ").append(this.nome)
+       .append("Codigo da Empresa: ").append(this.codEmpresa)
        .append("\nPosiçao: (").append(this.pos.getX()).append(",").append(this.pos.getY()).append(")")
        .append("\nRaio: ").append(this.raio)
+       .append("\nNIF: ").append(this.NIF)
        .append("\nCusto/Kg: ").append(this.custoKg)
        .append("\nCusto/Km: ").append(this.custoKm)
        .append("\nTransporta encomendas medicas: ").append(this.levaMedical)
