@@ -22,7 +22,7 @@ public class Utilizador
         this.pos= new Point2D.Double(0,0);
     }
     
-    public Utilizador(String nome,double balance,Point2D pos) {
+    public Utilizador(String codUtilizador,String nome,double balance,Point2D pos) {
         this.nome =nome;
         this.codUtilizador=codUtilizador;
         this.balance = balance;

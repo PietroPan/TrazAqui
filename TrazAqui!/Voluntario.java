@@ -11,129 +11,62 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class Voluntario
+public class Voluntario extends Entregador
 {
-    private String nome;
-    private String codVoluntario;
-    private Point2D pos;
-    private float raio;
-    private boolean levaMedical;
-    private float velocidadeDeEntrega;
     private Encomenda encomendaAtual;
-    private List<Encomenda> historicoEncomendas;
     
     public Voluntario () {
-        this.nome="Voluntario Standard";
-        this.codVoluntario="n/a";
-        this.pos=(Point2D)new Point2D.Double(0,0);
-        this.raio=0;
-        this.levaMedical=false;
-        this.velocidadeDeEntrega=0;
+        this.setNome("Voluntario Standard");
+        this.setCodEntregador("n/a");
+        this.setPos((Point2D)new Point2D.Double(0,0));
+        this.setRaio(0);
+        this.setMedical(false);
+        this.setVelocidade(0);
         this.encomendaAtual=new Encomenda();
-        this.historicoEncomendas=new ArrayList<Encomenda>();
+        this.setHistorico(new ArrayList<Encomenda>());
     }
     
-    public Voluntario (String nome,String codVoluntario,Point2D pos,float raio,boolean levaMedical,float velocidadeDeEntrega,Encomenda e,List<Encomenda> lE) {
-        this.nome=nome;
-        this.codVoluntario=codVoluntario;
-        this.pos=(Point2D)pos.clone();
-        this.raio=raio;
-        this.levaMedical=levaMedical;
-        this.velocidadeDeEntrega=velocidadeDeEntrega;
+    public Voluntario (String nome,String codEntregador,Point2D pos,float raio,boolean levaMedical,float velocidadeDeEntrega,Encomenda e,List<Encomenda> lE) {
+        this.setNome(nome);
+        this.setCodEntregador(codEntregador);
+        this.setPos((Point2D)pos.clone());
+        this.setRaio(raio);
+        this.setMedical(levaMedical);
+        this.setVelocidade(velocidadeDeEntrega);
         this.encomendaAtual=e.clone();
-        this.historicoEncomendas=lE.stream().map(l -> l.clone()).collect(Collectors.toList());
+        this.setHistorico(lE.stream().map(l -> l.clone()).collect(Collectors.toList()));
    }
     
    public Voluntario (Voluntario v) {
-       this.nome=v.nome;
-       this.codVoluntario=v.codVoluntario;
-       this.pos=(Point2D)v.pos.clone();
-       this.raio=v.raio;
-       this.levaMedical=v.levaMedical;
-       this.velocidadeDeEntrega=v.velocidadeDeEntrega;
+       this.setNome(v.getNome());
+       this.setCodEntregador(v.getCodEntregador());
+       this.setPos((Point2D)v.getPos().clone());
+       this.setRaio(v.getRaio());
+       this.setMedical(v.getMedical());
+       this.setVelocidade(v.getVelocidade());
        this.encomendaAtual=v.encomendaAtual.clone();
-       this.historicoEncomendas=v.historicoEncomendas.stream().map(l -> l.clone()).collect(Collectors.toList());
-   }
-   
-   public void setNome(String nome) {
-       this.nome=nome;
-   }
-   
-   public void setCodVoluntario(String codVoluntario) {
-       this.codVoluntario=codVoluntario;
-   }
-    
-   public void setPos(Point2D pos) {
-       this.pos=(Point2D.Double)pos.clone();
-   }
-   
-   public void setRaio(float raio) {
-       this.raio=raio;
-   }
-   
-   public void setMedical(boolean medical) {
-        this.levaMedical=medical;
-   }
-   
-   public void setVelocidade(float vel){
-       this.velocidadeDeEntrega=vel;
+       this.setHistorico(v.getHistorico().stream().map(l -> l.clone()).collect(Collectors.toList()));
    }
    
    public void setEncomenda(Encomenda e) {
        this.encomendaAtual=e.clone();
    }
    
-   public void setHistorico( List<Encomenda> lE) {
-       this.historicoEncomendas=lE.stream().map(e -> e.clone()).collect(Collectors.toList());
-   }
-   
-   public String getNome() {
-       return this.nome;
-   }
-   
-   public String getCodVoluntario() {
-       return this.codVoluntario;
-   }
-   
-   public Point2D getPos() {
-       return (Point2D)this.pos.clone();
-   }
-   
-   public float getRaio() {
-       return this.raio;
-   }
-   
-   public boolean getMedical() {
-       return this.levaMedical;
-   }
-   
-   public float getVelocidadeEntrega() {
-       return this.velocidadeDeEntrega;
-   }
-   
    public Encomenda getEncomenda() {
        return this.encomendaAtual.clone();
    }
    
-   public List<Encomenda> getHistorico() {
-       return this.historicoEncomendas.stream().map(l -> l.clone()).collect(Collectors.toList());
-   }
-   
    public String toString() {
        StringBuilder s = new StringBuilder();
-       s.append("Nome da Empresa: ").append(this.nome)
-       .append("\nCodigo do Voluntario: ").append(this.codVoluntario)
-       .append("\nPosiçao: (").append(this.pos.getY()).append(",").append(this.pos.getX()).append(")")
-       .append("\nRaio de açao: ").append(this.raio)
-       .append("\nTransporta encomendas Medicas: ").append(this.levaMedical)
-       .append("\nVelocidade media(Km/h): ").append(this.velocidadeDeEntrega)
+       s.append("Nome da Empresa: ").append(this.getNome())
+       .append("\nCodigo do Voluntario: ").append(this.getCodEntregador())
+       .append("\nPosiçao: (").append(this.getPos().getY()).append(",").append(this.getPos().getX()).append(")")
+       .append("\nRaio de açao: ").append(this.getRaio())
+       .append("\nTransporta encomendas Medicas: ").append(this.getMedical())
+       .append("\nVelocidade media(Km/h): ").append(this.getVelocidade())
        .append("\nEncomenda Atual: ").append(this.encomendaAtual)
-       .append("\nHistorico de Encomendas: ").append(this.historicoEncomendas.toString());
+       .append("\nHistorico de Encomendas: ").append(this.getHistorico().toString());
        return s.toString();
-   }
-   
-   public boolean equals(Voluntario v) {
-       return v.codVoluntario.equals(this.codVoluntario);
    }
    
    public Voluntario clone() {

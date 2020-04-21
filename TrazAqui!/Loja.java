@@ -117,4 +117,8 @@ public class Loja
        return new Loja(this);
    }
    
+   public void addPronta(Encomenda e) {
+	   this.pedidosProntos.add(e);
+   }
+   
 }
