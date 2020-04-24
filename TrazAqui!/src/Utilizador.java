@@ -70,7 +70,7 @@ public class Utilizador
     
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("Nome: ").append(this.nome).append("Codigo do Utilizador: ").append(this.codUtilizador).append("\nBalance:").append(this.balance).append("\nPosição: (").append(this.pos.getX()).append(",").append(this.pos.getY()).append(")");
+        s.append("Nome: ").append(this.nome).append("\nCodigo do Utilizador: ").append(this.codUtilizador).append("\nBalance:").append(this.balance).append("\nPosição: (").append(this.pos.getX()).append(",").append(this.pos.getY()).append(")");
         return s.toString();
     }
     
@@ -81,8 +81,8 @@ public class Utilizador
         return this.nome.equals(u.nome) && this.balance==u.balance && this.codUtilizador==u.codUtilizador && this.pos.equals(u.pos);
     }
     
-    public Utilizador clone(Utilizador user) {
-        return new Utilizador(user);
+    public Utilizador clone() {
+        return new Utilizador(this);
     }
     
 }

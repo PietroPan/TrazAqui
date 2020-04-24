@@ -9,7 +9,7 @@ public class LinhaEncomenda
 {
    private String codProduto;
    private String descricao;
-   private int quantidade;
+   private double  quantidade;
    private double preco;
     
    public LinhaEncomenda() {
@@ -19,7 +19,7 @@ public class LinhaEncomenda
         this.quantidade = 0;
     }
     
-   public LinhaEncomenda(String referencia, String descricao, double preco,int quantidade) {
+   public LinhaEncomenda(String referencia, String descricao, double preco,double quantidade) {
         this.codProduto = referencia;
         this.descricao = descricao;
         this.preco = preco;
@@ -57,11 +57,11 @@ public class LinhaEncomenda
         this.preco = preco;
     }
 
-   public int getQuantidade() {
+   public double getQuantidade() {
         return this.quantidade;
     }
 
-   public void setQuantidade(int quantidade) {
+   public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
     
@@ -82,8 +82,8 @@ public class LinhaEncomenda
         StringBuilder sb = new StringBuilder();
         sb.append("\nCodigo Kill: ").append(this.codProduto);
         sb.append("\nDescriçao: ").append(this.descricao);
-        sb.append("\nPreço: ").append(Double.toString(this.preco));
-        sb.append("\nQuantidade: ").append(Integer.toString(this.quantidade));
+        sb.append("\nPreço: ").append(this.preco);
+        sb.append("\nQuantidade: ").append(this.quantidade);
         return sb.toString();
     }            
 }
