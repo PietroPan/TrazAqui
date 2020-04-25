@@ -6,9 +6,11 @@
  * @version (número de versão ou data)
  */
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.geom.Point2D;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Loja
@@ -18,7 +20,7 @@ public class Loja
    private Point2D pos;
    private int tamanhoFila;
    private float tempoAtendimento;
-   private List<Encomenda> pedidosProntos;
+   private Map<String,Encomenda> pedidosProntos;
    
    public Loja() {
        this.codLoja="n/a";
@@ -26,16 +28,19 @@ public class Loja
        this.pos= (Point2D)new Point2D.Double(0,0);
        this.tamanhoFila = 0;
        this.tempoAtendimento=0;
-       this.pedidosProntos=new ArrayList<Encomenda>();
+       this.pedidosProntos=new HashMap<>();
    }
    
-   public Loja(String codLoja,String nome,Point2D pos,int tF,float tA,List<Encomenda> lE) {
+   public Loja(String codLoja,String nome,Point2D pos,int tF,float tA,Map<String,Encomenda> lE) {
        this.codLoja=codLoja;
        this.nome=nome;
        this.pos= (Point2D)pos.clone();
        this.tamanhoFila = tF;
        this.tempoAtendimento=tA;
-       this.pedidosProntos=lE.stream().map(l -> l.clone()).collect(Collectors.toList());
+       this.pedidosProntos=new HashMap<>();
+       for (Map.Entry<String, Encomenda> entry : lE.entrySet()) {
+           this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
+       }
    }
    
    public Loja(Loja l) {
@@ -44,7 +49,10 @@ public class Loja
        this.pos= (Point2D)l.getPos().clone();
        this.tamanhoFila = l.getTamFila();
        this.tempoAtendimento=l.getTempoAtendimento();
-       this.pedidosProntos=l.getPedidos().stream().map(e -> e.clone()).collect(Collectors.toList());
+       this.pedidosProntos=new HashMap<>();
+       for (Map.Entry<String, Encomenda> entry : l.getPedidos().entrySet()) {
+           this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
+       }
    }
    
    public void setCodLoja(String codLoja) {
@@ -67,8 +75,10 @@ public class Loja
        this.tempoAtendimento=t;
    }
    
-   public void setPedidos(List<Encomenda> lE) {
-       this.pedidosProntos=lE.stream().map(e -> e.clone()).collect(Collectors.toList());
+   public void setPedidos(Map<String,Encomenda> lE) {
+       for (Map.Entry<String, Encomenda> entry : lE.entrySet()) {
+           this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
+       }
    }
    
    public String getCodLoja() {
@@ -91,8 +101,12 @@ public class Loja
        return this.tempoAtendimento;
    }
    
-   public List<Encomenda> getPedidos() {
-       return this.pedidosProntos.stream().map(e -> e.clone()).collect(Collectors.toList());
+   public Map<String,Encomenda> getPedidos() {
+       Map<String,Encomenda> m=new HashMap<>();
+       for (Map.Entry<String, Encomenda> entry : this.pedidosProntos.entrySet()) {
+           m.put(entry.getKey(),entry.getValue().clone());
+       }
+       return m;
    }
    
    public String toString() {
@@ -118,7 +132,14 @@ public class Loja
    }
    
    public void addPronta(Encomenda e) {
-	   this.pedidosProntos.add(e);
+       if (this.pedidosProntos==null) System.out.println("ola");
+	   this.pedidosProntos.put(e.getCodEncomenda(),e.clone());
+   }
+
+   public Encomenda getEncomenda(String id) {return this.pedidosProntos.get(id);}
+
+   public void removeReady(String cod) {
+       this.pedidosProntos.remove(cod);
    }
    
 }

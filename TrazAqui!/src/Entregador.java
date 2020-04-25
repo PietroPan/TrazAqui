@@ -19,9 +19,10 @@ public abstract class Entregador
     private float raio;
     private boolean levaMedical;
     private float velocidadeDeEntrega;
+    private float classificacao;
     private List<Encomenda> historicoEncomendas;
-   
-   public void setNome(String nome) {
+
+    public void setNome(String nome) {
        this.nome=nome;
    }
    
@@ -44,9 +45,11 @@ public abstract class Entregador
    public void setVelocidade(float vel){
        this.velocidadeDeEntrega=vel;
    }
-   
+
+   public void setClassificacao(float c) {this.classificacao=c;}
+
    public void setHistorico( List<Encomenda> lE) {
-       this.historicoEncomendas=lE.stream().map(e -> e.clone()).collect(Collectors.toList());
+       this.historicoEncomendas=lE.stream().map(Encomenda::clone).collect(Collectors.toList());
    }
    
    public String getNome() {
@@ -72,19 +75,29 @@ public abstract class Entregador
    public float getVelocidade() {
        return this.velocidadeDeEntrega;
    }
-   
+
+   public float getClassificacao() { return this.classificacao;}
+
    public List<Encomenda> getHistorico() {
-       return this.historicoEncomendas.stream().map(l -> l.clone()).collect(Collectors.toList());
+       return this.historicoEncomendas.stream().map(Encomenda::clone).collect(Collectors.toList());
    }
+
+    public double getCustoKg(){return 1;};
+
+    public double getCustoKm(){return 1;};
+
+    public abstract boolean hasRoomAndMed(boolean med);
+
+    public abstract void addEncomenda(Encomenda enc);
    
-   public abstract String toString();
+    public abstract String toString();
    
-   public boolean equals(Entregador v) {
-	   if (v==null || !v.getClass().equals(this.getClass()))
-		   return false;
-	   return v.codEntregador.equals(v.getCodEntregador());
-   }
+    public boolean equals(Entregador v) {
+	    if (v==null || !v.getClass().equals(this.getClass()))
+	 	   return false;
+	    return v.codEntregador.equals(v.getCodEntregador());
+    }
    
-   public abstract Entregador clone();
+    public abstract Entregador clone();
    
 }

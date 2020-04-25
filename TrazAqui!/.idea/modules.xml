@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Parser.class/Parser.class.iml" filepath="$PROJECT_DIR$/Parser.class/Parser.class.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/TrazAqui!.iml" filepath="$PROJECT_DIR$/.idea/TrazAqui!.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TrazAqui!.iml" filepath="$PROJECT_DIR$/TrazAqui!.iml" />
     </modules>
   </component>
 </project>

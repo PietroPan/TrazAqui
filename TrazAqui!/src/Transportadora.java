@@ -29,12 +29,13 @@ public class Transportadora extends Entregador
        this.custoKg=0;
        this.setMedical(false);
        this.setVelocidade(0);
+       this.setClassificacao(0);
        this.numeroDeEncomendas=0;
        this.encomendaAtual=new ArrayList<Encomenda>();
        this.setHistorico(new ArrayList<Encomenda>());
    }
    
-   public Transportadora (String nome,String codEmpresa,Point2D pos,float raio,String NIF,double custoKm,double custoKg,boolean levaMedical,float velocidadeDeEntrega,int numeroDeEncomendas,List<Encomenda> encomendaAtual,List<Encomenda> historicoEncomendas) {
+   public Transportadora (String nome,String codEmpresa,Point2D pos,float raio,String NIF,double custoKm,double custoKg,boolean levaMedical,float velocidadeDeEntrega,float c,int numeroDeEncomendas,List<Encomenda> encomendaAtual,List<Encomenda> historicoEncomendas) {
        this.setNome(nome);
        this.setCodEntregador(codEmpresa);
        this.setPos((Point2D)pos.clone());
@@ -44,9 +45,10 @@ public class Transportadora extends Entregador
        this.custoKg=custoKg;
        this.setMedical(levaMedical);
        this.setVelocidade(velocidadeDeEntrega);
+       this.setClassificacao(c);
        this.numeroDeEncomendas=numeroDeEncomendas;
-       this.encomendaAtual=encomendaAtual.stream().map(l -> l.clone()).collect(Collectors.toList());
-       this.setHistorico(historicoEncomendas.stream().map(l -> l.clone()).collect(Collectors.toList()));
+       this.encomendaAtual=encomendaAtual.stream().map(Encomenda::clone).collect(Collectors.toList());
+       this.setHistorico(historicoEncomendas.stream().map(Encomenda::clone).collect(Collectors.toList()));
    }
    
    public Transportadora (Transportadora e) {
@@ -59,9 +61,10 @@ public class Transportadora extends Entregador
        this.custoKg=e.custoKg;
        this.setMedical(e.getMedical());
        this.setVelocidade(e.getVelocidade());
+       this.setClassificacao(e.getClassificacao());
        this.numeroDeEncomendas=e.numeroDeEncomendas;
-       this.encomendaAtual=e.encomendaAtual.stream().map(l -> l.clone()).collect(Collectors.toList());
-       this.setHistorico(e.getHistorico().stream().map(l -> l.clone()).collect(Collectors.toList()));
+       this.encomendaAtual=e.encomendaAtual.stream().map(Encomenda::clone).collect(Collectors.toList());
+       this.setHistorico(e.getHistorico().stream().map(Encomenda::clone).collect(Collectors.toList()));
    }
    
    public void setNIF(String NIF) {
@@ -81,7 +84,12 @@ public class Transportadora extends Entregador
    }
     
    public void setEncomendas( List<Encomenda> lE) {
-       this.encomendaAtual=lE.stream().map(e -> e.clone()).collect(Collectors.toList());
+       this.encomendaAtual=lE.stream().map(Encomenda::clone).collect(Collectors.toList());
+   }
+
+   public void addEncomenda(Encomenda e) {
+       this.numeroDeEncomendas++;
+       this.encomendaAtual.add(e.clone());
    }
    
    public String getNIF() {
@@ -101,7 +109,7 @@ public class Transportadora extends Entregador
    }
    
    public List<Encomenda> getEncomendaAtual() {
-       return this.encomendaAtual.stream().map(l -> l.clone()).collect(Collectors.toList());
+       return this.encomendaAtual.stream().map(Encomenda::clone).collect(Collectors.toList());
    }
    
    public String toString() {
@@ -124,5 +132,9 @@ public class Transportadora extends Entregador
    public Transportadora clone() {
        return new Transportadora(this);
    }
-   
+
+   public boolean hasRoomAndMed(boolean med) {
+       return (this.numeroDeEncomendas-this.encomendaAtual.size())>0 && this.getMedical()==med;
+   }
+
 }

@@ -33,7 +33,7 @@ public class Menu
         String userCod=read.nextLine();
         Utilizador user;
         while ((user=login(userCod))==null) {
-            p.newUser();
+            p.askNewUser();
             String option = read.nextLine().toUpperCase();
             if (option.equals("S")) {
                 p.askUserName();
@@ -56,16 +56,48 @@ public class Menu
     }
 
     public void menu() {
+        String opcao;
+        String id;
         info=new Data();
         try {
             info.readFile();
         } catch (FileNotFoundException e) {
             p.fileNotFound();
         } catch (IOException e) {
-            p.wrongFileTextFormat();
+            p.invalid("Formato de linhas de texto");
         }
         codUser=initUser();
         p.showUserOptions();
+        Scanner read = new Scanner(System.in);
+        while(!(opcao=read.nextLine()).equals("0")) {
+            switch (opcao) {
+                case ("1") :
+                    p.askEncomendaId();
+                    id=read.nextLine();
+                    if (info.encomendaAceite(id,codUser)) {
+                        p.encomendaACaminho(info.getEncomenda(id));
+                        break;
+                    }
+                    else if (info.getEncomenda(id)==null) {
+                        p.invalid("Encomenda");
+                        break;
+                    }
+                    else {
+                        p.apresentaEntregadores(info.getEntregadoresDisp(id));
+                    }
+                    p.askEntregadorId();
+                    if (!this.info.aceitar(read.nextLine(),id)) {
+                        p.unlucky();
+                    }
+                    else
+                        p.encomendaACaminho(info.getEncomenda(id));
+                    break;
+                case ("2") :
+                    break;
+                case ("3") :
+                    break;
+            }
+            p.showUserOptions();
+        }
     }
-
 }

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class Voluntario extends Entregador
 {
     private Encomenda encomendaAtual;
+    private float chanceAceitar;
     
     public Voluntario () {
         this.setNome("Voluntario Standard");
@@ -22,19 +23,23 @@ public class Voluntario extends Entregador
         this.setRaio(0);
         this.setMedical(false);
         this.setVelocidade(0);
+        this.setClassificacao(0);
+        this.chanceAceitar=0.5f;
         this.encomendaAtual=new Encomenda();
         this.setHistorico(new ArrayList<Encomenda>());
     }
     
-    public Voluntario (String nome,String codEntregador,Point2D pos,float raio,boolean levaMedical,float velocidadeDeEntrega,Encomenda e,List<Encomenda> lE) {
+    public Voluntario (String nome,String codEntregador,Point2D pos,float raio,boolean levaMedical,float velocidadeDeEntrega,float c,float chance,Encomenda e,List<Encomenda> lE) {
         this.setNome(nome);
         this.setCodEntregador(codEntregador);
         this.setPos((Point2D)pos.clone());
         this.setRaio(raio);
         this.setMedical(levaMedical);
         this.setVelocidade(velocidadeDeEntrega);
+        this.setClassificacao(c);
+        this.chanceAceitar=chance;
         this.encomendaAtual=e.clone();
-        this.setHistorico(lE.stream().map(l -> l.clone()).collect(Collectors.toList()));
+        this.setHistorico(lE.stream().map(Encomenda::clone).collect(Collectors.toList()));
    }
     
    public Voluntario (Voluntario v) {
@@ -44,17 +49,23 @@ public class Voluntario extends Entregador
        this.setRaio(v.getRaio());
        this.setMedical(v.getMedical());
        this.setVelocidade(v.getVelocidade());
+       this.setClassificacao(v.getClassificacao());
+       this.chanceAceitar=v.getChanceAceitar();
        this.encomendaAtual=v.encomendaAtual.clone();
        this.setHistorico(v.getHistorico().stream().map(l -> l.clone()).collect(Collectors.toList()));
-   }
-   
-   public void setEncomenda(Encomenda e) {
-       this.encomendaAtual=e.clone();
    }
    
    public Encomenda getEncomenda() {
        return this.encomendaAtual.clone();
    }
+
+    public float getChanceAceitar() {
+        return chanceAceitar;
+    }
+
+    public void setChanceAceitar(float chanceAceitar) {
+        this.chanceAceitar = chanceAceitar;
+    }
    
    public String toString() {
        StringBuilder s = new StringBuilder();
@@ -72,5 +83,10 @@ public class Voluntario extends Entregador
    public Voluntario clone() {
        return new Voluntario(this);
    }
-   
+
+   public boolean hasRoomAndMed(boolean med) {
+        return this.encomendaAtual.getCodEncomenda().equals("Encomenda Standard") && this.getMedical()==med;
+   }
+
+   public void addEncomenda(Encomenda e) {this.encomendaAtual=e.clone();}
 }
