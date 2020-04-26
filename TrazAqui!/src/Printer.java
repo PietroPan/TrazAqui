@@ -24,7 +24,11 @@ public class Printer
     public void askNewUser() {
         System.out.println("Utilizador nao faz parte da nossa Database deseja adiciona-lo?(S/s) ou(N/n)");
     }
-    
+
+    public void askPassword() {
+        System.out.println("Insira a Password: ");
+    }
+
     public void askUserName() {
         System.out.println("Insira o seu Nome de Utilizador:");
     }
@@ -49,8 +53,10 @@ public class Printer
 
     public void showUserOptions(){
         System.out.println("1.Solicitar entrega de encomenda" +
-                           "\n2.Ver Entregas efetuadas por tempo e por um Entregador" +
-                           "\n3.Classificar encomendas já entregues" );
+                            "\n2.Ver Entregas efetuadas por tempo e por um Entregador" +
+                            "\n3.Classificar encomendas já entregues" +
+                            "\n4.Mudar de conta" +
+                            "\n0.Fechar Programa");
     }
 
     /*Exceptions*/

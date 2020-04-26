@@ -51,7 +51,7 @@ public class Data
            switch (idAndInfo[0]) {
                case ("Utilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Utilizador u = new Utilizador(tokens[0],tokens[1],r.nextDouble(),pos);
+                    Utilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos);
                     this.users.put(tokens[0],u);
                break;
                case ("Voluntario") :
