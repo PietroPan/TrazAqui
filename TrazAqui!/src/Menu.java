@@ -58,6 +58,8 @@ public class Menu
             else {
                 p.askUserCod();
                 userCod=read.nextLine();
+                p.askPassword();
+                password = read.nextLine();
             }
         }
         return user.getCodUtilizador();
