@@ -16,6 +16,10 @@ public class Printer
         System.out.println("Tiveste pouca sorte o Voluntário não aceitou a tua encomenda");
     }
 
+    public void voluntarioLivre() {
+        System.out.println("Foi escolhido o voluntario livre que deve demorar menos tempo a entregar a sua encomenda");
+    }
+
     /*Questions*/
     public void askUserCod() {
         System.out.println("Insira o seu Codigo de Utilizador:");
@@ -51,6 +55,14 @@ public class Printer
 
     /*Menu prints*/
 
+    public void showLoginOptions() {
+        System.out.println("1.Sou um Utilizador" +
+                            "\n2.Sou um Voluntario" +
+                            "\n3.Sou uma Transportadora"+
+                            "\n4.Sou uma Loja" +
+                            "\n0.Sair");
+    }
+
     public void showUserOptions(){
         System.out.println("1.Solicitar entrega de encomenda" +
                             "\n2.Ver Entregas efetuadas por tempo e por um Entregador" +
@@ -59,6 +71,10 @@ public class Printer
                             "\n0.Fechar Programa");
     }
 
+    public void showBye() {
+        System.out.println("Obrigado por escolher TrazAqui!" +
+                            "\nEsperamos que tenha gostado");
+    }
     /*Exceptions*/
     public void fileNotFound() {
         System.out.println("Ficheiro não encontrado");

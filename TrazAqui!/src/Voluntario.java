@@ -14,64 +14,63 @@ import java.util.stream.Collectors;
 public class Voluntario extends Entregador
 {
     private Encomenda encomendaAtual;
-    private float chanceAceitar;
+    private List<String> pedidos;
     
     public Voluntario () {
         this.setNome("Voluntario Standard");
-        this.setCodEntregador("n/a");
-        this.setPos((Point2D)new Point2D.Double(0,0));
+        this.setCodigo("n/a");
+        this.setPosicao((Point2D)new Point2D.Double(0,0));
+        this.setPassword("n/a");
         this.setRaio(0);
         this.setMedical(false);
         this.setVelocidade(0);
         this.setClassificacao(0);
-        this.chanceAceitar=0.5f;
+        this.pedidos=new ArrayList<>();
         this.encomendaAtual=new Encomenda();
         this.setHistorico(new ArrayList<Encomenda>());
     }
     
-    public Voluntario (String nome,String codEntregador,Point2D pos,float raio,boolean levaMedical,float velocidadeDeEntrega,float c,float chance,Encomenda e,List<Encomenda> lE) {
+    public Voluntario (String nome,String codEntregador,Point2D pos,String password,float raio,boolean levaMedical,float velocidadeDeEntrega,float c,ArrayList<String> pedidos,Encomenda e,List<Encomenda> lE) {
         this.setNome(nome);
-        this.setCodEntregador(codEntregador);
-        this.setPos((Point2D)pos.clone());
+        this.setCodigo(codEntregador);
+        this.setPosicao((Point2D)pos.clone());
+        this.setPassword(password);
         this.setRaio(raio);
         this.setMedical(levaMedical);
         this.setVelocidade(velocidadeDeEntrega);
         this.setClassificacao(c);
-        this.chanceAceitar=chance;
+        this.pedidos= new ArrayList<>(pedidos);
         this.encomendaAtual=e.clone();
         this.setHistorico(lE.stream().map(Encomenda::clone).collect(Collectors.toList()));
    }
     
    public Voluntario (Voluntario v) {
        this.setNome(v.getNome());
-       this.setCodEntregador(v.getCodEntregador());
-       this.setPos((Point2D)v.getPos().clone());
+       this.setCodigo(v.getCodigo());
+       this.setPosicao((Point2D)v.getPosicao().clone());
+       this.setPassword(v.getPassword());
        this.setRaio(v.getRaio());
        this.setMedical(v.getMedical());
        this.setVelocidade(v.getVelocidade());
        this.setClassificacao(v.getClassificacao());
-       this.chanceAceitar=v.getChanceAceitar();
-       this.encomendaAtual=v.encomendaAtual.clone();
-       this.setHistorico(v.getHistorico().stream().map(l -> l.clone()).collect(Collectors.toList()));
+       this.pedidos=v.getPedidos();
+       this.encomendaAtual=v.getEncomenda();
+       this.setHistorico(v.getHistorico());
    }
    
    public Encomenda getEncomenda() {
        return this.encomendaAtual.clone();
    }
 
-    public float getChanceAceitar() {
-        return chanceAceitar;
-    }
-
-    public void setChanceAceitar(float chanceAceitar) {
-        this.chanceAceitar = chanceAceitar;
-    }
+   public List<String> getPedidos() {
+        return new ArrayList<>(this.pedidos);
+   }
    
    public String toString() {
        StringBuilder s = new StringBuilder();
        s.append("Nome da Empresa: ").append(this.getNome())
-       .append("\nCodigo do Voluntario: ").append(this.getCodEntregador())
-       .append("\nPosiçao: (").append(this.getPos().getY()).append(",").append(this.getPos().getX()).append(")")
+       .append("\nCodigo do Voluntario: ").append(this.getCodigo())
+       .append("\nPosiçao: (").append(this.getPosicao().getY()).append(",").append(this.getPosicao().getX()).append(")")
        .append("\nRaio de açao: ").append(this.getRaio())
        .append("\nTransporta encomendas Medicas: ").append(this.getMedical())
        .append("\nVelocidade media(Km/h): ").append(this.getVelocidade())
@@ -89,4 +88,8 @@ public class Voluntario extends Entregador
    }
 
    public void addEncomenda(Encomenda e) {this.encomendaAtual=e.clone();}
+
+   public void addPedido(String enc) {
+        this.pedidos.add(enc);
+   }
 }

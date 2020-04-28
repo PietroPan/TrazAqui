@@ -37,7 +37,7 @@ public class Data
     }
     
     public void addUser(Utilizador user){
-        this.users.put(user.getCodUtilizador(),user);
+        this.users.put(user.getCodigo(),user);
     }
     
     public void readFile() throws java.io.FileNotFoundException,java.io.IOException {
@@ -56,17 +56,17 @@ public class Data
                break;
                case ("Voluntario") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Voluntario v = new Voluntario(tokens[1],tokens[0],pos,Float.parseFloat(tokens[4]),r.nextBoolean(),(float)(Math.round((r.nextFloat()+3)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextFloat(),new Encomenda(),new ArrayList<Encomenda>());
+                    Voluntario v = new Voluntario(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[4]),r.nextBoolean(),(float)(Math.round((r.nextFloat()+3)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),new ArrayList<>(),new Encomenda(),new ArrayList<Encomenda>());
                     this.entregadores.put(tokens[0],v);
                break;
                case ("Transportadora") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Transportadora t = new Transportadora(tokens[1],tokens[0],pos,Float.parseFloat(tokens[5]),tokens[4],Double.parseDouble(tokens[6]),r.nextDouble()%5,r.nextBoolean(),(float)(Math.round((r.nextFloat()+20)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),new ArrayList<Encomenda>(),new ArrayList<Encomenda>());
+                    Transportadora t = new Transportadora(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[5]),tokens[4],Double.parseDouble(tokens[6]),r.nextDouble()%5,r.nextBoolean(),(float)(Math.round((r.nextFloat()+20)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),new ArrayList<Encomenda>(),new ArrayList<Encomenda>());
                     this.entregadores.put(tokens[0],t);
                break;
                case ("Loja") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Loja l = new Loja(tokens[0],tokens[1],pos,r.nextInt()%20,r.nextFloat(),new HashMap<>());
+                    Loja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>());
                     this.lojas.put(tokens[0],l);
                break;
                case ("Encomenda") :
@@ -93,23 +93,37 @@ public class Data
    public boolean encomendaAceite(String id,String user) {
         Encomenda a=getEncomenda(id);
         return this.aceites.existe(id) && a.getDestino().equals(user);
-
    }
 
-   public boolean aceitar(String entrega,String enc) {
-        if (entrega.charAt(0)=='v') {
-            float c = ((Voluntario) this.getEntregador(entrega)).getChanceAceitar();
-            Random r = new Random();
-            if (r.nextFloat() > c)
-                return false;
+   public String voluntarioAvailable(String enc) {
+        String r="n/a";
+        Voluntario v = new Voluntario();
+        Encomenda encomenda=getEncomenda(enc);
+        Loja l=lojas.get(encomenda.getOrigem());
+        double tempoMin=-1,tempoAux;
+        for (Entregador e : this.entregadores.values()) {
+            if (e.getClass().equals(v.getClass()) && e.hasRoomAndMed(getEncomenda(enc).getMedical())) {
+                tempoAux = e.getVelocidade() * calculaDistTotal(e.getPosicao(), l.getPosicao(), users.get(encomenda.getDestino()).getPosicao())+l.getTamFila()*l.getTempoAtendimento();
+                if (tempoMin == -1 || tempoAux < tempoMin) {
+                    tempoMin = tempoAux;
+                    r = e.getCodigo();
+                }
+            }
         }
+        return r;
+   }
+
+   public void askVoluntario(String idVoluntario,String idEnc) {
+       ((Voluntario)this.entregadores.get(idVoluntario)).addPedido(idEnc);
+   }
+
+   public void aceitar(String entrega,String enc) {
         Entregador r = this.entregadores.get(entrega); //Do I need to clone();
         Encomenda e =getEncomenda(enc);
         r.addEncomenda(e);
         this.aceites.add(enc);
         Loja l=this.lojas.get(e.getOrigem()); //Do I need to clone();
         l.removeReady(enc);
-        return true;
    }
 
    public Encomenda getEncomenda(String id) {
@@ -130,7 +144,6 @@ public class Data
    public Set<String[]> getEntregadoresDisp(String id) {
        Voluntario v=new Voluntario();
        Set<String[]> setOpcoes=new HashSet<>();
-       Random rand = new Random();
        int r;
        double preco;
        double tempoEst;
@@ -138,21 +151,14 @@ public class Data
        Encomenda en =getEncomenda(id);
        Loja l =this.lojas.get(en.getOrigem());
        r=l.getTamFila();
-       if (r==-1) //se nao houver informações da fila gera um rand entre 1 e 10;
-           r=rand.nextInt()%10;
        timeWaiting=r*l.getTempoAtendimento();
        for (Entregador e : this.entregadores.values()) {
            if (e.hasRoomAndMed(en.getMedical())) {
-               double d=calculaDistTotal(e.getPos(),lojas.get(en.getOrigem()).getPos(),users.get(en.getDestino()).getPos());
+               double d=calculaDistTotal(e.getPosicao(),lojas.get(en.getOrigem()).getPosicao(),users.get(en.getDestino()).getPosicao());
                String[] info = new String[5];
-               if (e.getClass().equals(v.getClass())) {
-                   preco = 0;
-               }
-               else {
-                   preco=d*e.getCustoKm()+en.getPeso()*e.getCustoKg();
-               }
+               preco=d*e.getCustoKm()+en.getPeso()*e.getCustoKg();
                tempoEst=d/e.getVelocidade()+timeWaiting;
-               info[0]=e.getCodEntregador();
+               info[0]=e.getCodigo();
                info[1]=e.getNome();
                info[2]=Float.toString(e.getClassificacao());
                info[3]=Double.toString(Math.round(preco*100)/100.0);

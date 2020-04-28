@@ -62,23 +62,15 @@ public class Menu
                 password = read.nextLine();
             }
         }
-        return user.getCodUtilizador();
+        return user.getCodigo();
     }
 
-    public void menu() {
-        String opcao;
-        String id;
-        info=new Data();
-        try {
-            info.readFile();
-        } catch (FileNotFoundException e) {
-            p.fileNotFound();
-        } catch (IOException e) {
-            p.invalid("Formato de linhas de texto");
-        }
+    public void menuUser() {
+        String id,idVoluntario;
         codUser=initUser();
         p.showUserOptions();
-        Scanner read = new Scanner(System.in);
+        String opcao;
+        Scanner read= new Scanner(System.in);
         while(!(opcao=read.nextLine()).equals("0")) {
             switch (opcao) {
                 case ("1") :
@@ -88,26 +80,72 @@ public class Menu
                         p.encomendaACaminho(info.getEncomenda(id));
                         break;
                     }
-                    else if (info.getEncomenda(id)==null) {
-                        p.invalid("Encomenda");
-                        break;
-                    }
                     else {
-                        p.apresentaEntregadores(info.getEntregadoresDisp(id));
+                        if (info.getEncomenda(id) == null) {
+                            p.invalid("Encomenda");
+                            break;
+                        } else {
+                            if (!((idVoluntario=this.info.voluntarioAvailable(id)).equals("n/a"))) {
+                                this.info.askVoluntario(idVoluntario,id);
+                                p.voluntarioLivre();
+                                break;
+                            }
+                            p.apresentaEntregadores(info.getEntregadoresDisp(id));
+                        }
                     }
                     p.askEntregadorId();
-                    if (!this.info.aceitar(read.nextLine(),id)) {
-                        p.unlucky();
-                    }
-                    else
-                        p.encomendaACaminho(info.getEncomenda(id));
+                    this.info.aceitar(read.nextLine(),id);
+                    p.encomendaACaminho(info.getEncomenda(id));
                     break;
                 case ("2") :
+
                     break;
                 case ("3") :
                     break;
             }
             p.showUserOptions();
+        }
+    }
+
+    public void menuVoluntario() {
+    }
+
+    public void menuTransportadora() {
+
+    }
+
+    public void menuLoja() {
+
+    }
+
+    public void menu() {
+        String opcao;
+        info=new Data();
+        try {
+            info.readFile();
+        } catch (FileNotFoundException e) {
+            p.fileNotFound();
+        } catch (IOException e) {
+            p.invalid("Formato de linhas de texto");
+        }
+        Scanner read = new Scanner(System.in);
+        p.showLoginOptions();
+        while (!(opcao=read.nextLine()).equals("0")) {
+            switch (opcao) {
+                case ("1"):
+                    menuUser();
+                    break;
+                case ("2"):
+                    menuVoluntario();
+                    break;
+                case ("3"):
+                    menuTransportadora();
+                    break;
+                case ("4"):
+                    menuLoja();
+                    break;
+            }
+            p.showBye();
         }
     }
 }

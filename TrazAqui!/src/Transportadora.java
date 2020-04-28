@@ -21,8 +21,9 @@ public class Transportadora extends Entregador
    
    public Transportadora () {
        this.setNome("Empresa Standard");
-       this.setCodEntregador("n/a");
-       this.setPos((Point2D)new Point2D.Double(0,0));
+       this.setCodigo("n/a");
+       this.setPosicao((Point2D)new Point2D.Double(0,0));
+       this.setPassword("n/a");
        this.setRaio(0);
        this.NIF="n/a";
        this.custoKm=0;
@@ -35,10 +36,11 @@ public class Transportadora extends Entregador
        this.setHistorico(new ArrayList<Encomenda>());
    }
    
-   public Transportadora (String nome,String codEmpresa,Point2D pos,float raio,String NIF,double custoKm,double custoKg,boolean levaMedical,float velocidadeDeEntrega,float c,int numeroDeEncomendas,List<Encomenda> encomendaAtual,List<Encomenda> historicoEncomendas) {
+   public Transportadora (String nome,String codEmpresa,Point2D pos,String password,float raio,String NIF,double custoKm,double custoKg,boolean levaMedical,float velocidadeDeEntrega,float c,int numeroDeEncomendas,List<Encomenda> encomendaAtual,List<Encomenda> historicoEncomendas) {
        this.setNome(nome);
-       this.setCodEntregador(codEmpresa);
-       this.setPos((Point2D)pos.clone());
+       this.setCodigo(codEmpresa);
+       this.setPosicao((Point2D)pos.clone());
+       this.setPassword(password);
        this.setRaio(raio);
        this.NIF=NIF;
        this.custoKm=custoKm;
@@ -53,18 +55,19 @@ public class Transportadora extends Entregador
    
    public Transportadora (Transportadora e) {
        this.setNome(e.getNome());
-       this.setCodEntregador(e.getCodEntregador());
-       this.setPos((Point2D)e.getPos().clone());
+       this.setCodigo(e.getCodigo());
+       this.setPosicao((Point2D)e.getPosicao().clone());
+       this.setPassword(e.getPassword());
        this.setRaio(e.getRaio());
        this.NIF=e.NIF;
-       this.custoKm=e.custoKm;
-       this.custoKg=e.custoKg;
+       this.custoKm=e.getCustoKm();
+       this.custoKg=e.getCustoKg();
        this.setMedical(e.getMedical());
        this.setVelocidade(e.getVelocidade());
        this.setClassificacao(e.getClassificacao());
-       this.numeroDeEncomendas=e.numeroDeEncomendas;
-       this.encomendaAtual=e.encomendaAtual.stream().map(Encomenda::clone).collect(Collectors.toList());
-       this.setHistorico(e.getHistorico().stream().map(Encomenda::clone).collect(Collectors.toList()));
+       this.numeroDeEncomendas=e.getNumEnc();
+       this.encomendaAtual=e.getEncomendaAtual();
+       this.setHistorico(e.getHistorico());
    }
    
    public void setNIF(String NIF) {
@@ -115,8 +118,8 @@ public class Transportadora extends Entregador
    public String toString() {
        StringBuilder s= new StringBuilder();
        s.append("Nome de Empresa de Entregas: ").append(this.getNome())
-       .append("Codigo da Empresa: ").append(this.getCodEntregador())
-       .append("\nPosiçao: (").append(this.getPos().getX()).append(",").append(this.getPos().getY()).append(")")
+       .append("Codigo da Empresa: ").append(this.getCodigo())
+       .append("\nPosiçao: (").append(this.getPosicao().getX()).append(",").append(this.getPosicao().getY()).append(")")
        .append("\nRaio: ").append(this.getRaio())
        .append("\nNIF: ").append(this.NIF)
        .append("\nCusto/Kg: ").append(this.custoKg)

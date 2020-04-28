@@ -6,35 +6,31 @@
  * @version (número de versão ou data)
  */
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import java.awt.geom.Point2D;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Loja
+public class Loja extends BasicInfo
 {
-   private String codLoja;
-   private String nome;
-   private Point2D pos;
    private int tamanhoFila;
    private float tempoAtendimento;
    private Map<String,Encomenda> pedidosProntos;
    
    public Loja() {
-       this.codLoja="n/a";
-       this.nome="Loja Standard";
-       this.pos= (Point2D)new Point2D.Double(0,0);
+       this.setCodigo("n/a");
+       this.setNome("Loja Standard");
+       this.setPosicao((Point2D)new Point2D.Double(0,0));
+       this.setPassword("n/a");
        this.tamanhoFila = 0;
        this.tempoAtendimento=0;
        this.pedidosProntos=new HashMap<>();
    }
    
-   public Loja(String codLoja,String nome,Point2D pos,int tF,float tA,Map<String,Encomenda> lE) {
-       this.codLoja=codLoja;
-       this.nome=nome;
-       this.pos= (Point2D)pos.clone();
+   public Loja(String codLoja,String nome,Point2D pos,String password,int tF,float tA,Map<String,Encomenda> lE) {
+       this.setCodigo(codLoja);
+       this.setNome(nome);
+       this.setPosicao((Point2D)pos.clone());
+       this.setPassword(password);
        this.tamanhoFila = tF;
        this.tempoAtendimento=tA;
        this.pedidosProntos=new HashMap<>();
@@ -44,27 +40,16 @@ public class Loja
    }
    
    public Loja(Loja l) {
-       this.codLoja=l.getCodLoja();
-       this.nome=l.getNome();
-       this.pos= (Point2D)l.getPos().clone();
+       this.setCodigo(l.getCodigo());
+       this.setNome(l.getNome());
+       this.setPosicao((Point2D)l.getPosicao().clone());
+       this.setPassword(l.getPassword());
        this.tamanhoFila = l.getTamFila();
        this.tempoAtendimento=l.getTempoAtendimento();
        this.pedidosProntos=new HashMap<>();
        for (Map.Entry<String, Encomenda> entry : l.getPedidos().entrySet()) {
            this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
        }
-   }
-   
-   public void setCodLoja(String codLoja) {
-       this.codLoja=codLoja;
-   }
-   
-   public void setNome(String nome) {
-       this.nome=nome;
-   }
-   
-   public void setPos(Point2D pos) {
-       this.pos=(Point2D)pos.clone();
    }
    
    public void setTamFila(int tF) {
@@ -81,19 +66,10 @@ public class Loja
        }
    }
    
-   public String getCodLoja() {
-       return this.codLoja;
-   }
-   
-   public String getNome() {
-       return this.nome;
-   }
-   
-   public Point2D getPos() {
-       return (Point2D)this.pos.clone();
-   }
-   
    public int getTamFila() {
+       Random r =new Random();
+       if (this.tamanhoFila==-1)
+           return r.nextInt()%10;
        return this.tamanhoFila;
    }
    
@@ -111,9 +87,9 @@ public class Loja
    
    public String toString() {
        StringBuilder s = new StringBuilder();
-       s.append("Codigo de Loja: ").append(this.codLoja)
-       .append("\nNome da Loja: ").append(this.nome)
-       .append("\nPosiçao: ").append(this.pos.getX()).append(",").append(this.pos.getY()).append(")")
+       s.append("Codigo de Loja: ").append(this.getCodigo())
+       .append("\nNome da Loja: ").append(this.getNome())
+       .append("\nPosiçao: ").append(this.getPosicao().getX()).append(",").append(this.getPosicao().getY()).append(")")
        .append("\nTamanho da Fila: ").append(this.tamanhoFila)
        .append("\nTempo de Atendimento: ").append(this.tempoAtendimento)
        .append("\nEncomendas Prontas a sair: ").append(this.pedidosProntos);
@@ -124,7 +100,7 @@ public class Loja
        Loja l;
        if (loja==null || loja.getClass()==this.getClass()) return false;
        l=(Loja)loja;
-       return l.codLoja.equals(this.codLoja);
+       return l.getCodigo().equals(this.getCodigo());
    }
    
    public Loja clone() {
