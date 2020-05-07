@@ -53,6 +53,34 @@ public class Printer
         System.out.println("Insira o código do entregador que pretende: ");
     }
 
+    public void askLojaID() {
+        System.out.println("Insira o código da Loja: ");
+    }
+
+    public void askMedical() {
+        System.out.println("A sua encomenda irá conter produtos médicos?(s/S) ou (n/N) ");
+    }
+
+    public void askLinhaEnc() {
+        System.out.println("Deseja adicionar algum produto ? (s/S) ou (n/N)");
+    }
+
+    public void askCodProduto() {
+        System.out.println("Insira o código do produto a encomendar: ");
+    }
+
+    public void askDescricao() {
+        System.out.println("Insira a descrição do produto");
+    }
+
+    public void askQuantidade() {
+        System.out.println("Insira a quantidade que deseja encomendar: ");
+    }
+
+    public void askConfirmacao() {
+        System.out.println("Tem a certeza? (s/S) ou (n/N)");
+    }
+
     /*Menu prints*/
 
     public void showLoginOptions() {
@@ -64,10 +92,11 @@ public class Printer
     }
 
     public void showUserOptions(){
-        System.out.println("1.Solicitar entrega de encomenda" +
-                            "\n2.Ver Entregas efetuadas por tempo e por um Entregador" +
-                            "\n3.Classificar encomendas já entregues" +
-                            "\n4.Mudar de conta" +
+        System.out.println("1.Fazer encomenda" +
+                            "\n2.Solicitar entrega de encomenda" +
+                            "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
+                            "\n4.Classificar encomendas já entregues" +
+                            "\n5.Mudar de conta" +
                             "\n0.Fechar Programa");
     }
 
@@ -82,6 +111,10 @@ public class Printer
 
     public void invalid(String s) {
         System.out.println(s+" invalid(o)/(a)");
+    }
+
+    public void nadaEncomendado() {
+        System.out.println("Não possui linhas de encomenda");
     }
 
     /*Apresenta Resultados*/
@@ -99,5 +132,13 @@ public class Printer
         for (String[] st : s) {
             apresentaEntregador(st);
         }
+    }
+
+    public void apresentaEncomenda(String enc) {
+        System.out.println("Encomenda:\n" + enc + "\n");
+    }
+
+    public void apresentaPrecoEnc(double preco) {
+        System.out.println("Preco Total: " + preco);
     }
 }

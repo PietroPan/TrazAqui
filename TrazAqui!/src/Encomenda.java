@@ -117,4 +117,8 @@ public class Encomenda
     public Encomenda clone() {
         return new Encomenda(this);
     }
+
+    public double calculaValorTotal() {
+        return this.pedido.stream().map(LinhaEncomenda::getPreco).reduce(0.0, Double::sum);
+    }
 }

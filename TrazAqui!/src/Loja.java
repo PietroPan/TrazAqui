@@ -108,7 +108,6 @@ public class Loja extends BasicInfo
    }
    
    public void addPronta(Encomenda e) {
-       if (this.pedidosProntos==null) System.out.println("ola");
 	   this.pedidosProntos.put(e.getCodEncomenda(),e.clone());
    }
 

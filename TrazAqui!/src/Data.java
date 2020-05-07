@@ -168,5 +168,9 @@ public class Data
        }
        return setOpcoes;
     }
+    public void addEncomendaLoja(Encomenda e) {
+        this.lojas.get(e.getOrigem()).addPronta(e);
+    }
+
 
 }

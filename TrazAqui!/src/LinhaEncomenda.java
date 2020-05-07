@@ -9,7 +9,7 @@ public class LinhaEncomenda
 {
    private String codProduto;
    private String descricao;
-   private double  quantidade;
+   private double quantidade;
    private double preco;
     
    public LinhaEncomenda() {
@@ -80,7 +80,7 @@ public class LinhaEncomenda
     
    public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nCodigo Kill: ").append(this.codProduto);
+        sb.append("\nCodigo Produto: ").append(this.codProduto);
         sb.append("\nDescriçao: ").append(this.descricao);
         sb.append("\nPreço: ").append(this.preco);
         sb.append("\nQuantidade: ").append(this.quantidade);
