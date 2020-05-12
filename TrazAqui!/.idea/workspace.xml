@@ -5,10 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Encomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Encomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LinhaEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LinhaEncomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Loja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Loja.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Printer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Transportadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Transportadora.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -72,6 +72,13 @@
       <workItem from="1588777845378" duration="15000" />
       <workItem from="1588778046595" duration="3000" />
       <workItem from="1588883074068" duration="6711000" />
+      <workItem from="1588946116489" duration="609000" />
+      <workItem from="1589039275120" duration="35000" />
+      <workItem from="1589039480585" duration="13000" />
+      <workItem from="1589209075102" duration="9000" />
+      <workItem from="1589304710408" duration="577000" />
+      <workItem from="1589305305197" duration="68000" />
+      <workItem from="1589305391652" duration="9259000" />
     </task>
     <servers />
   </component>
@@ -79,14 +86,14 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="764" y="116" width="376" height="619" key="#com.intellij.ide.util.MemberChooser" timestamp="1587994064981">
+    <state x="763" y="94" width="376" height="619" key="#com.intellij.ide.util.MemberChooser" timestamp="1589308699761">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="764" y="116" width="376" height="619" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1587994064981" />
-    <state x="742" y="224" width="426" height="535" key="FileChooserDialogImpl" timestamp="1588667446421">
+    <state x="763" y="94" width="376" height="619" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1589308699761" />
+    <state x="737" y="114" width="426" height="535" key="FileChooserDialogImpl" timestamp="1589305557788">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="742" y="224" width="426" height="535" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1588667446421" />
+    <state x="737" y="114" width="426" height="535" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1589305557788" />
     <state width="1874" height="263" key="GridCell.Tab.0.bottom" timestamp="1588889786723">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -103,6 +110,14 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="263" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1588889786722" />
+    <state x="139" y="243" width="677" height="498" key="NewModule_or_Project.wizard" timestamp="1589039306961">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="139" y="243" width="677" height="498" key="NewModule_or_Project.wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1589039306961" />
+    <state x="461" y="86" key="SettingsEditor" timestamp="1589306123205">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="461" y="86" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1589306123205" />
     <state x="334" y="108" width="1241" height="767" key="new project wizard" timestamp="1587844714911">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

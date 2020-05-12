@@ -9,10 +9,9 @@
 import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class Menu
 {
@@ -84,7 +83,7 @@ public class Menu
                     p.askMedical();
                     boolean med = read.nextLine().toUpperCase().equals("S");
                     List<LinhaEncomenda> list=new ArrayList<>();
-                    Encomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,list);
+                    Encomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,list, LocalDateTime.now());
                     p.askLinhaEnc();
                     opcao=read.nextLine().toUpperCase();
                     while (opcao.equals("S")) {
@@ -115,10 +114,11 @@ public class Menu
                     }
                     break;
                 case ("2") :
+                    Set<String[]> opcoes;
                     p.askEncomendaId();
                     id=read.nextLine();
                     if (info.encomendaAceite(id,codUser)) {
-                        p.encomendaACaminho(info.getEncomenda(id));
+                        p.encomendaACaminho(info.getEncomenda(id).getDataEntrega());
                         break;
                     }
                     else {
@@ -131,12 +131,15 @@ public class Menu
                                 p.voluntarioLivre();
                                 break;
                             }
-                            p.apresentaEntregadores(info.getEntregadoresDisp(id));
+                            opcoes=info.getEntregadoresDisp(id);
+                            p.apresentaEntregadores(opcoes);
                         }
                     }
                     p.askEntregadorId();
-                    this.info.aceitar(read.nextLine(),id);
-                    p.encomendaACaminho(info.getEncomenda(id));
+                    String idEntregador=read.nextLine();
+                    double time = Double.parseDouble(opcoes.stream().filter(l -> l[0].equals(idEntregador)).findFirst().get()[4]);
+                    this.info.aceitar(idEntregador,id,time);
+                    p.encomendaACaminho(info.getEncomenda(id).getDataEntrega());
                     break;
                 case ("3") :
 

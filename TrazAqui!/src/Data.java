@@ -7,6 +7,7 @@
  */
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -76,7 +77,7 @@ public class Data
                        lista.add(new LinhaEncomenda(tokens[i],tokens[i+1],Double.parseDouble(tokens[i+2]),Double.parseDouble(tokens[i+3])));
                        i+=4;
                    }
-                   Encomenda e = new Encomenda(tokens[0],r.nextBoolean(),Float.parseFloat(tokens[3]),tokens[2],tokens[1],lista);
+                   Encomenda e = new Encomenda(tokens[0],r.nextBoolean(),Float.parseFloat(tokens[3]),tokens[2],tokens[1],lista, LocalDateTime.now().plusMinutes(r.nextLong()%60));
                    Loja loja=lojas.get(tokens[2]);
                    loja.addPronta(e);
                    lojas.put(tokens[2],loja);
@@ -117,9 +118,10 @@ public class Data
        ((Voluntario)this.entregadores.get(idVoluntario)).addPedido(idEnc);
    }
 
-   public void aceitar(String entrega,String enc) {
+   public void aceitar(String entrega,String enc,double time) {
         Entregador r = this.entregadores.get(entrega); //Do I need to clone();
         Encomenda e =getEncomenda(enc);
+        e.setDataEntrega(LocalDateTime.now().plusMinutes((long)time));
         r.addEncomenda(e);
         this.aceites.add(enc);
         Loja l=this.lojas.get(e.getOrigem()); //Do I need to clone();

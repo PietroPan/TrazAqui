@@ -6,6 +6,8 @@
  * @version (número de versão ou data)
  */
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.geom.Point2D;
@@ -19,6 +21,7 @@ public class Encomenda
     private String lojaOrigem;
     private String userDestino;
     private List<LinhaEncomenda> pedido;
+    private LocalDateTime dataEntrega;
     
     public Encomenda() {
         this.codEncomenda="Encomenda Standard";
@@ -26,16 +29,18 @@ public class Encomenda
         this.peso=0;
         this.lojaOrigem="Loja Standard";
         this.userDestino="User Standard";
-        this.pedido=new ArrayList<LinhaEncomenda>();
+        this.pedido=new ArrayList<>();
+        this.dataEntrega= LocalDateTime.now();
     }
     
-    public Encomenda(String enc,boolean medical,float peso,String loja,String user,List<LinhaEncomenda> pedido) {
+    public Encomenda(String enc, boolean medical, float peso, String loja, String user, List<LinhaEncomenda> pedido, LocalDateTime t) {
         this.codEncomenda=enc;
         this.medical=medical;
         this.peso=peso;
         this.lojaOrigem=loja;
         this.userDestino=user;
         this.pedido=pedido.stream().map(l -> l.clone()).collect(Collectors.toList());
+        this.dataEntrega=t;
     }
     
     public Encomenda(Encomenda e) {
@@ -45,6 +50,7 @@ public class Encomenda
         this.lojaOrigem=e.getOrigem();
         this.userDestino=e.getDestino();
         this.pedido=e.getPedido();
+        this.dataEntrega=e.getDataEntrega();
     }
     
     public void setCodEncomenda(String enc) {
@@ -92,9 +98,17 @@ public class Encomenda
     }
     
     public List<LinhaEncomenda> getPedido() {
-        return this.pedido.stream().map(l -> l.clone()).collect(Collectors.toList());
+        return this.pedido.stream().map(LinhaEncomenda::clone).collect(Collectors.toList());
     }
-    
+
+    public LocalDateTime getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntrega(LocalDateTime t) {
+        this.dataEntrega = t;
+    }
+
     public boolean equals(Object enc) {
         Encomenda e;
         if (enc==null || enc.getClass()!=enc.getClass()) 

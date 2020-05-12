@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -95,7 +96,7 @@ public class Printer
         System.out.println("1.Fazer encomenda" +
                             "\n2.Solicitar entrega de encomenda" +
                             "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
-                            "\n4.Classificar encomendas já entregues" +
+                            "\n4.Classificar encomendas já recebidas" +
                             "\n5.Mudar de conta" +
                             "\n0.Fechar Programa");
     }
@@ -119,9 +120,8 @@ public class Printer
 
     /*Apresenta Resultados*/
 
-    public void encomendaACaminho(Encomenda e) {
-        //WORK IN PROGRESS
-        System.out.println("WIP");
+    public void encomendaACaminho(LocalDateTime t) {
+        System.out.println("A sua Encomenda já está a caminho\nData estimada de entrega: " + t.toString());
     }
 
     public void apresentaEntregador(String[] s) {

@@ -116,20 +116,19 @@ public class Transportadora extends Entregador
    }
    
    public String toString() {
-       StringBuilder s= new StringBuilder();
-       s.append("Nome de Empresa de Entregas: ").append(this.getNome())
-       .append("Codigo da Empresa: ").append(this.getCodigo())
-       .append("\nPosiçao: (").append(this.getPosicao().getX()).append(",").append(this.getPosicao().getY()).append(")")
-       .append("\nRaio: ").append(this.getRaio())
-       .append("\nNIF: ").append(this.NIF)
-       .append("\nCusto/Kg: ").append(this.custoKg)
-       .append("\nCusto/Km: ").append(this.custoKm)
-       .append("\nTransporta encomendas medicas: ").append(this.getMedical())
-       .append("\nVelocidade Normal(Km/h): ").append(this.getVelocidade())
-       .append("\nTransporta até ").append(this.numeroDeEncomendas).append("encomendas")
-       .append("\nEncomenda Atual: ").append(this.encomendaAtual.toString())
-       .append("\nHistorico de Encomendas: ").append(this.getHistorico().toString());
-       return s.toString();
+       String s = "Nome de Empresa de Entregas: " + this.getNome() +
+               "Codigo da Empresa: " + this.getCodigo() +
+               "\nPosiçao: (" + this.getPosicao().getX() + "," + this.getPosicao().getY() + ")" +
+               "\nRaio: " + this.getRaio() +
+               "\nNIF: " + this.NIF +
+               "\nCusto/Kg: " + this.custoKg +
+               "\nCusto/Km: " + this.custoKm +
+               "\nTransporta encomendas medicas: " + this.getMedical() +
+               "\nVelocidade Normal(Km/h): " + this.getVelocidade() +
+               "\nTransporta até " + this.numeroDeEncomendas + "encomendas" +
+               "\nEncomenda Atual: " + this.encomendaAtual.toString() +
+               "\nHistorico de Encomendas: " + this.getHistorico().toString();
+       return s;
    }
    
    public Transportadora clone() {
