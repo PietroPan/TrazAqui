@@ -82,6 +82,10 @@ public class Printer
         System.out.println("Tem a certeza? (s/S) ou (n/N)");
     }
 
+    public void askClassificacao() {
+        System.out.println("Insira a Classificação que deseja dar: ");
+    }
+
     /*Menu prints*/
 
     public void showLoginOptions() {
@@ -114,8 +118,8 @@ public class Printer
         System.out.println(s+" invalid(o)/(a)");
     }
 
-    public void nadaEncomendado() {
-        System.out.println("Não possui linhas de encomenda");
+    public void nadaAApresentar() {
+        System.out.println("Nada a Apresentar");
     }
 
     /*Apresenta Resultados*/
@@ -140,5 +144,12 @@ public class Printer
 
     public void apresentaPrecoEnc(double preco) {
         System.out.println("Preco Total: " + preco);
+    }
+
+    public void apresentaUserEncomendas(Set<String> classifica) {
+        for (String s : classifica) {
+            apresentaEncomenda(s);
+            System.out.println("\n//////////////////////////////\n");
+        }
     }
 }

@@ -7,23 +7,31 @@
  */
 
 import java.awt.geom.Point2D;
+import java.util.AbstractMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Utilizador extends BasicInfo {
     private double balance;
+    private Set<Map.Entry<Boolean,String>> pedidosEntregues;
 
     public Utilizador() {
         this.setNome("NoName");
         this.setCodigo("n/a");
         this.setPassword("n/a");
         this.setPosicao(new Point2D.Double(0, 0));
+        this.setPedidosEntregues(new HashSet<>());
         this.balance = 0.00;
+        this.pedidosEntregues=new HashSet<>();
     }
 
-    public Utilizador(String codUtilizador, String password, String nome, double balance, Point2D pos) {
+    public Utilizador(String codUtilizador, String password, String nome, double balance, Point2D pos,Set<Map.Entry<Boolean,String>> pedidosEntregues) {
         this.setNome(nome);
         this.setCodigo(codUtilizador);
         this.setPassword(password);
-        this.setPosicao((Point2D)pos.clone());
+        this.setPosicao(pos);
+        this.setPedidosEntregues(pedidosEntregues);
         this.balance = balance;
     }
 
@@ -33,6 +41,7 @@ public class Utilizador extends BasicInfo {
         this.setPassword(u.getPassword());
         this.setPosicao((Point2D)u.getPosicao().clone());
         this.balance = u.getBalance();
+        this.pedidosEntregues = u.getPedidosEntregues();
     }
 
     public void setBalance(double balance) {
@@ -43,9 +52,17 @@ public class Utilizador extends BasicInfo {
         return this.balance;
     }
 
+    public void setPedidosEntregues(Set<Map.Entry<Boolean,String>> s) {
+        this.pedidosEntregues = new HashSet<>(s);
+    }
+
+    public Set<Map.Entry<Boolean,String>> getPedidosEntregues() {
+        return new HashSet<>(pedidosEntregues);
+    }
+
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("Nome: ").append(this.getNome()).append("\nCodigo do Utilizador: ").append(this.getCodigo()).append("\nBalance:").append(this.balance).append("\nPosição: (").append(this.getPosicao().getX()).append(",").append(this.getPosicao().getY()).append(")");
+        s.append("Nome: ").append(this.getNome()).append("\nCodigo do Utilizador: ").append(this.getCodigo()).append("\nBalance:").append(this.balance).append("\nPosição: (").append(this.getPosicao().getX()).append(",").append(this.getPosicao().getY()).append(")").append("\nID's de Encomendas Entregues: ").append(this.pedidosEntregues);
         return s.toString();
     }
 
@@ -58,6 +75,10 @@ public class Utilizador extends BasicInfo {
 
     public Utilizador clone() {
         return new Utilizador(this);
+    }
+
+    public void addEntregue (String cod) {
+        this.pedidosEntregues.add(new AbstractMap.SimpleEntry<>(false, cod));
     }
 
 }

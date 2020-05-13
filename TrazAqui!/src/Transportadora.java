@@ -31,12 +31,13 @@ public class Transportadora extends Entregador
        this.setMedical(false);
        this.setVelocidade(0);
        this.setClassificacao(0);
+       this.setVezesClassificado(1);
        this.numeroDeEncomendas=0;
        this.encomendaAtual=new ArrayList<Encomenda>();
        this.setHistorico(new ArrayList<Encomenda>());
    }
    
-   public Transportadora (String nome,String codEmpresa,Point2D pos,String password,float raio,String NIF,double custoKm,double custoKg,boolean levaMedical,float velocidadeDeEntrega,float c,int numeroDeEncomendas,List<Encomenda> encomendaAtual,List<Encomenda> historicoEncomendas) {
+   public Transportadora (String nome,String codEmpresa,Point2D pos,String password,float raio,String NIF,double custoKm,double custoKg,boolean levaMedical,float velocidadeDeEntrega,float c,int vC,int numeroDeEncomendas,List<Encomenda> encomendaAtual,List<Encomenda> historicoEncomendas) {
        this.setNome(nome);
        this.setCodigo(codEmpresa);
        this.setPosicao((Point2D)pos.clone());
@@ -48,6 +49,7 @@ public class Transportadora extends Entregador
        this.setMedical(levaMedical);
        this.setVelocidade(velocidadeDeEntrega);
        this.setClassificacao(c);
+       this.setVezesClassificado(vC);
        this.numeroDeEncomendas=numeroDeEncomendas;
        this.encomendaAtual=encomendaAtual.stream().map(Encomenda::clone).collect(Collectors.toList());
        this.setHistorico(historicoEncomendas.stream().map(Encomenda::clone).collect(Collectors.toList()));
@@ -65,6 +67,7 @@ public class Transportadora extends Entregador
        this.setMedical(e.getMedical());
        this.setVelocidade(e.getVelocidade());
        this.setClassificacao(e.getClassificacao());
+       this.setVezesClassificado(e.getVezesClassificado());
        this.numeroDeEncomendas=e.getNumEnc();
        this.encomendaAtual=e.getEncomendaAtual();
        this.setHistorico(e.getHistorico());

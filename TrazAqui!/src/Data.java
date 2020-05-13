@@ -12,6 +12,7 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.awt.geom.Point2D;
+import java.util.stream.Collectors;
 
 public class Data
 {
@@ -33,6 +34,18 @@ public class Data
         return u.clone();
     }
 
+    public void setUser(String cod,Utilizador u) {
+        this.users.put(cod,u);
+    }
+
+    public Set<String> getAceites() {
+        return aceites.getCodEncomendas();
+    }
+
+    public void setAceites(EncomendasAceites aceites) {
+        this.aceites = aceites;
+    }
+
     public Entregador getEntregador(String ent) {
         return this.entregadores.get(ent).clone();
     }
@@ -52,17 +65,17 @@ public class Data
            switch (idAndInfo[0]) {
                case ("Utilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Utilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos);
+                    Utilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos,new HashSet<>());
                     this.users.put(tokens[0],u);
                break;
                case ("Voluntario") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Voluntario v = new Voluntario(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[4]),r.nextBoolean(),(float)(Math.round((r.nextFloat()+3)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),new ArrayList<>(),new Encomenda(),new ArrayList<Encomenda>());
+                    Voluntario v = new Voluntario(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[4]),r.nextBoolean(),(float)(Math.round((r.nextFloat()+3)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),new ArrayList<>(),new Encomenda(),new ArrayList<Encomenda>());
                     this.entregadores.put(tokens[0],v);
                break;
                case ("Transportadora") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Transportadora t = new Transportadora(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[5]),tokens[4],Double.parseDouble(tokens[6]),r.nextDouble()%5,r.nextBoolean(),(float)(Math.round((r.nextFloat()+20)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),new ArrayList<Encomenda>(),new ArrayList<Encomenda>());
+                    Transportadora t = new Transportadora(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[5]),tokens[4],Double.parseDouble(tokens[6]),r.nextDouble()%5,r.nextBoolean(),(float)(Math.round((r.nextFloat()+20)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),r.nextInt(),new ArrayList<Encomenda>(),new ArrayList<Encomenda>());
                     this.entregadores.put(tokens[0],t);
                break;
                case ("Loja") :
@@ -175,4 +188,16 @@ public class Data
     }
 
 
+    public Set<Entregador> getEntregadores() {
+       return this.entregadores.values().stream().map(Entregador::clone).collect(Collectors.toSet());
+    }
+
+    public void classifica(float c,Encomenda e) {
+        for (Entregador en : this.entregadores.values()) {
+            if (en.getHistorico().stream().anyMatch(l -> l.equals(e))) {
+                en.classifica(c);
+                break;
+            }
+        }
+    }
 }

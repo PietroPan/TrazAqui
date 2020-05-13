@@ -25,12 +25,13 @@ public class Voluntario extends Entregador
         this.setMedical(false);
         this.setVelocidade(0);
         this.setClassificacao(0);
+        this.setVezesClassificado(1);
         this.pedidos=new ArrayList<>();
         this.encomendaAtual=new Encomenda();
         this.setHistorico(new ArrayList<Encomenda>());
     }
     
-    public Voluntario (String nome,String codEntregador,Point2D pos,String password,float raio,boolean levaMedical,float velocidadeDeEntrega,float c,ArrayList<String> pedidos,Encomenda e,List<Encomenda> lE) {
+    public Voluntario (String nome,String codEntregador,Point2D pos,String password,float raio,boolean levaMedical,float velocidadeDeEntrega,float c,int vC,ArrayList<String> pedidos,Encomenda e,List<Encomenda> lE) {
         this.setNome(nome);
         this.setCodigo(codEntregador);
         this.setPosicao((Point2D)pos.clone());
@@ -39,6 +40,7 @@ public class Voluntario extends Entregador
         this.setMedical(levaMedical);
         this.setVelocidade(velocidadeDeEntrega);
         this.setClassificacao(c);
+        this.setVezesClassificado(vC);
         this.pedidos= new ArrayList<>(pedidos);
         this.encomendaAtual=e.clone();
         this.setHistorico(lE.stream().map(Encomenda::clone).collect(Collectors.toList()));
@@ -53,6 +55,7 @@ public class Voluntario extends Entregador
        this.setMedical(v.getMedical());
        this.setVelocidade(v.getVelocidade());
        this.setClassificacao(v.getClassificacao());
+       this.setVezesClassificado(v.getVezesClassificado());
        this.pedidos=v.getPedidos();
        this.encomendaAtual=v.getEncomenda();
        this.setHistorico(v.getHistorico());

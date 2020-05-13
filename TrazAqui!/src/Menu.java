@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Menu
 {
@@ -54,7 +55,7 @@ public class Menu
                 float x = Float.parseFloat(read.nextLine());
                 p.askLocalizacao("y");
                 float y = Float.parseFloat(read.nextLine());
-                user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y));
+                user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y),new HashSet<>());
                 info.addUser(user);
             }
             else {
@@ -100,7 +101,7 @@ public class Menu
                         opcao=read.nextLine().toUpperCase();
                     }
                     if (list.isEmpty()) {
-                        p.nadaEncomendado();
+                        p.nadaAApresentar();
                         break;
                     }
                     enc.setPedido(list);
@@ -145,6 +146,33 @@ public class Menu
 
                     break;
                 case ("4") :
+                    Set<Map.Entry<Boolean,String>> encomendasID = this.info.getUser(this.codUser).getPedidosEntregues();
+                    Set<String> classifica= encomendasID.stream().filter(k -> !k.getKey()).map(l -> this.info.getEncomenda(l.getValue()).toString()).collect(Collectors.toSet());
+                    if (classifica.isEmpty()) {
+                        p.nadaAApresentar();
+                        break;
+                    }
+                    p.apresentaUserEncomendas(classifica);
+                    p.askEncomendaId();
+                    String eID = read.nextLine();
+                    Map.Entry<Boolean,String> encomendaAclassificar = new AbstractMap.SimpleEntry<>(false,eID);
+                    encomendasID.remove(encomendaAclassificar);
+                    encomendasID.add(new AbstractMap.SimpleEntry<>(true,eID));
+                    Utilizador atualizado = this.info.getUser(codUser);
+                    atualizado.setPedidosEntregues(encomendasID);
+                    this.info.setUser(codUser,atualizado);
+                    if (encomendasID.stream().noneMatch(l -> l.getValue().equals(eID))) {
+                        p.invalid("ID de Encomenda");
+                        break;
+                    }
+                    p.askClassificacao();
+                    float c = Float.parseFloat(read.nextLine());
+                    if (c<0 || c>10) {
+                        p.invalid("Classificação");
+                        break;
+                    }
+                    Encomenda e = this.info.getEncomenda(eID);
+                    this.info.classifica(c,e);
                     break;
                 default:
                     p.invalid("Opção");

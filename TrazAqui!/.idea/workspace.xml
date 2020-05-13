@@ -4,10 +4,12 @@
     <list default="true" id="d9c6f001-bfbd-43b0-9baf-2bef6f7f7fc1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Encomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Encomenda.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entregador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entregador.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Printer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Transportadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Transportadora.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utilizador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utilizador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Voluntario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voluntario.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +37,9 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
   <component name="RunManager">
@@ -78,7 +83,9 @@
       <workItem from="1589209075102" duration="9000" />
       <workItem from="1589304710408" duration="577000" />
       <workItem from="1589305305197" duration="68000" />
-      <workItem from="1589305391652" duration="9259000" />
+      <workItem from="1589305391652" duration="9501000" />
+      <workItem from="1589366168541" duration="32000" />
+      <workItem from="1589400849364" duration="7475000" />
     </task>
     <servers />
   </component>
@@ -86,30 +93,34 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="763" y="94" width="376" height="619" key="#com.intellij.ide.util.MemberChooser" timestamp="1589308699761">
+    <state x="442" y="73" width="1026" height="838" key="#Project_Structure" timestamp="1589401030437">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="763" y="94" width="376" height="619" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1589308699761" />
+    <state x="442" y="73" width="1026" height="838" key="#Project_Structure/0.0.1920.1080@0.0.1920.1080" timestamp="1589401030437" />
+    <state x="760" y="28" width="376" height="619" key="#com.intellij.ide.util.MemberChooser" timestamp="1589403911879">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="760" y="28" width="376" height="619" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1589403911879" />
     <state x="737" y="114" width="426" height="535" key="FileChooserDialogImpl" timestamp="1589305557788">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="737" y="114" width="426" height="535" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1589305557788" />
-    <state width="1874" height="263" key="GridCell.Tab.0.bottom" timestamp="1588889786723">
+    <state width="1874" height="262" key="GridCell.Tab.0.bottom" timestamp="1589408297665">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="263" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1588889786723" />
-    <state width="1874" height="263" key="GridCell.Tab.0.center" timestamp="1588889786722">
+    <state width="1874" height="262" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589408297665" />
+    <state width="1874" height="262" key="GridCell.Tab.0.center" timestamp="1589408297663">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="263" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1588889786722" />
-    <state width="1874" height="263" key="GridCell.Tab.0.left" timestamp="1588889786721">
+    <state width="1874" height="262" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589408297663" />
+    <state width="1874" height="262" key="GridCell.Tab.0.left" timestamp="1589408297663">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="263" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1588889786721" />
-    <state width="1874" height="263" key="GridCell.Tab.0.right" timestamp="1588889786722">
+    <state width="1874" height="262" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589408297663" />
+    <state width="1874" height="262" key="GridCell.Tab.0.right" timestamp="1589408297665">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="263" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1588889786722" />
+    <state width="1874" height="262" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589408297665" />
     <state x="139" y="243" width="677" height="498" key="NewModule_or_Project.wizard" timestamp="1589039306961">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -118,14 +129,18 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="461" y="86" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1589306123205" />
+    <state x="438" y="87" width="1033" height="809" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1589405928213">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="438" y="87" width="1033" height="809" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1589405928213" />
     <state x="334" y="108" width="1241" height="767" key="new project wizard" timestamp="1587844714911">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="334" y="108" width="1241" height="767" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1587844714911" />
-    <state x="749" y="222" width="409" height="496" key="refactoring.ChangeSignatureDialog" timestamp="1587994049830">
+    <state x="748" y="200" width="409" height="496" key="refactoring.ChangeSignatureDialog" timestamp="1589406231760">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="749" y="222" width="409" height="496" key="refactoring.ChangeSignatureDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1587994049830" />
+    <state x="748" y="200" width="409" height="496" key="refactoring.ChangeSignatureDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1589406231760" />
     <state x="623" y="237" key="run.anything.popup" timestamp="1588071110179">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

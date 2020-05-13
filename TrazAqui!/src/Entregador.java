@@ -17,6 +17,7 @@ public abstract class Entregador extends BasicInfo
     private boolean levaMedical;
     private float velocidadeDeEntrega;
     private float classificacao;
+    private int vezesClassificado;
     private List<Encomenda> historicoEncomendas;
    
    public void setRaio(float raio) {
@@ -59,6 +60,14 @@ public abstract class Entregador extends BasicInfo
 
     public double getCustoKm(){return 0;};
 
+    public int getVezesClassificado() {
+        return vezesClassificado;
+    }
+
+    public void setVezesClassificado(int vezesClassificado) {
+        this.vezesClassificado = vezesClassificado;
+    }
+
     public abstract boolean hasRoomAndMed(boolean med);
 
     public abstract void addEncomenda(Encomenda enc);
@@ -72,5 +81,10 @@ public abstract class Entregador extends BasicInfo
     }
    
     public abstract Entregador clone();
+
+    public void classifica(float c) {
+        this.vezesClassificado++;
+        this.classificacao=((this.classificacao*this.vezesClassificado+c)/(this.vezesClassificado));
+    }
    
 }
