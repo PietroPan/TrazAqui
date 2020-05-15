@@ -7,14 +7,12 @@
  */
 
 import java.awt.geom.Point2D;
-import java.util.AbstractMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Utilizador extends BasicInfo {
     private double balance;
     private Set<Map.Entry<Boolean,String>> pedidosEntregues;
+    private List<String> messages;
 
     public Utilizador() {
         this.setNome("NoName");
@@ -24,15 +22,17 @@ public class Utilizador extends BasicInfo {
         this.setPedidosEntregues(new HashSet<>());
         this.balance = 0.00;
         this.pedidosEntregues=new HashSet<>();
+        this.messages=new ArrayList<>();
     }
 
-    public Utilizador(String codUtilizador, String password, String nome, double balance, Point2D pos,Set<Map.Entry<Boolean,String>> pedidosEntregues) {
+    public Utilizador(String codUtilizador, String password, String nome, double balance, Point2D pos,Set<Map.Entry<Boolean,String>> pedidosEntregues,List<String> messages) {
         this.setNome(nome);
         this.setCodigo(codUtilizador);
         this.setPassword(password);
         this.setPosicao(pos);
         this.setPedidosEntregues(pedidosEntregues);
         this.balance = balance;
+        this.messages = new ArrayList<>(messages);
     }
 
     public Utilizador(Utilizador u) {
@@ -42,6 +42,15 @@ public class Utilizador extends BasicInfo {
         this.setPosicao((Point2D)u.getPosicao().clone());
         this.balance = u.getBalance();
         this.pedidosEntregues = u.getPedidosEntregues();
+        this.messages=u.getMessages();
+    }
+
+    public List<String> getMessages() {
+        return new ArrayList<>(messages);
+    }
+
+    public void setMessages(List<String> messages) {
+        this.messages = new ArrayList<>(messages);
     }
 
     public void setBalance(double balance) {
@@ -79,6 +88,10 @@ public class Utilizador extends BasicInfo {
 
     public void addEntregue (String cod) {
         this.pedidosEntregues.add(new AbstractMap.SimpleEntry<>(false, cod));
+    }
+
+    public void addMessage (String message) {
+        this.messages.add(message);
     }
 
 }

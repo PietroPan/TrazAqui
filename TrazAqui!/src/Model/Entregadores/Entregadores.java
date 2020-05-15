@@ -56,4 +56,9 @@ public class Entregadores {
             }
         }
     }
+
+    public void denyAll(String cod) {
+        ((Voluntario)this.entregadores.get(cod)).denyAllRequests();
+    }
+
 }

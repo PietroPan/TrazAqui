@@ -87,12 +87,19 @@ public class Voluntario extends Entregador
    }
 
    public boolean hasRoomAndMed(boolean med) {
-        return this.encomendaAtual.getCodEncomenda().equals("Encomenda Standard") && this.getMedical()==med;
+        return this.encomendaAtual.getCodEncomenda().equals("Encomenda Standard") && (!med || this.getMedical());
    }
 
-   public void addEncomenda(Encomenda e) {this.encomendaAtual=e.clone();}
+   public void addEncomenda(Encomenda e) {
+        this.pedidos.removeIf(l -> l.equals(e.getCodEncomenda()));
+        this.encomendaAtual=e.clone();
+    }
 
    public void addPedido(String enc) {
         this.pedidos.add(enc);
+   }
+
+   public void denyAllRequests() {
+        this.pedidos=new ArrayList<>();
    }
 }

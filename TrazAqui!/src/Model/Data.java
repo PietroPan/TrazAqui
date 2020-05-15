@@ -63,7 +63,7 @@ public class Data
            switch (idAndInfo[0]) {
                case ("Utilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Utilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos,new HashSet<>());
+                    Utilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos,new HashSet<>(),new ArrayList<>());
                     this.users.addUser(u);
                break;
                case ("Voluntario") :
@@ -164,7 +164,7 @@ public class Data
            if (e.hasRoomAndMed(en.getMedical())) {
                double d=calculaDistTotal(e.getPosicao(),l.getPosicao(),users.getUser(en.getDestino()).getPosicao());
                String[] info = new String[5];
-               preco=d*e.getCustoKm()+en.getPeso()*e.getCustoKg();
+               preco=d*((Transportadora)e).getCustoKm()+en.getPeso()*((Transportadora)e).getCustoKg();
                tempoEst=d/e.getVelocidade()+timeWaiting;
                info[0]=e.getCodigo();
                info[1]=e.getNome();
@@ -191,4 +191,36 @@ public class Data
         Encomenda e = getEncomenda(eID);
         entregadores.classifica(e,c);
     }
+
+    //Menu de Voluntario
+
+    public List<String> getVoluntarioRequests(String cod) {
+        List<String> ls = new ArrayList<>();
+        Voluntario v =(Voluntario) this.entregadores.getEntregador(cod);
+        List<String> pedidoIDs =v.getPedidos();
+        for (String s : pedidoIDs) {
+            Encomenda e = getEncomenda(s);
+            ls.add("ID de Encomenda: " + e.getCodEncomenda() + "  Peso: " + e.getPeso() + "  Distância a percorrer: " + calculaDistTotal(this.lojas.getLoja(e.getOrigem()).getPosicao(),v.getPosicao(),this.getUser(e.getDestino()).getPosicao()) +"\n");
+        }
+        return ls;
+    }
+
+    public double getTempoEsperado(String idEntregador,String idEnc) {
+        Entregador e = getEntregador(idEntregador);
+        Encomenda enc = getEncomenda(idEnc);
+        return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),lojas.getLoja(enc.getDestino()).getPosicao()) / e.getVelocidade();
+    }
+
+    public void denyAll(String cod) {
+        for (String s : ((Voluntario)this.entregadores.getEntregador(cod)).getPedidos()) {
+            Encomenda e = getEncomenda(s);
+            this.users.addMessageToUser(e.getDestino(),"Encomenda "+s+" não foi aceite pelo Voluntario "+cod);
+        }
+        this.entregadores.denyAll(cod);
+    }
+
+    public void resetMessages(String cod) {
+        this.users.resetMessages(cod);
+    }
+
 }

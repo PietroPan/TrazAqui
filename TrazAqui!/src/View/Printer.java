@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,10 +13,6 @@ public class Printer
     public Printer() {}
 
     /*Informa de randomEvents*/
-
-    public void unlucky() {
-        System.out.println("Tiveste pouca sorte o Voluntário não aceitou a tua encomenda");
-    }
 
     public void voluntarioLivre() {
         System.out.println("Foi escolhido o voluntario livre que deve demorar menos tempo a entregar a sua encomenda");
@@ -50,7 +47,7 @@ public class Printer
     }
 
     public void askEncomendaId() {
-        System.out.println("Insira o código da sua encomenda:");
+        System.out.println("Insira o código da sua encomenda:(-1 caso não queira nenhuma)");
     }
 
     public void askEntregadorId() {
@@ -141,6 +138,12 @@ public class Printer
                             "\n0.Sair" );
     }
 
+    public void showVoluntarioOptions() {
+        System.out.println("1.Ver pedidos de entrega" +
+                            "\n2.Mudar de Conta" +
+                            "\n0.Sair");
+    }
+
     public void showBye() {
         System.out.println("Obrigado por escolher TrazAqui!" +
                             "\nEsperamos que tenha gostado");
@@ -187,5 +190,20 @@ public class Printer
             apresentaEncomenda(s);
             System.out.println("\n//////////////////////////////\n");
         }
+    }
+
+    public void apresentaListRequest(List<String> ls) {
+        for (String s : ls) {
+            System.out.println(s);
+        }
+    }
+
+    public void apresentaUnreadMessages(List<String> ls) {
+        System.out.println("###########################");
+        if (ls.isEmpty()) System.out.println("No unread messages.");
+        for (String s : ls) {
+            System.out.println(s);
+        }
+        System.out.println("###########################");
     }
 }

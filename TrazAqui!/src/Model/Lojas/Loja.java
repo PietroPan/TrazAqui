@@ -19,7 +19,7 @@ public class Loja extends BasicInfo
    public Loja() {
        this.setCodigo("n/a");
        this.setNome("Loja Standard");
-       this.setPosicao((Point2D)new Point2D.Double(0,0));
+       this.setPosicao(new Point2D.Double(0,0));
        this.setPassword("n/a");
        this.tamanhoFila = 0;
        this.tempoAtendimento=0;

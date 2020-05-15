@@ -55,11 +55,6 @@ public abstract class Entregador extends BasicInfo
    public List<Encomenda> getHistorico() {
        return this.historicoEncomendas.stream().map(Encomenda::clone).collect(Collectors.toList());
    }
-
-    public double getCustoKg(){return 0;};
-
-    public double getCustoKm(){return 0;};
-
     public int getVezesClassificado() {
         return vezesClassificado;
     }

@@ -76,7 +76,7 @@ public class Menu
         float x = Float.parseFloat(read.nextLine());
         p.askLocalizacao("y");
         float y = Float.parseFloat(read.nextLine());
-        user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y),new HashSet<>());
+        user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y),new HashSet<>(),new ArrayList<>());
         info.addUser(user);
         return userCod;
     }
@@ -176,9 +176,10 @@ public class Menu
 
     public int menuUser() {
         Random rand = new Random();
-        String id,idVoluntario;
+        String id,idVoluntario,opcao;
+        p.apresentaUnreadMessages(this.info.getUser(codUser).getMessages());
+        this.info.resetMessages(codUser);
         p.showUserOptions();
-        String opcao;
         Scanner read= new Scanner(System.in);
         while(!(opcao=read.nextLine()).equals("0")) {
             switch (opcao) {
@@ -219,7 +220,7 @@ public class Menu
                         this.info.addEncomendaLoja(enc);
                     }
                     break;
-                case ("2") :
+                case ("2"):
                     Set<String[]> opcoes;
                     p.askEncomendaId();
                     id=read.nextLine();
@@ -284,16 +285,37 @@ public class Menu
     }
 
     public int menuVoluntario() {
-        System.out.println("ola");
-        return 1;
+        String opcao;
+        Scanner read = new Scanner(System.in);
+        p.showVoluntarioOptions();
+        while (!(opcao=read.nextLine()).equals("0")) {
+            switch (opcao) {
+                case ("1"):
+                    List<String> ls = this.info.getVoluntarioRequests(codUser);
+                    p.apresentaListRequest(ls);
+                    p.askEncomendaId();
+                    String encomenda = read.nextLine();
+                    if (!encomenda.equals("-1")) {
+                     this.info.aceitar(codUser,encomenda,this.info.getTempoEsperado(codUser,encomenda));
+                    }
+                    this.info.denyAll(codUser);
+                    break;
+                case ("2"):
+                    return 1;
+                default:
+                    p.invalid("Opção");
+                    break;
+            }
+        }
+        return 0;
     }
 
     public int menuTransportadora() {
-        return 1;
+        return 0;
     }
 
     public int menuLoja() {
-        return 1;
+        return 0;
     }
 
     public void menu() {

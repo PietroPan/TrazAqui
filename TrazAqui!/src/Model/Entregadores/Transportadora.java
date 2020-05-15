@@ -139,7 +139,7 @@ public class Transportadora extends Entregador
    }
 
    public boolean hasRoomAndMed(boolean med) {
-       return (this.numeroDeEncomendas-this.encomendaAtual.size())>0 && this.getMedical()==med;
+       return (this.numeroDeEncomendas-this.encomendaAtual.size())>0 && (!med || this.getMedical());
    }
 
 }
