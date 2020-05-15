@@ -137,8 +137,8 @@ public class Printer
                             "\n2.Solicitar entrega de encomenda" +
                             "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
                             "\n4.Classificar encomendas já recebidas" +
-                            "\n5.Mudar de conta" +
-                            "\n0.Fechar Programa");
+                            "\n5.Mudar de Conta" +
+                            "\n0.Sair" );
     }
 
     public void showBye() {

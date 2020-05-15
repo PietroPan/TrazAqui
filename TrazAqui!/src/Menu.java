@@ -174,10 +174,9 @@ public class Menu
         return cod;
     }
 
-    public void menuUser() {
+    public int menuUser() {
         Random rand = new Random();
         String id,idVoluntario;
-        codUser=init();
         p.showUserOptions();
         String opcao;
         Scanner read= new Scanner(System.in);
@@ -273,27 +272,32 @@ public class Menu
                     }
                     this.info.classifica(encomendasID,eID,codUser,c);
                     break;
+                case("5"):
+                    return 1;
                 default:
                     p.invalid("Opção");
                 break;
             }
             p.showUserOptions();
         }
+        return 0;
     }
 
-    public void menuVoluntario() {
+    public int menuVoluntario() {
+        System.out.println("ola");
+        return 1;
     }
 
-    public void menuTransportadora() {
-
+    public int menuTransportadora() {
+        return 1;
     }
 
-    public void menuLoja() {
-
+    public int menuLoja() {
+        return 1;
     }
 
     public void menu() {
-        String opcao;
+        int r=1;
         info=new Data();
         try {
             info.readFile();
@@ -302,21 +306,20 @@ public class Menu
         } catch (IOException e) {
             p.invalid("Formato de linhas de texto");
         }
-        Scanner read = new Scanner(System.in);
-        p.showLoginOptions();
-        while (!(opcao=read.nextLine()).equals("0")) {
-            switch (opcao) {
-                case ("1"):
-                    menuUser();
+        while (r!=0) {
+            codUser = init();
+            switch (codUser.charAt(0)) {
+                case ('u'):
+                    r=menuUser();
                     break;
-                case ("2"):
-                    menuVoluntario();
+                case ('v'):
+                    r=menuVoluntario();
                     break;
-                case ("3"):
-                    menuTransportadora();
+                case ('t'):
+                    r=menuTransportadora();
                     break;
-                case ("4"):
-                    menuLoja();
+                case ('l'):
+                    r=menuLoja();
                     break;
             }
         }
