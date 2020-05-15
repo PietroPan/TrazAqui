@@ -47,4 +47,13 @@ public class Entregadores {
     public void addEncomenda(String s,Encomenda e) {
         entregadores.get(s).addEncomenda(e);
     }
+
+    public void classifica(Encomenda e,float c) {
+        for (Entregador en : this.entregadores.values()) {
+            if (en.getHistorico().stream().anyMatch(l -> l.equals(e))) {
+                en.classifica(c);
+                break;
+            }
+        }
+    }
 }

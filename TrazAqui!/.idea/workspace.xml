@@ -20,22 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9c6f001-bfbd-43b0-9baf-2bef6f7f7fc1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Model/Entregadores/Entregadores.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/Lojas/Lojas.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Model/Utilizadores/Utilizadores.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TrazAqui!.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TrazAqui!.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BasicInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Auxiliares/BasicInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Encomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Auxiliares/Encomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entregador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/Entregador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LinhaEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Auxiliares/LinhaEncomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Loja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/Loja.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Printer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Transportadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/Transportadora.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utilizador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Utilizadores/Utilizador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voluntario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/Voluntario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Data.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +99,9 @@
       <workItem from="1589305391652" duration="9501000" />
       <workItem from="1589366168541" duration="32000" />
       <workItem from="1589400849364" duration="7635000" />
-      <workItem from="1589489349877" duration="7695000" />
+      <workItem from="1589489349877" duration="7967000" />
+      <workItem from="1589548506190" duration="560000" />
+      <workItem from="1589551314941" duration="1924000" />
     </task>
     <servers />
   </component>
@@ -129,6 +118,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="441" y="51" width="1026" height="838" key="#Project_Structure" timestamp="1589541645272">
@@ -143,22 +133,22 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="737" y="114" width="426" height="535" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1589305557788" />
-    <state width="1874" height="262" key="GridCell.Tab.0.bottom" timestamp="1589408488183">
+    <state width="1874" height="158" key="GridCell.Tab.0.bottom" timestamp="1589542196485">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="262" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589408488183" />
-    <state width="1874" height="262" key="GridCell.Tab.0.center" timestamp="1589408488182">
+    <state width="1874" height="158" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589542196485" />
+    <state width="1874" height="158" key="GridCell.Tab.0.center" timestamp="1589542196484">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="262" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589408488182" />
-    <state width="1874" height="262" key="GridCell.Tab.0.left" timestamp="1589408488182">
+    <state width="1874" height="158" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589542196484" />
+    <state width="1874" height="158" key="GridCell.Tab.0.left" timestamp="1589542196483">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="262" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589408488182" />
-    <state width="1874" height="262" key="GridCell.Tab.0.right" timestamp="1589408488182">
+    <state width="1874" height="158" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589542196483" />
+    <state width="1874" height="158" key="GridCell.Tab.0.right" timestamp="1589542196485">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="262" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589408488182" />
+    <state width="1874" height="158" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589542196484" />
     <state x="139" y="243" width="677" height="498" key="NewModule_or_Project.wizard" timestamp="1589039306961">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -171,10 +161,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="438" y="87" width="1033" height="809" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1589405928213" />
-    <state x="334" y="108" width="1241" height="767" key="new project wizard" timestamp="1587844714911">
+    <state x="333" y="86" width="1241" height="767" key="new project wizard" timestamp="1589549058000">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="334" y="108" width="1241" height="767" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1587844714911" />
+    <state x="333" y="86" width="1241" height="767" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1589549058000" />
     <state x="748" y="200" width="409" height="496" key="refactoring.ChangeSignatureDialog" timestamp="1589406231760">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -187,5 +177,16 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="623" y="216" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1589539187240" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Model/Data.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

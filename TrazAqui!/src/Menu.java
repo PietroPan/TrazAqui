@@ -155,12 +155,6 @@ public class Menu
                     p.apresentaUserEncomendas(classifica);
                     p.askEncomendaId();
                     String eID = read.nextLine();
-                    Map.Entry<Boolean,String> encomendaAclassificar = new AbstractMap.SimpleEntry<>(false,eID);
-                    encomendasID.remove(encomendaAclassificar);
-                    encomendasID.add(new AbstractMap.SimpleEntry<>(true,eID));
-                    Utilizador atualizado = this.info.getUser(codUser);
-                    atualizado.setPedidosEntregues(encomendasID);
-                    this.info.addUser(atualizado);
                     if (encomendasID.stream().noneMatch(l -> l.getValue().equals(eID))) {
                         p.invalid("ID de Encomenda");
                         break;
@@ -171,8 +165,7 @@ public class Menu
                         p.invalid("Classificação");
                         break;
                     }
-                    Encomenda e = this.info.getEncomenda(eID);
-                    this.info.classifica(c,e);
+                    this.info.classifica(encomendasID,eID,codUser,c);
                     break;
                 default:
                     p.invalid("Opção");

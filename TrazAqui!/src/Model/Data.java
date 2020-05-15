@@ -165,12 +165,14 @@ public class Data
         this.lojas.addPronta(e);
     }
 
-    public void classifica(float c,Encomenda e) {
-        for (Entregador en : this.entregadores.getEntregadores().values()) {
-            if (en.getHistorico().stream().anyMatch(l -> l.equals(e))) {
-                en.classifica(c);
-                break;
-            }
-        }
+    public void classifica(Set<Map.Entry<Boolean,String>> encomendasID,String eID,String codUser,float c) {
+        Map.Entry<Boolean,String> encomendaAclassificar = new AbstractMap.SimpleEntry<>(false,eID);
+        encomendasID.remove(encomendaAclassificar);
+        encomendasID.add(new AbstractMap.SimpleEntry<>(true,eID));
+        Utilizador atualizado = this.users.getUser(codUser);
+        atualizado.setPedidosEntregues(encomendasID);
+        users.addUser(atualizado);
+        Encomenda e = getEncomenda(eID);
+        entregadores.classifica(e,c);
     }
 }
