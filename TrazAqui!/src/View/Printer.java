@@ -25,9 +25,12 @@ public class Printer
     public void askUserCod() {
         System.out.println("Insira o seu Codigo de Utilizador:");
     }
-    
-    public void askNewUser() {
-        System.out.println("Utilizador nao faz parte da nossa Database deseja adiciona-lo?(S/s) ou(N/n)");
+
+    public void askCod() {
+        System.out.println("Insira o seu Código:");
+    }
+    public void askNew() {
+        System.out.println("Não faz parte da nossa Database deseja adiciona-lo?(S/s) ou(N/n)");
     }
 
     public void askPassword() {
@@ -84,6 +87,39 @@ public class Printer
 
     public void askClassificacao() {
         System.out.println("Insira a Classificação que deseja dar: ");
+    }
+
+    public void askData() {
+        System.out.println("Insira Data no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23):Minute(0 a 59)");
+    }
+
+    public void askVelocidadeNormal() {
+        System.out.println("Insira a sua velocidade normal: (Use . para separa casas decimais)");
+    }
+
+    public void askRaio() {
+        System.out.println("Insira o seu raio de ação: ");
+    }
+
+
+    public void askNIF() {
+        System.out.println("Insira o seu NIF");
+    }
+
+    public void askCusto(String t) {
+        System.out.println("Insira o custo por "+t);
+    }
+
+    public void askNEncomendas() {
+        System.out.println("Insira o número de encomendas que pode transportar ao mesmo tempo");
+    }
+
+    public void askTamFila() {
+        System.out.println("Insira o tamanho da fila(-1 caso não queira dar essa informação)");
+    }
+
+    public void askTempoAtendimento() {
+        System.out.println("Insira o tempo normal de atendimento(em min)");
     }
 
     /*Menu prints*/

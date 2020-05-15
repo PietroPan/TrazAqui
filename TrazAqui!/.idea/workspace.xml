@@ -23,6 +23,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/Transportadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/Transportadora.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Printer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +103,10 @@
       <workItem from="1589400849364" duration="7635000" />
       <workItem from="1589489349877" duration="7967000" />
       <workItem from="1589548506190" duration="560000" />
-      <workItem from="1589551314941" duration="1924000" />
+      <workItem from="1589551314941" duration="8120000" />
+      <workItem from="1589559604297" duration="913000" />
+      <workItem from="1589560538490" duration="249000" />
+      <workItem from="1589561013661" duration="2751000" />
     </task>
     <servers />
   </component>
@@ -157,10 +162,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="138" y="-22" width="1026" height="838" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1589541924358" />
-    <state x="438" y="87" width="1033" height="809" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1589405928213">
+    <state x="435" y="21" width="1033" height="809" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1589556519594">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="438" y="87" width="1033" height="809" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1589405928213" />
+    <state x="435" y="21" width="1033" height="809" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1589556519594" />
     <state x="333" y="86" width="1241" height="767" key="new project wizard" timestamp="1589549058000">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -169,24 +174,13 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="748" y="200" width="409" height="496" key="refactoring.ChangeSignatureDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1589406231760" />
-    <state x="623" y="237" key="run.anything.popup" timestamp="1588071110179">
+    <state x="623" y="237" key="run.anything.popup" timestamp="1589555101162">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="623" y="237" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1588071110179" />
-    <state x="623" y="216" key="search.everywhere.popup" timestamp="1589539187240">
+    <state x="623" y="237" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1589555101162" />
+    <state x="623" y="216" width="672" height="678" key="search.everywhere.popup" timestamp="1589561920856">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="623" y="216" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1589539187240" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Model/Data.java</url>
-          <line>153</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="623" y="216" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1589561920856" />
   </component>
 </project>

@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,52 +27,157 @@ public class Menu
         this.p=new Printer ();
     }
 
-    public Utilizador login (String codUser,String password)
-    {
-        Utilizador r=info.getUser(codUser);
-        if (r!=null && r.getPassword().equals(password) )
-            return r.clone();
-        return null;
+    public LocalDateTime StringToLocalDateTime(String s) {
+        String[] a=s.split(":",0);
+        if (a.length!=5)
+            p.invalid("Formato");
+        List<Integer> i = Arrays.stream(a).map(Integer::parseInt).collect(Collectors.toList());
+        try {
+            return LocalDateTime.of(i.get(0), i.get(1), i.get(2), i.get(3), i.get(4));
+        }
+        catch (DateTimeException d) {
+            p.invalid("Formato de Data");
+            return null;
+        }
     }
-    
-    public String initUser () {
-        Scanner read = new Scanner(System.in);
+
+    public boolean login (String cod,String password) {
+        boolean r;
+        char beg =cod.charAt(0);
+        switch (beg) {
+            case ('u') :
+                Utilizador u = this.info.getUser(cod);
+                r= u!=null && password.equals(u.getPassword());
+                break;
+            case ('l'):
+                Loja l = this.info.getLoja(cod);
+                r= l!=null && password.equals(l.getPassword());
+                break;
+            default:
+                Entregador e = this.info.getEntregador(cod);
+                r= e!=null && password.equals(e.getPassword());
+                break;
+        }
+        return r;
+    }
+
+    public String initUser() {
+        Scanner read= new Scanner(System.in);
+        Utilizador user;
         p.askUserCod();
-        String userCod=read.nextLine();
+        String userCod = read.nextLine();
+        p.askUserName();
+        String name = read.nextLine();
+        p.askPassword();
+        String password =read.nextLine();
+        p.askBalance();
+        double balance = Double.parseDouble(read.nextLine());
+        p.askLocalizacao("x");
+        float x = Float.parseFloat(read.nextLine());
+        p.askLocalizacao("y");
+        float y = Float.parseFloat(read.nextLine());
+        user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y),new HashSet<>());
+        info.addUser(user);
+        return userCod;
+    }
+
+    public String initEntregador(int i) {
+        Scanner read= new Scanner(System.in);
+        p.askCod();
+        String cod=read.nextLine();
+        p.askUserName();
+        String name = read.nextLine();
+        p.askPassword();
+        String password =read.nextLine();
+        p.askLocalizacao("x");
+        float x = Float.parseFloat(read.nextLine());
+        p.askLocalizacao("y");
+        float y = Float.parseFloat(read.nextLine());
+        p.askRaio();
+        float r = Float.parseFloat(read.nextLine());
+        p.askMedical();
+        String d =read.nextLine();
+        boolean medical = d.toUpperCase().equals("S");
+        p.askVelocidadeNormal();
+        float v = Float.parseFloat(read.nextLine());
+        if (i==1) {
+            this.info.addEntregador(new Voluntario(name,cod,new Point2D.Double(x,y),password,r,medical,v,0,0,new ArrayList<>(),new Encomenda(),new ArrayList<>()));
+        }
+        else {
+            p.askNIF();
+            String nif = read.nextLine();
+            p.askCusto("Kg");
+            float kg =Float.parseFloat(read.nextLine());
+            p.askCusto("Km");
+            float km = Float.parseFloat(read.nextLine());
+            p.askNEncomendas();
+            int n = Integer.parseInt(read.nextLine());
+            this.info.addEntregador(new Transportadora(name,cod,new Point2D.Double(x,y),password,r,nif,km,kg,medical,v,0,0,n,new ArrayList<>(),new ArrayList<>()));
+        }
+        return cod;
+    }
+
+    public String initLoja() {
+        Scanner read= new Scanner(System.in);
+        p.askCod();
+        String cod=read.nextLine();
+        p.askUserName();
+        String name = read.nextLine();
+        p.askPassword();
+        String password =read.nextLine();
+        p.askLocalizacao("x");
+        float x = Float.parseFloat(read.nextLine());
+        p.askLocalizacao("y");
+        float y = Float.parseFloat(read.nextLine());
+        p.askTamFila();
+        int tF = Integer.parseInt(read.nextLine());
+        p.askTempoAtendimento();
+        float t = Float.parseFloat(read.nextLine());
+        this.info.addLoja(new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>()));
+        return cod;
+    }
+
+    public String init() {
+        Scanner read = new Scanner(System.in);
+        p.askCod();
+        String cod=read.nextLine();
         p.askPassword();
         String password = read.nextLine();
-        Utilizador user;
-        while ((user=login(userCod,password))==null) {
-            p.askNewUser();
+        while (!login(cod,password)) {
+            p.askNew();
             String option = read.nextLine().toUpperCase();
             if (option.equals("S")) {
-                p.askUserName();
-                String name = read.nextLine();
-                p.askPassword();
-                password =read.nextLine();
-                p.askBalance();
-                double balance = Double.parseDouble(read.nextLine());
-                p.askLocalizacao("x");
-                float x = Float.parseFloat(read.nextLine());
-                p.askLocalizacao("y");
-                float y = Float.parseFloat(read.nextLine());
-                user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y),new HashSet<>());
-                info.addUser(user);
+                p.showLoginOptions();
+                int i = Integer.parseInt(read.nextLine());
+                switch (i) {
+                    case (1):
+                        cod=initUser();
+                        break;
+                    case(4):
+                        cod=initLoja();
+                        break;
+                    case(2):
+                        cod=initEntregador(1);
+                        break;
+                    case(3):
+                        cod=initEntregador(0);
+                        break;
+                }
             }
             else {
-                p.askUserCod();
-                userCod=read.nextLine();
+                p.askCod();
+                cod=read.nextLine();
                 p.askPassword();
                 password = read.nextLine();
             }
         }
-        return user.getCodigo();
+        return cod;
     }
 
     public void menuUser() {
         Random rand = new Random();
         String id,idVoluntario;
-        codUser=initUser();
+        codUser=init();
         p.showUserOptions();
         String opcao;
         Scanner read= new Scanner(System.in);

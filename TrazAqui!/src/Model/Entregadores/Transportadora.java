@@ -22,7 +22,7 @@ public class Transportadora extends Entregador
    public Transportadora () {
        this.setNome("Empresa Standard");
        this.setCodigo("n/a");
-       this.setPosicao((Point2D)new Point2D.Double(0,0));
+       this.setPosicao(new Point2D.Double(0,0));
        this.setPassword("n/a");
        this.setRaio(0);
        this.NIF="n/a";

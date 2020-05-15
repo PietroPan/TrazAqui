@@ -36,6 +36,22 @@ public class Data
         this.users.addUser(u);
     }
 
+    public Entregador getEntregador(String cod) {
+        return this.entregadores.getEntregador(cod);
+    }
+
+    public void addEntregador(Entregador e) {
+        this.entregadores.setEntregador(e.getCodigo(),e.clone());
+    }
+
+    public Loja getLoja(String cod) {
+        return this.lojas.getLoja(cod);
+    }
+
+    public void addLoja(Loja l) {
+        this.lojas.setLoja(l.getCodigo(),l);
+    }
+
     public void readFile() throws java.io.IOException {
         BufferedReader bufferAll = new BufferedReader (new FileReader("src/logs.txt"));
         String buffer;
@@ -129,9 +145,9 @@ public class Data
    }
 
    public double calculaDistTotal(Point2D p1,Point2D p2,Point2D p3) {
-        double d=p1.distance(p2);
-        d+=p2.distance(p3);
-        return d;
+       double d = p1.distance(p2);
+       d += p2.distance(p3);
+       return d;
    }
 
    public Set<String[]> getEntregadoresDisp(String id) {
