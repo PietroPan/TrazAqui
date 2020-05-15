@@ -160,7 +160,7 @@ public class Menu
                     encomendasID.add(new AbstractMap.SimpleEntry<>(true,eID));
                     Utilizador atualizado = this.info.getUser(codUser);
                     atualizado.setPedidosEntregues(encomendasID);
-                    this.info.setUser(codUser,atualizado);
+                    this.info.addUser(atualizado);
                     if (encomendasID.stream().noneMatch(l -> l.getValue().equals(eID))) {
                         p.invalid("ID de Encomenda");
                         break;

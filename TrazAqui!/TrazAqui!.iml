@@ -4,6 +4,16 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Entregadores" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Lojas" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Utilizadores" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/View" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Model/Entregadores" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Model" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Model/Utilizadores" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Model/Lojas" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Auxiliares" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Model/EncomendasAceites" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

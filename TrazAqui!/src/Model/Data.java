@@ -16,45 +16,27 @@ import java.util.stream.Collectors;
 
 public class Data
 {
-    Map<String,Utilizador> users;
-    Map<String,Loja> lojas;
-    Map<String,Entregador> entregadores;
+    Utilizadores users;
+    Lojas lojas;
+    Entregadores entregadores;
     EncomendasAceites aceites;
     
     public Data () {
-     this.users=new HashMap<>();
-     this.lojas=new HashMap<>();
-     this.entregadores=new HashMap<>();
+     this.users=new Utilizadores();
+     this.lojas=new Lojas();
+     this.entregadores=new Entregadores();
      this.aceites=new EncomendasAceites();
     }
-    
+
     public Utilizador getUser(String cod) {
-        Utilizador u = this.users.get(cod);
-        if (u==null) return null;
-        return u.clone();
+        return users.getUser(cod);
     }
 
-    public void setUser(String cod,Utilizador u) {
-        this.users.put(cod,u);
+    public void addUser(Utilizador u) {
+        this.users.addUser(u);
     }
 
-    public Set<String> getAceites() {
-        return aceites.getCodEncomendas();
-    }
-
-    public void setAceites(EncomendasAceites aceites) {
-        this.aceites = aceites;
-    }
-
-    public Entregador getEntregador(String ent) {
-        return this.entregadores.get(ent).clone();
-    }
-    
-    public void addUser(Utilizador user){
-        this.users.put(user.getCodigo(),user);
-    }
-    
-    public void readFile() throws java.io.FileNotFoundException,java.io.IOException {
+    public void readFile() throws java.io.IOException {
         BufferedReader bufferAll = new BufferedReader (new FileReader("src/logs.txt"));
         String buffer;
         Random r = new Random();
@@ -66,22 +48,22 @@ public class Data
                case ("Utilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
                     Utilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos,new HashSet<>());
-                    this.users.put(tokens[0],u);
+                    this.users.addUser(u);
                break;
                case ("Voluntario") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
                     Voluntario v = new Voluntario(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[4]),r.nextBoolean(),(float)(Math.round((r.nextFloat()+3)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),new ArrayList<>(),new Encomenda(),new ArrayList<Encomenda>());
-                    this.entregadores.put(tokens[0],v);
+                    this.entregadores.setEntregador(tokens[0],v);
                break;
                case ("Transportadora") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
                     Transportadora t = new Transportadora(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[5]),tokens[4],Double.parseDouble(tokens[6]),r.nextDouble()%5,r.nextBoolean(),(float)(Math.round((r.nextFloat()+20)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),r.nextInt(),new ArrayList<Encomenda>(),new ArrayList<Encomenda>());
-                    this.entregadores.put(tokens[0],t);
+                    this.entregadores.setEntregador(tokens[0],t);
                break;
                case ("Loja") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
                     Loja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>());
-                    this.lojas.put(tokens[0],l);
+                    this.lojas.setLoja(tokens[0],l);
                break;
                case ("Encomenda") :
                    List<LinhaEncomenda> lista =new ArrayList<LinhaEncomenda>();
@@ -91,9 +73,7 @@ public class Data
                        i+=4;
                    }
                    Encomenda e = new Encomenda(tokens[0],r.nextBoolean(),Float.parseFloat(tokens[3]),tokens[2],tokens[1],lista, LocalDateTime.now().plusMinutes(r.nextLong()%60));
-                   Loja loja=lojas.get(tokens[2]);
-                   loja.addPronta(e);
-                   lojas.put(tokens[2],loja);
+                   lojas.addEncomenda(tokens[2],e);
                break;
                case ("Aceite") :
                    Set<String> lE = this.aceites.getCodEncomendas();
@@ -113,11 +93,11 @@ public class Data
         String r="n/a";
         Voluntario v = new Voluntario();
         Encomenda encomenda=getEncomenda(enc);
-        Loja l=lojas.get(encomenda.getOrigem());
+        Loja l=lojas.getLoja(encomenda.getOrigem());
         double tempoMin=-1,tempoAux;
-        for (Entregador e : this.entregadores.values()) {
+        for (Entregador e : this.entregadores.getEntregadores().values()) {
             if (e.getClass().equals(v.getClass()) && e.hasRoomAndMed(getEncomenda(enc).getMedical())) {
-                tempoAux = e.getVelocidade() * calculaDistTotal(e.getPosicao(), l.getPosicao(), users.get(encomenda.getDestino()).getPosicao())+l.getTamFila()*l.getTempoAtendimento();
+                tempoAux = e.getVelocidade() * calculaDistTotal(e.getPosicao(), l.getPosicao(), users.getUser(encomenda.getDestino()).getPosicao())+l.getTamFila()*l.getTempoAtendimento();
                 if (tempoMin == -1 || tempoAux < tempoMin) {
                     tempoMin = tempoAux;
                     r = e.getCodigo();
@@ -128,22 +108,20 @@ public class Data
    }
 
    public void askVoluntario(String idVoluntario,String idEnc) {
-       ((Voluntario)this.entregadores.get(idVoluntario)).addPedido(idEnc);
+        this.entregadores.addPedidoVoluntario(idVoluntario,idEnc);
    }
 
    public void aceitar(String entrega,String enc,double time) {
-        Entregador r = this.entregadores.get(entrega); //Do I need to clone();
         Encomenda e =getEncomenda(enc);
         e.setDataEntrega(LocalDateTime.now().plusMinutes((long)time));
-        r.addEncomenda(e);
+        this.entregadores.addEncomenda(entrega,e);
         this.aceites.add(enc);
-        Loja l=this.lojas.get(e.getOrigem()); //Do I need to clone();
-        l.removeReady(enc);
+        this.lojas.removeReady(entrega,enc);
    }
 
    public Encomenda getEncomenda(String id) {
         Encomenda r;
-        for (Loja l : this.lojas.values()) {
+        for (Loja l : this.lojas.getLojas().values()) {
             if((r=l.getEncomenda(id))!=null)
                     return r;
         }
@@ -157,19 +135,18 @@ public class Data
    }
 
    public Set<String[]> getEntregadoresDisp(String id) {
-       Voluntario v=new Voluntario();
        Set<String[]> setOpcoes=new HashSet<>();
        int r;
        double preco;
        double tempoEst;
        double timeWaiting;
        Encomenda en =getEncomenda(id);
-       Loja l =this.lojas.get(en.getOrigem());
+       Loja l =this.lojas.getLoja(en.getOrigem());
        r=l.getTamFila();
        timeWaiting=r*l.getTempoAtendimento();
-       for (Entregador e : this.entregadores.values()) {
+       for (Entregador e : this.entregadores.getEntregadores().values()) {
            if (e.hasRoomAndMed(en.getMedical())) {
-               double d=calculaDistTotal(e.getPosicao(),lojas.get(en.getOrigem()).getPosicao(),users.get(en.getDestino()).getPosicao());
+               double d=calculaDistTotal(e.getPosicao(),l.getPosicao(),users.getUser(en.getDestino()).getPosicao());
                String[] info = new String[5];
                preco=d*e.getCustoKm()+en.getPeso()*e.getCustoKg();
                tempoEst=d/e.getVelocidade()+timeWaiting;
@@ -183,17 +160,13 @@ public class Data
        }
        return setOpcoes;
     }
+
     public void addEncomendaLoja(Encomenda e) {
-        this.lojas.get(e.getOrigem()).addPronta(e);
-    }
-
-
-    public Set<Entregador> getEntregadores() {
-       return this.entregadores.values().stream().map(Entregador::clone).collect(Collectors.toSet());
+        this.lojas.addPronta(e);
     }
 
     public void classifica(float c,Encomenda e) {
-        for (Entregador en : this.entregadores.values()) {
+        for (Entregador en : this.entregadores.getEntregadores().values()) {
             if (en.getHistorico().stream().anyMatch(l -> l.equals(e))) {
                 en.classifica(c);
                 break;
