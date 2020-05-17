@@ -14,10 +14,10 @@ import java.awt.geom.Point2D;
 
 public class Data
 {
-    Utilizadores users;
+    InterfaceUtilizadores users;
     InterfaceLojas lojas;
     InterfaceEntregadores entregadores;
-    EncomendasAceites aceites;
+    InterfaceEncomendasAceites aceites;
     
     public Data () {
      this.users=new Utilizadores();
@@ -26,11 +26,11 @@ public class Data
      this.aceites=new EncomendasAceites();
     }
 
-    public Utilizador getUser(String cod) throws UtilizadorInexistenteException {
+    public InterfaceUtilizador getUser(String cod) throws UtilizadorInexistenteException {
         return users.getUser(cod);
     }
 
-    public void addUser(Utilizador u) {
+    public void addUser(InterfaceUtilizador u) {
         this.users.addUser(u);
     }
 
@@ -59,9 +59,9 @@ public class Data
            String [] idAndInfo = buffer.split(":",2);
            String[] tokens=idAndInfo[1].split(",",0);
            switch (idAndInfo[0]) {
-               case ("Utilizador") :
+               case ("InterfaceUtilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Utilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos,new HashSet<>(),new ArrayList<>());
+                    InterfaceUtilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos,new HashSet<>(),new ArrayList<>());
                     this.users.addUser(u);
                break;
                case ("InterfaceVoluntario") :
@@ -183,7 +183,7 @@ public class Data
         Map.Entry<Boolean,String> encomendaAclassificar = new AbstractMap.SimpleEntry<>(false,eID);
         encomendasID.remove(encomendaAclassificar);
         encomendasID.add(new AbstractMap.SimpleEntry<>(true,eID));
-        Utilizador atualizado = this.users.getUser(codUser);
+        InterfaceUtilizador atualizado = this.users.getUser(codUser);
         atualizado.setPedidosEntregues(encomendasID);
         users.addUser(atualizado);
         InterfaceEncomenda e = getEncomenda(eID);

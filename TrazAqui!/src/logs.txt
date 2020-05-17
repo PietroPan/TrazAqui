@@ -1,13 +1,13 @@
-Utilizador:u48,Francisco EgÃ­dio Coutinho Martins Correia,-97.28862,59.067047
-Utilizador:u97,Pedro Filipe Carvalho Barbosa,-68.78327,-50.26914
-Utilizador:u82,Hugo AndrÃ© Coelho Cardoso,57.245117,19.557358
-Utilizador:u7,Rodrigo Tiago Oliveira Ferreira,-14.681885,72.73595
-Utilizador:u80,Guilherme JoÃ£o Cerqueira da Mota Miranda,-18.299461,-35.02321
-Utilizador:u33,TomÃ¡s Salazar Valente,98.079666,-36.973225
-Utilizador:u78,LuÃ­s Pedro da Silva Vila,64.87256,43.373962
-Utilizador:u40,LuÃ­s AnÃ­bal Barbosa de AraÃºjo,99.15073,-45.263195
-Utilizador:u68,Pedro GonÃ§alo dos Santos Pires Pinheiro,-71.837296,-29.223396
-Utilizador:u81,Rui Pedro Neto Reis,-67.93489,99.649734
+InterfaceUtilizador:u48,Francisco EgÃ­dio Coutinho Martins Correia,-97.28862,59.067047
+InterfaceUtilizador:u97,Pedro Filipe Carvalho Barbosa,-68.78327,-50.26914
+InterfaceUtilizador:u82,Hugo AndrÃ© Coelho Cardoso,57.245117,19.557358
+InterfaceUtilizador:u7,Rodrigo Tiago Oliveira Ferreira,-14.681885,72.73595
+InterfaceUtilizador:u80,Guilherme JoÃ£o Cerqueira da Mota Miranda,-18.299461,-35.02321
+InterfaceUtilizador:u33,TomÃ¡s Salazar Valente,98.079666,-36.973225
+InterfaceUtilizador:u78,LuÃ­s Pedro da Silva Vila,64.87256,43.373962
+InterfaceUtilizador:u40,LuÃ­s AnÃ­bal Barbosa de AraÃºjo,99.15073,-45.263195
+InterfaceUtilizador:u68,Pedro GonÃ§alo dos Santos Pires Pinheiro,-71.837296,-29.223396
+InterfaceUtilizador:u81,Rui Pedro Neto Reis,-67.93489,99.649734
 InterfaceVoluntario:v20,JoÃ£o Pedro Gomes Coelho,-88.56778,-1.4521866,1.0
 InterfaceVoluntario:v73,Rui Pedro Gomes Coelho,-45.424522,-79.517136,15.0
 InterfaceVoluntario:v69,Pedro Miguel da Silva Paiva AntÃ³nio,-3.4494247,78.96666,164.0

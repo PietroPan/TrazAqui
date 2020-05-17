@@ -1,19 +1,15 @@
 
 /**
- * Write a description of class EncomendasAceites here.
+ * Write a description of class InterfaceEncomendasAceites here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public class EncomendasAceites
-{
+public class EncomendasAceites implements InterfaceEncomendasAceites {
     private Set<String> codEncomendas;
 
     public EncomendasAceites()
@@ -25,39 +21,46 @@ public class EncomendasAceites
         this.codEncomendas= new HashSet<>(codEncomendas);
     }
     
-    public EncomendasAceites(EncomendasAceites c){
+    public EncomendasAceites(InterfaceEncomendasAceites c){
         this.codEncomendas= new HashSet<>(c.getCodEncomendas());
     }
     
+    @Override
     public void setCodEncomendas(Set<String> codEncomendas){
         this.codEncomendas= new HashSet<>(codEncomendas);
     }
     
+    @Override
     public Set<String> getCodEncomendas(){
         return new HashSet<>(this.codEncomendas);
     }
     
+    @Override
     public boolean equals(Object obj) {
         if(obj==this) return true;
         if(obj==null || obj.getClass() != this.getClass()) return false;
-        EncomendasAceites encsA = (EncomendasAceites)obj;
+        InterfaceEncomendasAceites encsA = (InterfaceEncomendasAceites)obj;
         return encsA.getCodEncomendas().equals(this.codEncomendas);
     }
     
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Codigos de Encomendas: ").append(this.codEncomendas);
         return sb.toString();
     }
     
-    public EncomendasAceites clone(){
+    @Override
+    public InterfaceEncomendasAceites clone(){
         return new EncomendasAceites(this);
     }
 
-    public boolean existe (String id) {
+    @Override
+    public boolean existe(String id) {
         return this.codEncomendas.contains(id);
     }
 
+    @Override
     public void add(String e) {
         this.codEncomendas.add(e);
     }

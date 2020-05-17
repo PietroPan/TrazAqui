@@ -47,11 +47,11 @@ public class Menu
         switch (beg) {
             case ('u') :
                 try {
-                Utilizador u = this.info.getUser(cod);
+                InterfaceUtilizador u = this.info.getUser(cod);
                 r= u!=null && password.equals(u.getPassword());
                 }
                 catch (UtilizadorInexistenteException d) {
-                    p.naoRegistado("Utilizador");
+                    p.naoRegistado("InterfaceUtilizador");
                     return false;
                 }
                 break;
@@ -86,7 +86,7 @@ public class Menu
 
     public String initUser() {
         Scanner read= new Scanner(System.in);
-        Utilizador user;
+        InterfaceUtilizador user;
         p.askUserCod();
         String userCod = read.nextLine();
         p.askUserName();

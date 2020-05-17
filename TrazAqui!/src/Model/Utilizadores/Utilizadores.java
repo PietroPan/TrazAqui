@@ -1,50 +1,54 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class Utilizadores {
-    private Map<String,Utilizador> users;
+public class Utilizadores implements InterfaceUtilizadores {
+    private Map<String, InterfaceUtilizador> users;
 
     public Utilizadores() {
         users=new HashMap<>();
     }
 
-    public Utilizadores(Utilizadores users) {
+    public Utilizadores(InterfaceUtilizadores users) {
         this.users = users.getUsers();
     }
 
-    public Map<String, Utilizador> getUsers() {
-        Map<String,Utilizador> res = new HashMap<>();
-        for (Map.Entry<String, Utilizador> e : users.entrySet()) {
+    @Override
+    public Map<String, InterfaceUtilizador> getUsers() {
+        Map<String, InterfaceUtilizador> res = new HashMap<>();
+        for (Map.Entry<String, InterfaceUtilizador> e : users.entrySet()) {
             res.put(e.getKey(),e.getValue().clone());
         }
         return res;
     }
 
-    public void setUsers(Map<String, Utilizador> users) {
+    @Override
+    public void setUsers(Map<String, InterfaceUtilizador> users) {
         this.users = new HashMap<>();
-        for (Map.Entry<String,Utilizador> e : users.entrySet()) {
+        for (Map.Entry<String, InterfaceUtilizador> e : users.entrySet()) {
             this.users.put(e.getKey(),e.getValue().clone());
         }
     }
 
-    public Utilizador getUser(String cod) throws UtilizadorInexistenteException {
+    @Override
+    public InterfaceUtilizador getUser(String cod) throws UtilizadorInexistenteException {
         if (users.containsKey(cod))
             return users.get(cod).clone();
         else
-            throw new UtilizadorInexistenteException("Utilizador não registado");
+            throw new UtilizadorInexistenteException("InterfaceUtilizador não registado");
     }
 
-    public void addUser(Utilizador u) {
+    @Override
+    public void addUser(InterfaceUtilizador u) {
         users.put(u.getCodigo(),u.clone());
     }
 
-    public void addMessageToUser(String cod,String message) {
+    @Override
+    public void addMessageToUser(String cod, String message) {
         this.users.get(cod).addMessage(message);
     }
 
+    @Override
     public void resetMessages(String cod) {
         this.users.get(cod).setMessages(new ArrayList<>());
     }

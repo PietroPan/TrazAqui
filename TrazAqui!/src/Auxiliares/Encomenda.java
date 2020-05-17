@@ -134,7 +134,7 @@ public class Encomenda implements InterfaceEncomenda {
         StringBuilder s = new StringBuilder();
         s.append("Codigo de Encomenda: ").append(this.codEncomenda)
         .append("\nĨnterfaceLoja de Origem: ").append(this.lojaOrigem)
-        .append("\nUtilizador de Destino: ").append(this.userDestino)
+        .append("\nInterfaceUtilizador de Destino: ").append(this.userDestino)
         .append("\nEncomenda Médica: ").append(this.medical)
         .append("\nPeso(Kgs): ").append(this.peso)
         .append("\nPedido: ").append(this.pedido.toString());

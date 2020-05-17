@@ -20,7 +20,7 @@ public class Printer
 
     /*Questions*/
     public void askUserCod() {
-        System.out.println("Insira o seu Codigo de Utilizador:");
+        System.out.println("Insira o seu Codigo de InterfaceUtilizador:");
     }
 
     public void askCod() {
@@ -35,7 +35,7 @@ public class Printer
     }
 
     public void askUserName() {
-        System.out.println("Insira o seu Nome de Utilizador:");
+        System.out.println("Insira o seu Nome de InterfaceUtilizador:");
     }
     
     public void askBalance() {
@@ -122,7 +122,7 @@ public class Printer
     /*Menu prints*/
 
     public void showLoginOptions() {
-        System.out.println("1.Sou um Utilizador" +
+        System.out.println("1.Sou um InterfaceUtilizador" +
                             "\n2.Sou um InterfaceVoluntario" +
                             "\n3.Sou uma InterfaceTransportadora"+
                             "\n4.Sou uma ĨnterfaceLoja" +
