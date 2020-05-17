@@ -176,8 +176,8 @@ public class Menu implements InterfaceMenu {
             p.askNew();
             String option = read.nextLine().toUpperCase();
             if (option.equals("S")) {
-                p.showLoginOptions();
                 while (i<1 || i>4) {
+                    p.showLoginOptions();
                     try {
                         i = Integer.parseInt(read.nextLine());
                     }
@@ -198,10 +198,12 @@ public class Menu implements InterfaceMenu {
                             cod = initLoja();
                             break;
                         default:
+                            p.invalid("Opção");
                             break;
                     }
-                    p.showLoginOptions();
                 }
+                p.showObrigado();
+                break;
             }
             else {
                 p.askCod();

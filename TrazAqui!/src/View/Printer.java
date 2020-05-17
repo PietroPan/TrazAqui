@@ -148,6 +148,10 @@ public class Printer
         System.out.println("Obrigado por escolher TrazAqui!" +
                             "\nEsperamos que tenha gostado");
     }
+
+    public void showObrigado() {
+        System.out.println("Obrigado por se juntar a TrazAqui!");
+    }
     /*Exceptions*/
 
     public void exception(String s) {
