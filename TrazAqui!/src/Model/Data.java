@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 public class Data
 {
     Utilizadores users;
-    Lojas lojas;
+    InterfaceLojas lojas;
     InterfaceEntregadores entregadores;
     EncomendasAceites aceites;
     
@@ -42,11 +42,11 @@ public class Data
         this.entregadores.setEntregador(e.getCodigo(),e.clone());
     }
 
-    public Loja getLoja(String cod) throws LojaInexistenteException {
+    public ĨnterfaceLoja getLoja(String cod) throws LojaInexistenteException {
         return this.lojas.getLoja(cod);
     }
 
-    public void addLoja(Loja l) {
+    public void addLoja(ĨnterfaceLoja l) {
         this.lojas.setLoja(l.getCodigo(),l);
     }
 
@@ -74,9 +74,9 @@ public class Data
                     InterfaceTransportadora t = new Transportadora(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[5]),tokens[4],Double.parseDouble(tokens[6]),r.nextDouble()%5,r.nextBoolean(),(float)(Math.round((r.nextFloat()+20)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),r.nextInt(),new ArrayList<InterfaceEncomenda>(),new ArrayList<InterfaceEncomenda>());
                     this.entregadores.setEntregador(tokens[0],t);
                break;
-               case ("Loja") :
+               case ("ĨnterfaceLoja") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    Loja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>());
+                    ĨnterfaceLoja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>());
                     this.lojas.setLoja(tokens[0],l);
                break;
                case ("Encomenda") :
@@ -107,7 +107,7 @@ public class Data
         String r="n/a";
         InterfaceVoluntario v = new Voluntario();
         InterfaceEncomenda encomenda=getEncomenda(enc);
-        Loja l=lojas.getLoja(encomenda.getOrigem());
+        ĨnterfaceLoja l=lojas.getLoja(encomenda.getOrigem());
         double tempoMin=-1,tempoAux;
         for (InterfaceEntregador e : this.entregadores.getEntregadores().values()) {
             if (e.getClass().equals(v.getClass()) && e.hasRoomAndMed(getEncomenda(enc).getMedical())) {
@@ -135,7 +135,7 @@ public class Data
 
    public InterfaceEncomenda getEncomenda(String id) {
         InterfaceEncomenda r;
-        for (Loja l : this.lojas.getLojas().values()) {
+        for (ĨnterfaceLoja l : this.lojas.getLojas().values()) {
             if((r=l.getEncomenda(id))!=null)
                     return r;
         }
@@ -155,7 +155,7 @@ public class Data
        double tempoEst;
        double timeWaiting;
        InterfaceEncomenda en =getEncomenda(id);
-       Loja l =this.lojas.getLoja(en.getOrigem());
+       ĨnterfaceLoja l =this.lojas.getLoja(en.getOrigem());
        r=l.getTamFila();
        timeWaiting=r*l.getTempoAtendimento();
        for (InterfaceEntregador e : this.entregadores.getEntregadores().values()) {

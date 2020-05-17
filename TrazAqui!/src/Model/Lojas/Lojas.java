@@ -1,38 +1,42 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class Lojas {
-    private Map<String,Loja> lojas;
+public class Lojas implements InterfaceLojas {
+    private Map<String, ĨnterfaceLoja> lojas;
 
     public Lojas() {
         lojas=new HashMap<>();
     }
 
-    public Lojas(Lojas lojas) {
+    public Lojas(InterfaceLojas lojas) {
         this.lojas = lojas.getLojas();
     }
-    public Map<String, Loja> getLojas() {
-        Map<String,Loja> res = new HashMap<>();
-        for (Map.Entry<String, Loja> e : lojas.entrySet()) {
+    @Override
+    public Map<String, ĨnterfaceLoja> getLojas() {
+        Map<String, ĨnterfaceLoja> res = new HashMap<>();
+        for (Map.Entry<String, ĨnterfaceLoja> e : lojas.entrySet()) {
             res.put(e.getKey(),e.getValue().clone());
         }
         return res;
     }
 
-    public void setLojas(Map<String,Loja> lojas) {
+    @Override
+    public void setLojas(Map<String, ĨnterfaceLoja> lojas) {
         this.lojas = new HashMap<>();
-        for (Map.Entry<String,Loja> e : lojas.entrySet()) {
+        for (Map.Entry<String, ĨnterfaceLoja> e : lojas.entrySet()) {
             this.lojas.put(e.getKey(),e.getValue().clone());
         }
     }
 
-    public Loja getLoja(String e) throws LojaInexistenteException {
+    @Override
+    public ĨnterfaceLoja getLoja(String e) throws LojaInexistenteException {
         if (this.lojas.containsKey(e))
             return this.lojas.get(e).clone();
-        else throw new LojaInexistenteException("Loja inexistente");
+        else throw new LojaInexistenteException("ĨnterfaceLoja inexistente");
     }
 
-    public void setLoja(String s,Loja l) {
+    @Override
+    public void setLoja(String s, ĨnterfaceLoja l) {
         this.lojas.put(s,l.clone());
     }
 
@@ -41,14 +45,17 @@ public class Lojas {
         return "Lojas=" + lojas.toString();
     }
 
+    @Override
     public void addEncomenda(String s, InterfaceEncomenda e) {
         lojas.get(s).addPronta(e);
     }
 
-    public void removeReady(String s,String e) {
+    @Override
+    public void removeReady(String s, String e) {
         lojas.get(s).removeReady(e);
     }
 
+    @Override
     public void addPronta(InterfaceEncomenda e) {
         lojas.get(e.getOrigem()).addPronta(e);
     }

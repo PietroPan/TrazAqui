@@ -24,7 +24,7 @@ public class Encomenda implements InterfaceEncomenda {
         this.codEncomenda="Encomenda Standard";
         this.medical=false;
         this.peso=0;
-        this.lojaOrigem="Loja Standard";
+        this.lojaOrigem="ĨnterfaceLoja Standard";
         this.userDestino="User Standard";
         this.pedido=new ArrayList<>();
         this.dataEntrega= LocalDateTime.now();
@@ -133,7 +133,7 @@ public class Encomenda implements InterfaceEncomenda {
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append("Codigo de Encomenda: ").append(this.codEncomenda)
-        .append("\nLoja de Origem: ").append(this.lojaOrigem)
+        .append("\nĨnterfaceLoja de Origem: ").append(this.lojaOrigem)
         .append("\nUtilizador de Destino: ").append(this.userDestino)
         .append("\nEncomenda Médica: ").append(this.medical)
         .append("\nPeso(Kgs): ").append(this.peso)

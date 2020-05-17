@@ -57,11 +57,11 @@ public class Menu
                 break;
             case ('l'):
                 try {
-                Loja l = this.info.getLoja(cod);
+                ĨnterfaceLoja l = this.info.getLoja(cod);
                 r= l!=null && password.equals(l.getPassword());
                 }
                 catch (LojaInexistenteException d) {
-                    p.naoRegistado("Loja");
+                    p.naoRegistado("ĨnterfaceLoja");
                     return false;
                 }
                 break;

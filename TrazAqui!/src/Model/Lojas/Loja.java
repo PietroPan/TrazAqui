@@ -1,6 +1,6 @@
 
 /**
- * Escreva a descrição da classe Loja aqui.
+ * Escreva a descrição da classe ĨnterfaceLoja aqui.
  * 
  * @author (seu nome) 
  * @version (número de versão ou data)
@@ -9,15 +9,14 @@
 import java.util.*;
 import java.awt.geom.Point2D;
 
-public class Loja extends BasicInfo
-{
+public class Loja extends BasicInfo implements ĨnterfaceLoja {
    private int tamanhoFila;
    private float tempoAtendimento;
    private Map<String, InterfaceEncomenda> pedidosProntos;
    
    public Loja() {
        this.setCodigo("n/a");
-       this.setNome("Loja Standard");
+       this.setNome("ĨnterfaceLoja Standard");
        this.setPosicao(new Point2D.Double(0,0));
        this.setPassword("n/a");
        this.tamanhoFila = 0;
@@ -25,7 +24,7 @@ public class Loja extends BasicInfo
        this.pedidosProntos=new HashMap<>();
    }
    
-   public Loja(String codLoja,String nome,Point2D pos,String password,int tF,float tA,Map<String, InterfaceEncomenda> lE) {
+   public Loja(String codLoja, String nome, Point2D pos, String password, int tF, float tA, Map<String, InterfaceEncomenda> lE) {
        this.setCodigo(codLoja);
        this.setNome(nome);
        this.setPosicao((Point2D)pos.clone());
@@ -38,7 +37,7 @@ public class Loja extends BasicInfo
        }
    }
    
-   public Loja(Loja l) {
+   public Loja(ĨnterfaceLoja l) {
        this.setCodigo(l.getCodigo());
        this.setNome(l.getNome());
        this.setPosicao((Point2D)l.getPosicao().clone());
@@ -51,20 +50,24 @@ public class Loja extends BasicInfo
        }
    }
    
+   @Override
    public void setTamFila(int tF) {
        this.tamanhoFila=tF;
    }
    
+   @Override
    public void setTempoAtendimento(float t) {
        this.tempoAtendimento=t;
    }
    
+   @Override
    public void setPedidos(Map<String, InterfaceEncomenda> lE) {
        for (Map.Entry<String, InterfaceEncomenda> entry : lE.entrySet()) {
            this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
        }
    }
    
+   @Override
    public int getTamFila() {
        Random r =new Random();
        if (this.tamanhoFila==-1)
@@ -72,10 +75,12 @@ public class Loja extends BasicInfo
        return this.tamanhoFila;
    }
    
+   @Override
    public float getTempoAtendimento() {
        return this.tempoAtendimento;
    }
    
+   @Override
    public Map<String, InterfaceEncomenda> getPedidos() {
        Map<String, InterfaceEncomenda> m=new HashMap<>();
        for (Map.Entry<String, InterfaceEncomenda> entry : this.pedidosProntos.entrySet()) {
@@ -84,10 +89,11 @@ public class Loja extends BasicInfo
        return m;
    }
    
+   @Override
    public String toString() {
        StringBuilder s = new StringBuilder();
-       s.append("Codigo de Loja: ").append(this.getCodigo())
-       .append("\nNome da Loja: ").append(this.getNome())
+       s.append("Codigo de ĨnterfaceLoja: ").append(this.getCodigo())
+       .append("\nNome da ĨnterfaceLoja: ").append(this.getNome())
        .append("\nPosiçao: ").append(this.getPosicao().getX()).append(",").append(this.getPosicao().getY()).append(")")
        .append("\nTamanho da Fila: ").append(this.tamanhoFila)
        .append("\nTempo de Atendimento: ").append(this.tempoAtendimento)
@@ -95,23 +101,28 @@ public class Loja extends BasicInfo
        return s.toString();
    }
    
+   @Override
    public boolean equals(Object loja) {
-       Loja l;
+       ĨnterfaceLoja l;
        if (loja==null || loja.getClass()==this.getClass()) return false;
-       l=(Loja)loja;
+       l=(ĨnterfaceLoja)loja;
        return l.getCodigo().equals(this.getCodigo());
    }
    
-   public Loja clone() {
+   @Override
+   public ĨnterfaceLoja clone() {
        return new Loja(this);
    }
    
+   @Override
    public void addPronta(InterfaceEncomenda e) {
 	   this.pedidosProntos.put(e.getCodEncomenda(),e.clone());
    }
 
+   @Override
    public InterfaceEncomenda getEncomenda(String id) {return this.pedidosProntos.get(id);}
 
+   @Override
    public void removeReady(String cod) {
        this.pedidosProntos.remove(cod);
    }

@@ -55,7 +55,7 @@ public class Printer
     }
 
     public void askLojaID() {
-        System.out.println("Insira o código da Loja: ");
+        System.out.println("Insira o código da ĨnterfaceLoja: ");
     }
 
     public void askMedical() {
@@ -125,7 +125,7 @@ public class Printer
         System.out.println("1.Sou um Utilizador" +
                             "\n2.Sou um InterfaceVoluntario" +
                             "\n3.Sou uma InterfaceTransportadora"+
-                            "\n4.Sou uma Loja" +
+                            "\n4.Sou uma ĨnterfaceLoja" +
                             "\n0.Sair");
     }
 
