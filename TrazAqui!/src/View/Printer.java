@@ -27,7 +27,7 @@ public class Printer
         System.out.println("Insira o seu Código:");
     }
     public void askNew() {
-        System.out.println("Não faz parte da nossa Database deseja adiciona-lo?(S/s) ou(N/n)");
+        System.out.println("Quer fazer parte da TrazAqui!?(S/s) ou(N/n)");
     }
 
     public void askPassword() {
@@ -149,6 +149,11 @@ public class Printer
                             "\nEsperamos que tenha gostado");
     }
     /*Exceptions*/
+
+    public void exception(String s) {
+        System.out.println(s);
+    }
+
     public void fileNotFound() {
         System.out.println("Ficheiro não encontrado");
     }
@@ -159,6 +164,10 @@ public class Printer
 
     public void nadaAApresentar() {
         System.out.println("Nada a Apresentar");
+    }
+
+    public void naoRegistado(String v) {
+        System.out.println(v + " não registado");
     }
 
     /*Apresenta Resultados*/

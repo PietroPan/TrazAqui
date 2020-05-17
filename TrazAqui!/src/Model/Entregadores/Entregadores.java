@@ -27,8 +27,11 @@ public class Entregadores {
         }
     }
 
-    public Entregador getEntregador(String e) {
-        return this.entregadores.get(e).clone();
+    public Entregador getEntregador(String e) throws EntregadorInexistenteException {
+        if (this.entregadores.containsKey(e))
+            return this.entregadores.get(e).clone();
+        else
+            throw new EntregadorInexistenteException("Entregador inexistente");
     }
 
     public void setEntregador(String s,Entregador e) {

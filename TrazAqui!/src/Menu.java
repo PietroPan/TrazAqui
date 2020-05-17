@@ -43,19 +43,43 @@ public class Menu
 
     public boolean login (String cod,String password) {
         boolean r;
+        if (cod.length()==0) return false;
         char beg =cod.charAt(0);
         switch (beg) {
             case ('u') :
+                try {
                 Utilizador u = this.info.getUser(cod);
                 r= u!=null && password.equals(u.getPassword());
+                }
+                catch (UtilizadorInexistenteException d) {
+                    p.naoRegistado("Utilizador");
+                    return false;
+                }
                 break;
             case ('l'):
+                try {
                 Loja l = this.info.getLoja(cod);
                 r= l!=null && password.equals(l.getPassword());
+                }
+                catch (LojaInexistenteException d) {
+                    p.naoRegistado("Loja");
+                    return false;
+                }
+                break;
+            case ('v'):
+            case ('t'):
+                try {
+                    Entregador e = this.info.getEntregador(cod);
+                    r= e!=null && password.equals(e.getPassword());
+                }
+                catch (EntregadorInexistenteException d) {
+                    p.naoRegistado("Entregador");
+                    r=false;
+                }
                 break;
             default:
-                Entregador e = this.info.getEntregador(cod);
-                r= e!=null && password.equals(e.getPassword());
+                p.invalid("Código de acesso");
+                r=false;
                 break;
         }
         return r;
@@ -139,6 +163,7 @@ public class Menu
 
     public String init() {
         Scanner read = new Scanner(System.in);
+        int i=0;
         p.askCod();
         String cod=read.nextLine();
         p.askPassword();
@@ -148,20 +173,30 @@ public class Menu
             String option = read.nextLine().toUpperCase();
             if (option.equals("S")) {
                 p.showLoginOptions();
-                int i = Integer.parseInt(read.nextLine());
-                switch (i) {
-                    case (1):
-                        cod=initUser();
-                        break;
-                    case(4):
-                        cod=initLoja();
-                        break;
-                    case(2):
-                        cod=initEntregador(1);
-                        break;
-                    case(3):
-                        cod=initEntregador(0);
-                        break;
+                while (i<1 || i>4) {
+                    try {
+                        i = Integer.parseInt(read.nextLine());
+                    }
+                    catch (NumberFormatException f) {
+                        p.invalid("Input");
+                    }
+                    switch (i) {
+                        case (1):
+                            cod = initUser();
+                            break;
+                        case (2):
+                            cod = initEntregador(1);
+                            break;
+                        case (3):
+                            cod = initEntregador(0);
+                            break;
+                        case (4):
+                            cod = initLoja();
+                            break;
+                        default:
+                            break;
+                    }
+                    p.showLoginOptions();
                 }
             }
             else {
@@ -174,7 +209,7 @@ public class Menu
         return cod;
     }
 
-    public int menuUser() {
+    public int menuUser() throws UtilizadorInexistenteException, LojaInexistenteException {
         Random rand = new Random();
         String id,idVoluntario,opcao;
         p.apresentaUnreadMessages(this.info.getUser(codUser).getMessages());
@@ -284,7 +319,7 @@ public class Menu
         return 0;
     }
 
-    public int menuVoluntario() {
+    public int menuVoluntario() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
         p.showVoluntarioOptions();
@@ -306,6 +341,7 @@ public class Menu
                     p.invalid("Opção");
                     break;
             }
+            p.showVoluntarioOptions();
         }
         return 0;
     }
@@ -332,10 +368,20 @@ public class Menu
             codUser = init();
             switch (codUser.charAt(0)) {
                 case ('u'):
-                    r=menuUser();
+                    try {
+                        r=menuUser();
+                    }
+                    catch (UtilizadorInexistenteException | LojaInexistenteException u) {
+                        p.exception(u.getLocalizedMessage());
+                    }
                     break;
                 case ('v'):
-                    r=menuVoluntario();
+                    try {
+                        r = menuVoluntario();
+                    }
+                    catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
+                        p.exception(e.getLocalizedMessage());
+                    }
                     break;
                 case ('t'):
                     r=menuTransportadora();

@@ -30,8 +30,11 @@ public class Utilizadores {
         }
     }
 
-    public Utilizador getUser(String cod) {
-        return users.get(cod).clone();
+    public Utilizador getUser(String cod) throws UtilizadorInexistenteException {
+        if (users.containsKey(cod))
+            return users.get(cod).clone();
+        else
+            throw new UtilizadorInexistenteException("Utilizador não registado");
     }
 
     public void addUser(Utilizador u) {

@@ -28,7 +28,7 @@ public class Data
      this.aceites=new EncomendasAceites();
     }
 
-    public Utilizador getUser(String cod) {
+    public Utilizador getUser(String cod) throws UtilizadorInexistenteException {
         return users.getUser(cod);
     }
 
@@ -36,7 +36,7 @@ public class Data
         this.users.addUser(u);
     }
 
-    public Entregador getEntregador(String cod) {
+    public Entregador getEntregador(String cod) throws EntregadorInexistenteException {
         return this.entregadores.getEntregador(cod);
     }
 
@@ -44,7 +44,7 @@ public class Data
         this.entregadores.setEntregador(e.getCodigo(),e.clone());
     }
 
-    public Loja getLoja(String cod) {
+    public Loja getLoja(String cod) throws LojaInexistenteException {
         return this.lojas.getLoja(cod);
     }
 
@@ -105,7 +105,7 @@ public class Data
         return this.aceites.existe(id) && a.getDestino().equals(user);
    }
 
-   public String voluntarioAvailable(String enc) {
+   public String voluntarioAvailable(String enc) throws UtilizadorInexistenteException, LojaInexistenteException {
         String r="n/a";
         Voluntario v = new Voluntario();
         Encomenda encomenda=getEncomenda(enc);
@@ -150,7 +150,7 @@ public class Data
        return d;
    }
 
-   public Set<String[]> getEntregadoresDisp(String id) {
+   public Set<String[]> getEntregadoresDisp(String id) throws UtilizadorInexistenteException, LojaInexistenteException {
        Set<String[]> setOpcoes=new HashSet<>();
        int r;
        double preco;
@@ -181,7 +181,7 @@ public class Data
         this.lojas.addPronta(e);
     }
 
-    public void classifica(Set<Map.Entry<Boolean,String>> encomendasID,String eID,String codUser,float c) {
+    public void classifica(Set<Map.Entry<Boolean,String>> encomendasID,String eID,String codUser,float c) throws UtilizadorInexistenteException {
         Map.Entry<Boolean,String> encomendaAclassificar = new AbstractMap.SimpleEntry<>(false,eID);
         encomendasID.remove(encomendaAclassificar);
         encomendasID.add(new AbstractMap.SimpleEntry<>(true,eID));
@@ -194,7 +194,7 @@ public class Data
 
     //Menu de Voluntario
 
-    public List<String> getVoluntarioRequests(String cod) {
+    public List<String> getVoluntarioRequests(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         List<String> ls = new ArrayList<>();
         Voluntario v =(Voluntario) this.entregadores.getEntregador(cod);
         List<String> pedidoIDs =v.getPedidos();
@@ -205,13 +205,13 @@ public class Data
         return ls;
     }
 
-    public double getTempoEsperado(String idEntregador,String idEnc) {
+    public double getTempoEsperado(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException {
         Entregador e = getEntregador(idEntregador);
         Encomenda enc = getEncomenda(idEnc);
         return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),lojas.getLoja(enc.getDestino()).getPosicao()) / e.getVelocidade();
     }
 
-    public void denyAll(String cod) {
+    public void denyAll(String cod) throws EntregadorInexistenteException {
         for (String s : ((Voluntario)this.entregadores.getEntregador(cod)).getPedidos()) {
             Encomenda e = getEncomenda(s);
             this.users.addMessageToUser(e.getDestino(),"Encomenda "+s+" não foi aceite pelo Voluntario "+cod);

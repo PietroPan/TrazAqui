@@ -26,8 +26,10 @@ public class Lojas {
         }
     }
 
-    public Loja getLoja(String e) {
-        return this.lojas.get(e).clone();
+    public Loja getLoja(String e) throws LojaInexistenteException {
+        if (this.lojas.containsKey(e))
+            return this.lojas.get(e).clone();
+        else throw new LojaInexistenteException("Loja inexistente");
     }
 
     public void setLoja(String s,Loja l) {
