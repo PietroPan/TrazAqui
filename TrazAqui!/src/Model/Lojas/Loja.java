@@ -1,6 +1,6 @@
 
 /**
- * Escreva a descrição da classe ĨnterfaceLoja aqui.
+ * Escreva a descrição da classe InterfaceLoja aqui.
  * 
  * @author (seu nome) 
  * @version (número de versão ou data)
@@ -9,14 +9,14 @@
 import java.util.*;
 import java.awt.geom.Point2D;
 
-public class Loja extends BasicInfo implements ĨnterfaceLoja {
+public class Loja extends BasicInfo implements InterfaceLoja {
    private int tamanhoFila;
    private float tempoAtendimento;
    private Map<String, InterfaceEncomenda> pedidosProntos;
    
    public Loja() {
        this.setCodigo("n/a");
-       this.setNome("ĨnterfaceLoja Standard");
+       this.setNome("InterfaceLoja Standard");
        this.setPosicao(new Point2D.Double(0,0));
        this.setPassword("n/a");
        this.tamanhoFila = 0;
@@ -37,7 +37,7 @@ public class Loja extends BasicInfo implements ĨnterfaceLoja {
        }
    }
    
-   public Loja(ĨnterfaceLoja l) {
+   public Loja(InterfaceLoja l) {
        this.setCodigo(l.getCodigo());
        this.setNome(l.getNome());
        this.setPosicao((Point2D)l.getPosicao().clone());
@@ -92,8 +92,8 @@ public class Loja extends BasicInfo implements ĨnterfaceLoja {
    @Override
    public String toString() {
        StringBuilder s = new StringBuilder();
-       s.append("Codigo de ĨnterfaceLoja: ").append(this.getCodigo())
-       .append("\nNome da ĨnterfaceLoja: ").append(this.getNome())
+       s.append("Codigo de InterfaceLoja: ").append(this.getCodigo())
+       .append("\nNome da InterfaceLoja: ").append(this.getNome())
        .append("\nPosiçao: ").append(this.getPosicao().getX()).append(",").append(this.getPosicao().getY()).append(")")
        .append("\nTamanho da Fila: ").append(this.tamanhoFila)
        .append("\nTempo de Atendimento: ").append(this.tempoAtendimento)
@@ -103,14 +103,14 @@ public class Loja extends BasicInfo implements ĨnterfaceLoja {
    
    @Override
    public boolean equals(Object loja) {
-       ĨnterfaceLoja l;
+       InterfaceLoja l;
        if (loja==null || loja.getClass()==this.getClass()) return false;
-       l=(ĨnterfaceLoja)loja;
+       l=(InterfaceLoja)loja;
        return l.getCodigo().equals(this.getCodigo());
    }
    
    @Override
-   public ĨnterfaceLoja clone() {
+   public InterfaceLoja clone() {
        return new Loja(this);
    }
    

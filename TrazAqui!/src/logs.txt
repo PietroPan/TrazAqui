@@ -18,11 +18,11 @@ InterfaceTransportadora:t24,TORRESTIR TRANSITÃRIOS LDA,74.59796,12.1732025,88
 InterfaceTransportadora:t51,SÃBIA ATITUDE - CONSTRUÃ‡Ã•ES,-39.519154,8.964966,455159118,167.0,3.5
 InterfaceTransportadora:t31,ZENITHINDEX,31.47522,76.58536,599618020,192.0,1.5
 InterfaceTransportadora:t9,TORRESTIR TRANSITÃRIOS LDA,-9.798416,29.869064,923953011,128.0,1.5
-ĨnterfaceLoja:l29,TV e TelecomunicaÃ§Ãµes,39.627502,33.60112
-ĨnterfaceLoja:l58,Primark,78.73474,66.239685
-ĨnterfaceLoja:l8,Punt Roma,57.339508,-86.066315
-ĨnterfaceLoja:l83,ColchaoNet.com,95.71132,-57.792557
-ĨnterfaceLoja:l13,LA Kids & Junior,-27.339592,-54.781532
+InterfaceLoja:l29,TV e TelecomunicaÃ§Ãµes,39.627502,33.60112
+InterfaceLoja:l58,Primark,78.73474,66.239685
+InterfaceLoja:l8,Punt Roma,57.339508,-86.066315
+InterfaceLoja:l83,ColchaoNet.com,95.71132,-57.792557
+InterfaceLoja:l13,LA Kids & Junior,-27.339592,-54.781532
 Encomenda:e6813,u81,l8,77.31938,p34,Farinha de trigo,2.2728467,5.5159483,p40,Molho de pimenta,1.6600878,42.014664,p4,Detergente,9.424281,8.621707,p60,Banana,2.2497952,9.522067,p49,Leite condensado,5.5749025,0.8051496,p21,Leite integral litro,7.543862,20.61575,p17,Saco de lixo 50l,5.0960507,44.77305,p19,Sumo garrafa 1l,6.0144415,43.476116,p53,Batata,3.306492,38.945602,p48,Creme de leite,2.444421,17.503843,p61,Ovos,1.4774193,15.0444355,p13,Tira manchas,6.2518024,25.874397,p41,Ervilha,4.591317,30.43119,p56,Beterraba,5.814199,2.5673974,p33,Farofa pronta,4.687167,1.8703786,p20,Sumo caixa 500ml,9.236412,42.498604,p16,Saco de lixo 30l,2.5450313,31.850492
 Encomenda:e3319,u40,l83,95.51941,p76,Peixe,3.5041742,35.820896,p25,Macarrao,6.441414,12.5604105,p11,Desinfetante,4.3322487,9.954618,p77,Frango,8.605059,33.094822,p36,Farinha de mandioca,8.498911,14.619806,p33,Farofa pronta,2.9854317,23.440195,p59,Espinafre,7.380988,7.974126,p41,Ervilha,3.7562246,31.93044
 Encomenda:e8476,u78,l83,41.95459,p34,Farinha de trigo,9.4330015,26.366282,p68,Cebola,7.620193,44.269226,p33,Farofa pronta,5.805751,16.996069,p7,Sabao em pedra,6.4082794,14.922269,p11,Desinfetante,3.6653197,2.1354694,p74,Iogurte,2.932383,37.379745,p79,Carne seca,1.6444292,22.794754,p25,Macarrao,3.8297682,23.282433

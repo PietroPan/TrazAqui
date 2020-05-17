@@ -1,13 +1,13 @@
 import java.util.Map;
 
 public interface InterfaceLojas {
-    Map<String, ĨnterfaceLoja> getLojas();
+    Map<String, InterfaceLoja> getLojas();
 
-    void setLojas(Map<String, ĨnterfaceLoja> lojas);
+    void setLojas(Map<String, InterfaceLoja> lojas);
 
-    ĨnterfaceLoja getLoja(String e) throws LojaInexistenteException;
+    InterfaceLoja getLoja(String e) throws LojaInexistenteException;
 
-    void setLoja(String s, ĨnterfaceLoja l);
+    void setLoja(String s, InterfaceLoja l);
 
     @Override
     String toString();

@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Lojas implements InterfaceLojas {
-    private Map<String, ĨnterfaceLoja> lojas;
+    private Map<String, InterfaceLoja> lojas;
 
     public Lojas() {
         lojas=new HashMap<>();
@@ -12,31 +12,31 @@ public class Lojas implements InterfaceLojas {
         this.lojas = lojas.getLojas();
     }
     @Override
-    public Map<String, ĨnterfaceLoja> getLojas() {
-        Map<String, ĨnterfaceLoja> res = new HashMap<>();
-        for (Map.Entry<String, ĨnterfaceLoja> e : lojas.entrySet()) {
+    public Map<String, InterfaceLoja> getLojas() {
+        Map<String, InterfaceLoja> res = new HashMap<>();
+        for (Map.Entry<String, InterfaceLoja> e : lojas.entrySet()) {
             res.put(e.getKey(),e.getValue().clone());
         }
         return res;
     }
 
     @Override
-    public void setLojas(Map<String, ĨnterfaceLoja> lojas) {
+    public void setLojas(Map<String, InterfaceLoja> lojas) {
         this.lojas = new HashMap<>();
-        for (Map.Entry<String, ĨnterfaceLoja> e : lojas.entrySet()) {
+        for (Map.Entry<String, InterfaceLoja> e : lojas.entrySet()) {
             this.lojas.put(e.getKey(),e.getValue().clone());
         }
     }
 
     @Override
-    public ĨnterfaceLoja getLoja(String e) throws LojaInexistenteException {
+    public InterfaceLoja getLoja(String e) throws LojaInexistenteException {
         if (this.lojas.containsKey(e))
             return this.lojas.get(e).clone();
-        else throw new LojaInexistenteException("ĨnterfaceLoja inexistente");
+        else throw new LojaInexistenteException("InterfaceLoja inexistente");
     }
 
     @Override
-    public void setLoja(String s, ĨnterfaceLoja l) {
+    public void setLoja(String s, InterfaceLoja l) {
         this.lojas.put(s,l.clone());
     }
 

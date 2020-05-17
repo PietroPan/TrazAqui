@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public interface ĨnterfaceLoja extends InterfaceBasicInfo {
+public interface InterfaceLoja extends InterfaceBasicInfo {
     void setTamFila(int tF);
 
     void setTempoAtendimento(float t);
@@ -17,7 +17,7 @@ public interface ĨnterfaceLoja extends InterfaceBasicInfo {
 
     boolean equals(Object loja);
 
-    ĨnterfaceLoja clone();
+    InterfaceLoja clone();
 
     void addPronta(InterfaceEncomenda e);
 

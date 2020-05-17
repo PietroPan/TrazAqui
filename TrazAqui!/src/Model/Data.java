@@ -42,11 +42,11 @@ public class Data implements InterfaceData
         this.entregadores.setEntregador(e.getCodigo(),e.clone());
     }
 
-    @Override public ĨnterfaceLoja getLoja(String cod) throws LojaInexistenteException {
+    @Override public InterfaceLoja getLoja(String cod) throws LojaInexistenteException {
         return this.lojas.getLoja(cod);
     }
 
-    @Override public void addLoja(ĨnterfaceLoja l) {
+    @Override public void addLoja(InterfaceLoja l) {
         this.lojas.setLoja(l.getCodigo(),l);
     }
 
@@ -74,9 +74,9 @@ public class Data implements InterfaceData
                     InterfaceTransportadora t = new Transportadora(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[5]),tokens[4],Double.parseDouble(tokens[6]),r.nextDouble()%5,r.nextBoolean(),(float)(Math.round((r.nextFloat()+20)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),r.nextInt(),new ArrayList<InterfaceEncomenda>(),new ArrayList<InterfaceEncomenda>());
                     this.entregadores.setEntregador(tokens[0],t);
                break;
-               case ("ĨnterfaceLoja") :
+               case ("InterfaceLoja") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    ĨnterfaceLoja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>());
+                    InterfaceLoja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>());
                     this.lojas.setLoja(tokens[0],l);
                break;
                case ("Encomenda") :
@@ -107,7 +107,7 @@ public class Data implements InterfaceData
         String r="n/a";
         InterfaceVoluntario v = new Voluntario();
         InterfaceEncomenda encomenda=getEncomenda(enc);
-        ĨnterfaceLoja l=lojas.getLoja(encomenda.getOrigem());
+        InterfaceLoja l=lojas.getLoja(encomenda.getOrigem());
         double tempoMin=-1,tempoAux;
         for (InterfaceEntregador e : this.entregadores.getEntregadores().values()) {
             if (e.getClass().equals(v.getClass()) && e.hasRoomAndMed(getEncomenda(enc).getMedical())) {
@@ -135,7 +135,7 @@ public class Data implements InterfaceData
 
    @Override public InterfaceEncomenda getEncomenda(String id) {
         InterfaceEncomenda r;
-        for (ĨnterfaceLoja l : this.lojas.getLojas().values()) {
+        for (InterfaceLoja l : this.lojas.getLojas().values()) {
             if((r=l.getEncomenda(id))!=null)
                     return r;
         }
@@ -155,7 +155,7 @@ public class Data implements InterfaceData
        double tempoEst;
        double timeWaiting;
        InterfaceEncomenda en =getEncomenda(id);
-       ĨnterfaceLoja l =this.lojas.getLoja(en.getOrigem());
+       InterfaceLoja l =this.lojas.getLoja(en.getOrigem());
        r=l.getTamFila();
        timeWaiting=r*l.getTempoAtendimento();
        for (InterfaceEntregador e : this.entregadores.getEntregadores().values()) {

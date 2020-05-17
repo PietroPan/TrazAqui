@@ -58,11 +58,11 @@ public class Menu implements InterfaceMenu {
                 break;
             case ('l'):
                 try {
-                ĨnterfaceLoja l = this.info.getLoja(cod);
+                InterfaceLoja l = this.info.getLoja(cod);
                 r= l!=null && password.equals(l.getPassword());
                 }
                 catch (LojaInexistenteException d) {
-                    p.naoRegistado("ĨnterfaceLoja");
+                    p.naoRegistado("InterfaceLoja");
                     return false;
                 }
                 break;

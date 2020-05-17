@@ -12,9 +12,9 @@ public interface InterfaceData {
 
     void addEntregador(InterfaceEntregador e);
 
-    ĨnterfaceLoja getLoja(String cod) throws LojaInexistenteException;
+    InterfaceLoja getLoja(String cod) throws LojaInexistenteException;
 
-    void addLoja(ĨnterfaceLoja l);
+    void addLoja(InterfaceLoja l);
 
     void readFile() throws java.io.IOException;
 

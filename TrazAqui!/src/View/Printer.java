@@ -20,7 +20,7 @@ public class Printer
 
     /*Questions*/
     public void askUserCod() {
-        System.out.println("Insira o seu Codigo de InterfaceUtilizador:");
+        System.out.println("Insira o seu Codigo de Utilizador:");
     }
 
     public void askCod() {
@@ -35,7 +35,7 @@ public class Printer
     }
 
     public void askUserName() {
-        System.out.println("Insira o seu Nome de InterfaceUtilizador:");
+        System.out.println("Insira o seu Nome de Utilizador:");
     }
     
     public void askBalance() {
@@ -55,7 +55,7 @@ public class Printer
     }
 
     public void askLojaID() {
-        System.out.println("Insira o código da ĨnterfaceLoja: ");
+        System.out.println("Insira o código da Loja: ");
     }
 
     public void askMedical() {
@@ -87,7 +87,7 @@ public class Printer
     }
 
     public void askData() {
-        System.out.println("Insira InterfaceData no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23):Minute(0 a 59)");
+        System.out.println("Insira Data no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23):Minute(0 a 59)");
     }
 
     public void askVelocidadeNormal() {
@@ -119,20 +119,20 @@ public class Printer
         System.out.println("Insira o tempo normal de atendimento(em min)");
     }
 
-    /*InterfaceMenu prints*/
+    /*Menu prints*/
 
     public void showLoginOptions() {
-        System.out.println("1.Sou um InterfaceUtilizador" +
-                            "\n2.Sou um InterfaceVoluntario" +
-                            "\n3.Sou uma InterfaceTransportadora"+
-                            "\n4.Sou uma ĨnterfaceLoja" +
+        System.out.println("1.Sou um Utilizador" +
+                            "\n2.Sou um Voluntario" +
+                            "\n3.Sou uma Transportadora"+
+                            "\n4.Sou uma Loja" +
                             "\n0.Sair");
     }
 
     public void showUserOptions(){
         System.out.println("1.Fazer encomenda" +
                             "\n2.Solicitar entrega de encomenda" +
-                            "\n3.Ver Entregas efetuadas por tempo e por um InterfaceEntregador" +
+                            "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
                             "\n4.Classificar encomendas já recebidas" +
                             "\n5.Mudar de Conta" +
                             "\n0.Sair" );
@@ -177,7 +177,7 @@ public class Printer
     /*Apresenta Resultados*/
 
     public void encomendaACaminho(LocalDateTime t) {
-        System.out.println("A sua Encomenda já está a caminho\nInterfaceData estimada de entrega: " + t.toString());
+        System.out.println("A sua Encomenda já está a caminho\nData estimada de entrega: " + t.toString());
     }
 
     public void apresentaEntregador(String[] s) {
