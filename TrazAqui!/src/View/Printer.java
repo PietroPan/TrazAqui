@@ -87,7 +87,7 @@ public class Printer
     }
 
     public void askData() {
-        System.out.println("Insira Data no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23):Minute(0 a 59)");
+        System.out.println("Insira InterfaceData no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23):Minute(0 a 59)");
     }
 
     public void askVelocidadeNormal() {
@@ -119,7 +119,7 @@ public class Printer
         System.out.println("Insira o tempo normal de atendimento(em min)");
     }
 
-    /*Menu prints*/
+    /*InterfaceMenu prints*/
 
     public void showLoginOptions() {
         System.out.println("1.Sou um InterfaceUtilizador" +
@@ -173,7 +173,7 @@ public class Printer
     /*Apresenta Resultados*/
 
     public void encomendaACaminho(LocalDateTime t) {
-        System.out.println("A sua Encomenda já está a caminho\nData estimada de entrega: " + t.toString());
+        System.out.println("A sua Encomenda já está a caminho\nInterfaceData estimada de entrega: " + t.toString());
     }
 
     public void apresentaEntregador(String[] s) {

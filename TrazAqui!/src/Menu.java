@@ -14,9 +14,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Menu
-{
-    private Data info;
+public class Menu implements InterfaceMenu {
+    private InterfaceData info;
     private String codUser;
     private Printer p;
 
@@ -26,6 +25,7 @@ public class Menu
         this.p=new Printer ();
     }
 
+    @Override
     public LocalDateTime StringToLocalDateTime(String s) {
         String[] a=s.split(":",0);
         if (a.length!=5)
@@ -35,12 +35,13 @@ public class Menu
             return LocalDateTime.of(i.get(0), i.get(1), i.get(2), i.get(3), i.get(4));
         }
         catch (DateTimeException d) {
-            p.invalid("Formato de Data");
+            p.invalid("Formato de InterfaceData");
             return null;
         }
     }
 
-    public boolean login (String cod,String password) {
+    @Override
+    public boolean login(String cod, String password) {
         boolean r;
         if (cod.length()==0) return false;
         char beg =cod.charAt(0);
@@ -84,6 +85,7 @@ public class Menu
         return r;
     }
 
+    @Override
     public String initUser() {
         Scanner read= new Scanner(System.in);
         InterfaceUtilizador user;
@@ -104,6 +106,7 @@ public class Menu
         return userCod;
     }
 
+    @Override
     public String initEntregador(int i) {
         Scanner read= new Scanner(System.in);
         p.askCod();
@@ -140,6 +143,7 @@ public class Menu
         return cod;
     }
 
+    @Override
     public String initLoja() {
         Scanner read= new Scanner(System.in);
         p.askCod();
@@ -160,6 +164,7 @@ public class Menu
         return cod;
     }
 
+    @Override
     public String init() {
         Scanner read = new Scanner(System.in);
         int i=0;
@@ -208,6 +213,7 @@ public class Menu
         return cod;
     }
 
+    @Override
     public int menuUser() throws UtilizadorInexistenteException, LojaInexistenteException {
         Random rand = new Random();
         String id,idVoluntario,opcao;
@@ -318,6 +324,7 @@ public class Menu
         return 0;
     }
 
+    @Override
     public int menuVoluntario() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
@@ -345,14 +352,17 @@ public class Menu
         return 0;
     }
 
+    @Override
     public int menuTransportadora() {
         return 0;
     }
 
+    @Override
     public int menuLoja() {
         return 0;
     }
 
+    @Override
     public void menu() {
         int r=1;
         info=new Data();
