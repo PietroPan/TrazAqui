@@ -1,40 +1,44 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class Entregadores {
-    private Map<String,Entregador> entregadores;
+public class Entregadores implements InterfaceEntregadores {
+    private Map<String, InterfaceEntregador> entregadores;
 
     public Entregadores() {
         entregadores=new HashMap<>();
     }
 
-    public Entregadores(Entregadores e) {
+    public Entregadores(InterfaceEntregadores e) {
         entregadores=e.getEntregadores();
     }
 
-    public Map<String, Entregador> getEntregadores() {
-       Map<String,Entregador> res = new HashMap<>();
-       for (Map.Entry<String, Entregador> e : entregadores.entrySet()) {
+    @Override
+    public Map<String, InterfaceEntregador> getEntregadores() {
+       Map<String, InterfaceEntregador> res = new HashMap<>();
+       for (Map.Entry<String, InterfaceEntregador> e : entregadores.entrySet()) {
            res.put(e.getKey(),e.getValue().clone());
         }
        return res;
     }
 
-    public void setEntregadores(Map<String, Entregador> entregadores) {
+    @Override
+    public void setEntregadores(Map<String, InterfaceEntregador> entregadores) {
         this.entregadores = new HashMap<>();
-        for (Map.Entry<String,Entregador> e : entregadores.entrySet()) {
+        for (Map.Entry<String, InterfaceEntregador> e : entregadores.entrySet()) {
             this.entregadores.put(e.getKey(),e.getValue().clone());
         }
     }
 
-    public Entregador getEntregador(String e) throws EntregadorInexistenteException {
+    @Override
+    public InterfaceEntregador getEntregador(String e) throws EntregadorInexistenteException {
         if (this.entregadores.containsKey(e))
             return this.entregadores.get(e).clone();
         else
-            throw new EntregadorInexistenteException("Entregador inexistente");
+            throw new EntregadorInexistenteException("InterfaceEntregador inexistente");
     }
 
-    public void setEntregador(String s,Entregador e) {
+    @Override
+    public void setEntregador(String s, InterfaceEntregador e) {
         this.entregadores.put(s,e.clone());
     }
 
@@ -43,16 +47,19 @@ public class Entregadores {
         return "Entregadores: " + entregadores.toString();
     }
 
-    public void addPedidoVoluntario(String idV,String enc) {
-        ((Voluntario)this.entregadores.get(idV)).addPedido(enc);
+    @Override
+    public void addPedidoVoluntario(String idV, String enc) {
+        ((InterfaceVoluntario)this.entregadores.get(idV)).addPedido(enc);
     }
 
-    public void addEncomenda(String s,Encomenda e) {
+    @Override
+    public void addEncomenda(String s, InterfaceEncomenda e) {
         entregadores.get(s).addEncomenda(e);
     }
 
-    public void classifica(Encomenda e,float c) {
-        for (Entregador en : this.entregadores.values()) {
+    @Override
+    public void classifica(InterfaceEncomenda e, float c) {
+        for (InterfaceEntregador en : this.entregadores.values()) {
             if (en.getHistorico().stream().anyMatch(l -> l.equals(e))) {
                 en.classifica(c);
                 break;
@@ -60,8 +67,9 @@ public class Entregadores {
         }
     }
 
+    @Override
     public void denyAll(String cod) {
-        ((Voluntario)this.entregadores.get(cod)).denyAllRequests();
+        ((InterfaceVoluntario)this.entregadores.get(cod)).denyAllRequests();
     }
 
 }

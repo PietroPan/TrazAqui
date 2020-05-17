@@ -11,15 +11,14 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class Voluntario extends Entregador
-{
-    private Encomenda encomendaAtual;
+public class Voluntario extends Entregador implements InterfaceVoluntario {
+    private InterfaceEncomenda encomendaAtual;
     private List<String> pedidos;
     
-    public Voluntario () {
-        this.setNome("Voluntario Standard");
+    public Voluntario() {
+        this.setNome("InterfaceVoluntario Standard");
         this.setCodigo("n/a");
-        this.setPosicao((Point2D)new Point2D.Double(0,0));
+        this.setPosicao(new Point2D.Double(0,0));
         this.setPassword("n/a");
         this.setRaio(0);
         this.setMedical(false);
@@ -28,10 +27,10 @@ public class Voluntario extends Entregador
         this.setVezesClassificado(1);
         this.pedidos=new ArrayList<>();
         this.encomendaAtual=new Encomenda();
-        this.setHistorico(new ArrayList<Encomenda>());
+        this.setHistorico(new ArrayList<>());
     }
     
-    public Voluntario (String nome,String codEntregador,Point2D pos,String password,float raio,boolean levaMedical,float velocidadeDeEntrega,float c,int vC,ArrayList<String> pedidos,Encomenda e,List<Encomenda> lE) {
+    public Voluntario(String nome, String codEntregador, Point2D pos, String password, float raio, boolean levaMedical, float velocidadeDeEntrega, float c, int vC, ArrayList<String> pedidos, InterfaceEncomenda e, List<InterfaceEncomenda> lE) {
         this.setNome(nome);
         this.setCodigo(codEntregador);
         this.setPosicao((Point2D)pos.clone());
@@ -43,10 +42,10 @@ public class Voluntario extends Entregador
         this.setVezesClassificado(vC);
         this.pedidos= new ArrayList<>(pedidos);
         this.encomendaAtual=e.clone();
-        this.setHistorico(lE.stream().map(Encomenda::clone).collect(Collectors.toList()));
+        this.setHistorico(lE.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList()));
    }
     
-   public Voluntario (Voluntario v) {
+   public Voluntario(Voluntario v) {
        this.setNome(v.getNome());
        this.setCodigo(v.getCodigo());
        this.setPosicao((Point2D)v.getPosicao().clone());
@@ -61,18 +60,21 @@ public class Voluntario extends Entregador
        this.setHistorico(v.getHistorico());
    }
    
-   public Encomenda getEncomenda() {
+   @Override
+   public InterfaceEncomenda getEncomenda() {
        return this.encomendaAtual.clone();
    }
 
+   @Override
    public List<String> getPedidos() {
         return new ArrayList<>(this.pedidos);
    }
    
+   @Override
    public String toString() {
        StringBuilder s = new StringBuilder();
        s.append("Nome da Empresa: ").append(this.getNome())
-       .append("\nCodigo do Voluntario: ").append(this.getCodigo())
+       .append("\nCodigo do InterfaceVoluntario: ").append(this.getCodigo())
        .append("\nPosiçao: (").append(this.getPosicao().getY()).append(",").append(this.getPosicao().getX()).append(")")
        .append("\nRaio de açao: ").append(this.getRaio())
        .append("\nTransporta encomendas Medicas: ").append(this.getMedical())
@@ -82,23 +84,28 @@ public class Voluntario extends Entregador
        return s.toString();
    }
    
-   public Voluntario clone() {
+   @Override
+   public InterfaceEntregador clone() {
        return new Voluntario(this);
    }
 
+   @Override
    public boolean hasRoomAndMed(boolean med) {
         return this.encomendaAtual.getCodEncomenda().equals("Encomenda Standard") && (!med || this.getMedical());
    }
 
-   public void addEncomenda(Encomenda e) {
+   @Override
+   public void addEncomenda(InterfaceEncomenda e) {
         this.pedidos.removeIf(l -> l.equals(e.getCodEncomenda()));
         this.encomendaAtual=e.clone();
     }
 
+   @Override
    public void addPedido(String enc) {
         this.pedidos.add(enc);
    }
 
+   @Override
    public void denyAllRequests() {
         this.pedidos=new ArrayList<>();
    }

@@ -8,16 +8,16 @@ Utilizador:u78,LuÃ­s Pedro da Silva Vila,64.87256,43.373962
 Utilizador:u40,LuÃ­s AnÃ­bal Barbosa de AraÃºjo,99.15073,-45.263195
 Utilizador:u68,Pedro GonÃ§alo dos Santos Pires Pinheiro,-71.837296,-29.223396
 Utilizador:u81,Rui Pedro Neto Reis,-67.93489,99.649734
-Voluntario:v20,JoÃ£o Pedro Gomes Coelho,-88.56778,-1.4521866,1.0
-Voluntario:v73,Rui Pedro Gomes Coelho,-45.424522,-79.517136,15.0
-Voluntario:v69,Pedro Miguel da Silva Paiva AntÃ³nio,-3.4494247,78.96666,164.0
-Voluntario:v59,JoÃ£o Carlos Delgado Monteiro,87.60193,-67.35995,56.0
-Voluntario:v33,SimÃ£o Pedro Santa Cruz Oliveira,11.959328,95.35214,81.0
-Transportadora:t26,TERCARGO - TRANSITÃRIOS,68.8905,-38.96917,539968772,119.0,0.5
-Transportadora:t24,TORRESTIR TRANSITÃRIOS LDA,74.59796,12.1732025,881936632,114.0,1.5
-Transportadora:t51,SÃBIA ATITUDE - CONSTRUÃ‡Ã•ES,-39.519154,8.964966,455159118,167.0,3.5
-Transportadora:t31,ZENITHINDEX,31.47522,76.58536,599618020,192.0,1.5
-Transportadora:t9,TORRESTIR TRANSITÃRIOS LDA,-9.798416,29.869064,923953011,128.0,1.5
+InterfaceVoluntario:v20,JoÃ£o Pedro Gomes Coelho,-88.56778,-1.4521866,1.0
+InterfaceVoluntario:v73,Rui Pedro Gomes Coelho,-45.424522,-79.517136,15.0
+InterfaceVoluntario:v69,Pedro Miguel da Silva Paiva AntÃ³nio,-3.4494247,78.96666,164.0
+InterfaceVoluntario:v59,JoÃ£o Carlos Delgado Monteiro,87.60193,-67.35995,56.0
+InterfaceVoluntario:v33,SimÃ£o Pedro Santa Cruz Oliveira,11.959328,95.35214,81.0
+InterfaceTransportadora:t26,TERCARGO - TRANSITÃRIOS,68.8905,-38.96917,539968772,119.0,0.5
+InterfaceTransportadora:t24,TORRESTIR TRANSITÃRIOS LDA,74.59796,12.1732025,881936632,114.0,1.5
+InterfaceTransportadora:t51,SÃBIA ATITUDE - CONSTRUÃ‡Ã•ES,-39.519154,8.964966,455159118,167.0,3.5
+InterfaceTransportadora:t31,ZENITHINDEX,31.47522,76.58536,599618020,192.0,1.5
+InterfaceTransportadora:t9,TORRESTIR TRANSITÃRIOS LDA,-9.798416,29.869064,923953011,128.0,1.5
 Loja:l29,TV e TelecomunicaÃ§Ãµes,39.627502,33.60112
 Loja:l58,Primark,78.73474,66.239685
 Loja:l8,Punt Roma,57.339508,-86.066315

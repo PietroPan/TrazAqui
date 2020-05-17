@@ -9,7 +9,6 @@
 import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -69,11 +68,11 @@ public class Menu
             case ('v'):
             case ('t'):
                 try {
-                    Entregador e = this.info.getEntregador(cod);
+                    InterfaceEntregador e = this.info.getEntregador(cod);
                     r= e!=null && password.equals(e.getPassword());
                 }
                 catch (EntregadorInexistenteException d) {
-                    p.naoRegistado("Entregador");
+                    p.naoRegistado("InterfaceEntregador");
                     r=false;
                 }
                 break;
@@ -224,8 +223,8 @@ public class Menu
                     String loja=read.nextLine();
                     p.askMedical();
                     boolean med = read.nextLine().toUpperCase().equals("S");
-                    List<LinhaEncomenda> list=new ArrayList<>();
-                    Encomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,list, LocalDateTime.now());
+                    List<InterfaceLinhaEncomenda> list=new ArrayList<>();
+                    InterfaceEncomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,list, LocalDateTime.now());
                     p.askLinhaEnc();
                     opcao=read.nextLine().toUpperCase();
                     while (opcao.equals("S")) {
@@ -235,7 +234,7 @@ public class Menu
                         String desc=read.nextLine();
                         p.askQuantidade();
                         double qnt=Double.parseDouble(read.nextLine());
-                        LinhaEncomenda l = new LinhaEncomenda(codProd,desc,rand.nextFloat()*100*qnt,qnt);
+                        InterfaceLinhaEncomenda l = new LinhaEncomenda(codProd,desc,rand.nextFloat()*100*qnt,qnt);
                         peso+=rand.nextFloat()*5*qnt;
                         list.add(l);
                         p.askLinhaEnc();

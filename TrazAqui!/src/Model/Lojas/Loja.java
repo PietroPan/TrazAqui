@@ -8,13 +8,12 @@
 
 import java.util.*;
 import java.awt.geom.Point2D;
-import java.util.stream.Collectors;
 
 public class Loja extends BasicInfo
 {
    private int tamanhoFila;
    private float tempoAtendimento;
-   private Map<String,Encomenda> pedidosProntos;
+   private Map<String, InterfaceEncomenda> pedidosProntos;
    
    public Loja() {
        this.setCodigo("n/a");
@@ -26,7 +25,7 @@ public class Loja extends BasicInfo
        this.pedidosProntos=new HashMap<>();
    }
    
-   public Loja(String codLoja,String nome,Point2D pos,String password,int tF,float tA,Map<String,Encomenda> lE) {
+   public Loja(String codLoja,String nome,Point2D pos,String password,int tF,float tA,Map<String, InterfaceEncomenda> lE) {
        this.setCodigo(codLoja);
        this.setNome(nome);
        this.setPosicao((Point2D)pos.clone());
@@ -34,7 +33,7 @@ public class Loja extends BasicInfo
        this.tamanhoFila = tF;
        this.tempoAtendimento=tA;
        this.pedidosProntos=new HashMap<>();
-       for (Map.Entry<String, Encomenda> entry : lE.entrySet()) {
+       for (Map.Entry<String, InterfaceEncomenda> entry : lE.entrySet()) {
            this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
        }
    }
@@ -47,7 +46,7 @@ public class Loja extends BasicInfo
        this.tamanhoFila = l.getTamFila();
        this.tempoAtendimento=l.getTempoAtendimento();
        this.pedidosProntos=new HashMap<>();
-       for (Map.Entry<String, Encomenda> entry : l.getPedidos().entrySet()) {
+       for (Map.Entry<String, InterfaceEncomenda> entry : l.getPedidos().entrySet()) {
            this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
        }
    }
@@ -60,8 +59,8 @@ public class Loja extends BasicInfo
        this.tempoAtendimento=t;
    }
    
-   public void setPedidos(Map<String,Encomenda> lE) {
-       for (Map.Entry<String, Encomenda> entry : lE.entrySet()) {
+   public void setPedidos(Map<String, InterfaceEncomenda> lE) {
+       for (Map.Entry<String, InterfaceEncomenda> entry : lE.entrySet()) {
            this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
        }
    }
@@ -77,9 +76,9 @@ public class Loja extends BasicInfo
        return this.tempoAtendimento;
    }
    
-   public Map<String,Encomenda> getPedidos() {
-       Map<String,Encomenda> m=new HashMap<>();
-       for (Map.Entry<String, Encomenda> entry : this.pedidosProntos.entrySet()) {
+   public Map<String, InterfaceEncomenda> getPedidos() {
+       Map<String, InterfaceEncomenda> m=new HashMap<>();
+       for (Map.Entry<String, InterfaceEncomenda> entry : this.pedidosProntos.entrySet()) {
            m.put(entry.getKey(),entry.getValue().clone());
        }
        return m;
@@ -107,11 +106,11 @@ public class Loja extends BasicInfo
        return new Loja(this);
    }
    
-   public void addPronta(Encomenda e) {
+   public void addPronta(InterfaceEncomenda e) {
 	   this.pedidosProntos.put(e.getCodEncomenda(),e.clone());
    }
 
-   public Encomenda getEncomenda(String id) {return this.pedidosProntos.get(id);}
+   public InterfaceEncomenda getEncomenda(String id) {return this.pedidosProntos.get(id);}
 
    public void removeReady(String cod) {
        this.pedidosProntos.remove(cod);

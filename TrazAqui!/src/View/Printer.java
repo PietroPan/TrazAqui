@@ -123,8 +123,8 @@ public class Printer
 
     public void showLoginOptions() {
         System.out.println("1.Sou um Utilizador" +
-                            "\n2.Sou um Voluntario" +
-                            "\n3.Sou uma Transportadora"+
+                            "\n2.Sou um InterfaceVoluntario" +
+                            "\n3.Sou uma InterfaceTransportadora"+
                             "\n4.Sou uma Loja" +
                             "\n0.Sair");
     }
@@ -132,7 +132,7 @@ public class Printer
     public void showUserOptions(){
         System.out.println("1.Fazer encomenda" +
                             "\n2.Solicitar entrega de encomenda" +
-                            "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
+                            "\n3.Ver Entregas efetuadas por tempo e por um InterfaceEntregador" +
                             "\n4.Classificar encomendas já recebidas" +
                             "\n5.Mudar de Conta" +
                             "\n0.Sair" );

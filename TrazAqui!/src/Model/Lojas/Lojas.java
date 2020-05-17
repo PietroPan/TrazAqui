@@ -41,7 +41,7 @@ public class Lojas {
         return "Lojas=" + lojas.toString();
     }
 
-    public void addEncomenda(String s,Encomenda e) {
+    public void addEncomenda(String s, InterfaceEncomenda e) {
         lojas.get(s).addPronta(e);
     }
 
@@ -49,7 +49,7 @@ public class Lojas {
         lojas.get(s).removeReady(e);
     }
 
-    public void addPronta(Encomenda e) {
+    public void addPronta(InterfaceEncomenda e) {
         lojas.get(e.getOrigem()).addPronta(e);
     }
 
