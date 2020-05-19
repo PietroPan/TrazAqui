@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,4 +25,6 @@ public interface InterfaceUtilizador extends InterfaceBasicInfo {
     void addEntregue(String cod);
 
     void addMessage(String message);
+
+    void atualizaEstado(InterfaceEncomenda e);
 }

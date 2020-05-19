@@ -7,6 +7,7 @@
  */
 
 import java.awt.geom.Point2D;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -66,6 +67,15 @@ public class Voluntario extends Entregador implements InterfaceVoluntario {
    }
 
    @Override
+   public InterfaceEncomenda getEncomenda(String id) {
+        InterfaceEncomenda e = this.encomendaAtual;
+        if (e.getCodEncomenda().equals(id))
+            return e.clone();
+        else
+            return null;
+   }
+
+   @Override
    public List<String> getPedidos() {
         return new ArrayList<>(this.pedidos);
    }
@@ -89,7 +99,13 @@ public class Voluntario extends Entregador implements InterfaceVoluntario {
        return new Voluntario(this);
    }
 
-   @Override
+    @Override
+    public boolean encomendaACaminho(String id, String s) {
+        InterfaceEncomenda e=this.encomendaAtual;
+        return e.getCodEncomenda().equals(s) && e.getDestino().equals(s);
+    }
+
+    @Override
    public boolean hasRoomAndMed(boolean med) {
         return this.encomendaAtual.getCodEncomenda().equals("Encomenda Standard") && (!med || this.getMedical());
    }
@@ -109,4 +125,18 @@ public class Voluntario extends Entregador implements InterfaceVoluntario {
    public void denyAllRequests() {
         this.pedidos=new ArrayList<>();
    }
+
+    @Override
+    public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
+        List<InterfaceEncomenda> r = new ArrayList<>();
+        List<InterfaceEncomenda> h;
+        if (this.encomendaAtual.getDataEntrega().isBefore(t) && !this.encomendaAtual.getDestino().equals("User Standard")) {
+            h = this.getHistorico();
+            h.add(this.encomendaAtual.clone());
+            this.setHistorico(h);
+            r.add(this.encomendaAtual.clone());
+            this.encomendaAtual=new Encomenda();
+        }
+        return r;
+    }
 }

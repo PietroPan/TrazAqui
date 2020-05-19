@@ -1,4 +1,7 @@
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Entregadores implements InterfaceEntregadores {
@@ -58,6 +61,15 @@ public class Entregadores implements InterfaceEntregadores {
     }
 
     @Override
+    public boolean encomendaACaminho(String id, String s) {
+        for (InterfaceEntregador e : this.entregadores.values()) {
+            if (e.encomendaACaminho(id,s))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public void classifica(InterfaceEncomenda e, float c) {
         for (InterfaceEntregador en : this.entregadores.values()) {
             if (en.getHistorico().stream().anyMatch(l -> l.equals(e))) {
@@ -70,6 +82,15 @@ public class Entregadores implements InterfaceEntregadores {
     @Override
     public void denyAll(String cod) {
         ((InterfaceVoluntario)this.entregadores.get(cod)).denyAllRequests();
+    }
+
+    @Override
+    public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
+        List<InterfaceEncomenda> r = new ArrayList<>();
+        for (InterfaceEntregador e : this.entregadores.values()) {
+            r.addAll(e.atualizaEstado(t));
+        }
+        return r;
     }
 
 }

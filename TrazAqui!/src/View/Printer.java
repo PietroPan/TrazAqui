@@ -119,7 +119,18 @@ public class Printer
         System.out.println("Insira o tempo normal de atendimento(em min)");
     }
 
+    public void askQuantoTempo() {
+        System.out.println("Diga quanto tempo deseja ficar em Cryosleep(no formato (Horas:Minutos))");
+    }
+
     /*Menu prints*/
+
+    public void showMainMenu() {
+        System.out.println("1.Login" +
+                            "\n2.Criar conta" +
+                            "\n3.Avançar tempo" +
+                            "\n4.Sair");
+    }
 
     public void showLoginOptions() {
         System.out.println("1.Sou um Utilizador" +
@@ -178,6 +189,10 @@ public class Printer
 
     public void encomendaACaminho(LocalDateTime t) {
         System.out.println("A sua Encomenda já está a caminho\nData estimada de entrega: " + t.toString());
+    }
+
+    public void encomendaNotReady() {
+        System.out.println("A sua Encomenda está a ser preparada");
     }
 
     public void apresentaEntregador(String[] s) {

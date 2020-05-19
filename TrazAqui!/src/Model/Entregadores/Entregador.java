@@ -6,6 +6,7 @@
  * @version (a version number or a date)
  */
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,5 +88,4 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
         this.vezesClassificado++;
         this.classificacao=((this.classificacao*this.vezesClassificado+c)/(this.vezesClassificado));
     }
-   
 }

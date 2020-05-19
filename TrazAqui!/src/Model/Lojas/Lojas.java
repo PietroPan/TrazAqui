@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +48,12 @@ public class Lojas implements InterfaceLojas {
 
     @Override
     public void addEncomenda(String s, InterfaceEncomenda e) {
-        lojas.get(s).addPronta(e);
+        lojas.get(s).addNotReady(e);
+    }
+
+    @Override
+    public void removeNotReady(InterfaceEncomenda e) {
+        lojas.get(e.getOrigem()).removeNotReady(e.getCodEncomenda());
     }
 
     @Override
@@ -60,4 +66,20 @@ public class Lojas implements InterfaceLojas {
         lojas.get(e.getOrigem()).addPronta(e);
     }
 
+    @Override
+    public boolean encomendaACaminho(String id, String loja) {
+        return this.lojas.get(loja).isReady(id);
+    }
+
+    @Override
+    public boolean encomendaNotReady(String id,String loja) {
+        return this.lojas.get(loja).isNotReady(id);
+    }
+
+    @Override
+    public void atualizaEstado(LocalDateTime t) {
+        for (InterfaceLoja l : this.lojas.values()) {
+            l.atualizaLoja(t);
+        }
+    }
 }

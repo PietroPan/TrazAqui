@@ -1,9 +1,15 @@
 import java.awt.geom.Point2D;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public interface InterfaceData {
+
+    LocalDateTime getHoras();
+
+    void setHoras(LocalDateTime d);
+
     InterfaceUtilizador getUser(String cod) throws UtilizadorInexistenteException;
 
     void addUser(InterfaceUtilizador u);
@@ -18,11 +24,15 @@ public interface InterfaceData {
 
     void readFile() throws java.io.IOException;
 
-    boolean encomendaAceite(String id, String user);
+    boolean encomendaACaminho(String id, String user);
+
+    boolean encomendaNotReady(String id, String user);
 
     String voluntarioAvailable(String enc) throws UtilizadorInexistenteException, LojaInexistenteException;
 
     void askVoluntario(String idVoluntario, String idEnc);
+
+    void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException;
 
     void aceitar(String entrega, String enc, double time);
 
@@ -38,9 +48,13 @@ public interface InterfaceData {
 
     List<String> getVoluntarioRequests(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException;
 
-    double getTempoEsperado(String idEntregador, String idEnc) throws EntregadorInexistenteException, LojaInexistenteException;
+    double getTempoEsperado(String idEntregador, String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
 
     void denyAll(String cod) throws EntregadorInexistenteException;
 
     void resetMessages(String cod);
+
+    void maquinaTempo(int horas, int minutos);
+
+    void atualizaEstado();
 }

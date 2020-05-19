@@ -3,6 +3,8 @@ import java.time.LocalDateTime;
 public interface InterfaceMenu {
     LocalDateTime StringToLocalDateTime(String s);
 
+    String signIn();
+
     boolean login(String cod, String password);
 
     String initUser();
@@ -12,6 +14,8 @@ public interface InterfaceMenu {
     String initLoja();
 
     String init();
+
+    int escolheMenu();
 
     int menuUser() throws UtilizadorInexistenteException, LojaInexistenteException;
 

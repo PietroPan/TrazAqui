@@ -41,6 +41,41 @@ public class Menu implements InterfaceMenu {
     }
 
     @Override
+    public String signIn() {
+        Scanner read = new Scanner(System.in);
+        String cod="";
+        int i=0;
+        while (i<1 || i>4) {
+            p.showLoginOptions();
+            try {
+                i = Integer.parseInt(read.nextLine());
+            }
+            catch (NumberFormatException f) {
+                p.invalid("Input");
+                i=5;
+            }
+            switch (i) {
+                case (1):
+                    cod = initUser();
+                    break;
+                case (2):
+                    cod = initEntregador(1);
+                    break;
+                case (3):
+                    cod = initEntregador(0);
+                    break;
+                case (4):
+                    cod = initLoja();
+                    break;
+                default:
+                    p.invalid("Opção");
+                    break;
+            }
+        }
+        return cod;
+    }
+
+    @Override
     public boolean login(String cod, String password) {
         boolean r;
         if (cod.length()==0) return false;
@@ -160,7 +195,7 @@ public class Menu implements InterfaceMenu {
         int tF = Integer.parseInt(read.nextLine());
         p.askTempoAtendimento();
         float t = Float.parseFloat(read.nextLine());
-        this.info.addLoja(new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>()));
+        this.info.addLoja(new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>(),new HashMap<>()));
         return cod;
     }
 
@@ -176,32 +211,7 @@ public class Menu implements InterfaceMenu {
             p.askNew();
             String option = read.nextLine().toUpperCase();
             if (option.equals("S")) {
-                while (i<1 || i>4) {
-                    p.showLoginOptions();
-                    try {
-                        i = Integer.parseInt(read.nextLine());
-                    }
-                    catch (NumberFormatException f) {
-                        p.invalid("Input");
-                    }
-                    switch (i) {
-                        case (1):
-                            cod = initUser();
-                            break;
-                        case (2):
-                            cod = initEntregador(1);
-                            break;
-                        case (3):
-                            cod = initEntregador(0);
-                            break;
-                        case (4):
-                            cod = initLoja();
-                            break;
-                        default:
-                            p.invalid("Opção");
-                            break;
-                    }
-                }
+                codUser=signIn();
                 p.showObrigado();
                 break;
             }
@@ -213,6 +223,35 @@ public class Menu implements InterfaceMenu {
             }
         }
         return cod;
+    }
+
+    @Override
+    public int escolheMenu() {
+        int r=1;
+        this.info.atualizaEstado();
+        switch (codUser.charAt(0)) {
+            case ('u'):
+                try {
+                    r = menuUser();
+                } catch (UtilizadorInexistenteException | LojaInexistenteException u) {
+                    p.exception(u.getLocalizedMessage());
+                }
+                break;
+            case ('v'):
+                try {
+                    r = menuVoluntario();
+                } catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
+                    p.exception(e.getLocalizedMessage());
+                }
+                break;
+            case ('t'):
+                r = menuTransportadora();
+                break;
+            case ('l'):
+                r = menuLoja();
+                break;
+        }
+        return r;
     }
 
     @Override
@@ -254,42 +293,51 @@ public class Menu implements InterfaceMenu {
                     }
                     enc.setPedido(list);
                     enc.setPeso(peso);
+                    enc.setDataEntrega(LocalDateTime.now());
+                    double preco=enc.calculaValorTotal();
                     p.apresentaEncomenda(enc.toString());
-                    p.apresentaPrecoEnc(enc.calculaValorTotal());
+                    p.apresentaPrecoEnc(preco);
                     p.askConfirmacao();
                     opcao=read.nextLine().toUpperCase();
                     if (opcao.equals("S")) {
-                        this.info.addEncomendaLoja(enc);
+                        try {
+                            this.info.encomenda(enc,preco);
+                        }
+                        catch (NotEnoughMoneyException e) {
+                            p.exception(e.getLocalizedMessage());
+                        }
                     }
                     break;
                 case ("2"):
                     Set<String[]> opcoes;
                     p.askEncomendaId();
                     id=read.nextLine();
-                    if (info.encomendaAceite(id,codUser)) {
+                    if (info.getEncomenda(id) == null) {
+                        p.invalid("Encomenda");
+                        break;
+                    } else if (info.encomendaACaminho(id,codUser)) {
                         p.encomendaACaminho(info.getEncomenda(id).getDataEntrega());
                         break;
                     }
-                    else {
-                        if (info.getEncomenda(id) == null) {
-                            p.invalid("Encomenda");
-                            break;
-                        } else {
-                            if (!((idVoluntario=this.info.voluntarioAvailable(id)).equals("n/a"))) {
-                                this.info.askVoluntario(idVoluntario,id);
-                                p.voluntarioLivre();
-                                break;
-                            }
-                            opcoes=info.getEntregadoresDisp(id);
-                            p.apresentaEntregadores(opcoes);
-                        }
+                    else if (info.encomendaNotReady(id,codUser)) {
+                        p.encomendaNotReady();
+                        break;
                     }
-                    p.askEntregadorId();
-                    String idEntregador=read.nextLine();
-                    double time = Double.parseDouble(opcoes.stream().filter(l -> l[0].equals(idEntregador)).findFirst().get()[4]);
-                    this.info.aceitar(idEntregador,id,time);
-                    p.encomendaACaminho(info.getEncomenda(id).getDataEntrega());
-                    break;
+                    else {
+                        if (!((idVoluntario = this.info.voluntarioAvailable(id)).equals("n/a"))) {
+                            this.info.askVoluntario(idVoluntario, id);
+                            p.voluntarioLivre();
+                            break;
+                        }
+                        opcoes = info.getEntregadoresDisp(id);
+                        p.apresentaEntregadores(opcoes);
+                        p.askEntregadorId();
+                        String idEntregador = read.nextLine();
+                        double time = Double.parseDouble(opcoes.stream().filter(l -> l[0].equals(idEntregador)).findFirst().get()[4]);
+                        this.info.aceitar(idEntregador, id, time);
+                        p.encomendaACaminho(info.getEncomenda(id).getDataEntrega());
+                        break;
+                    }
                 case ("3") :
 
                     break;
@@ -340,6 +388,7 @@ public class Menu implements InterfaceMenu {
                     String encomenda = read.nextLine();
                     if (!encomenda.equals("-1")) {
                      this.info.aceitar(codUser,encomenda,this.info.getTempoEsperado(codUser,encomenda));
+                     //enviar mensagem ao user
                     }
                     this.info.denyAll(codUser);
                     break;
@@ -366,6 +415,7 @@ public class Menu implements InterfaceMenu {
 
     @Override
     public void menu() {
+        Scanner read = new Scanner(System.in);
         int r=1;
         info=new Data();
         try {
@@ -376,32 +426,37 @@ public class Menu implements InterfaceMenu {
             p.invalid("Formato de linhas de texto");
         }
         while (r!=0) {
-            codUser = init();
-            switch (codUser.charAt(0)) {
-                case ('u'):
+            p.showMainMenu();
+            switch (read.nextLine()) {
+                case ("1"):
+                    codUser = init();
+                    r=escolheMenu();
+                    break;
+                case ("2"):
+                    codUser= signIn();
+                    r=escolheMenu();
+                    break;
+                case("3"):
+                    p.askQuantoTempo();
                     try {
-                        r=menuUser();
+                        String[] s = read.nextLine().split(":",0);
+                        int horas = Integer.parseInt(s[0]);
+                        int minutos = Integer.parseInt(s[1]);
+                        this.info.maquinaTempo(horas,minutos);
                     }
-                    catch (UtilizadorInexistenteException | LojaInexistenteException u) {
-                        p.exception(u.getLocalizedMessage());
-                    }
-                    break;
-                case ('v'):
-                    try {
-                        r = menuVoluntario();
-                    }
-                    catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
-                        p.exception(e.getLocalizedMessage());
+                    catch (NumberFormatException | NullPointerException d) {
+                        p.exception(d.getLocalizedMessage());
                     }
                     break;
-                case ('t'):
-                    r=menuTransportadora();
+                case("4"):
+                    r=0;
                     break;
-                case ('l'):
-                    r=menuLoja();
+                default:
+                    p.invalid("Opção");
                     break;
             }
         }
+
         p.showBye();
     }
 }

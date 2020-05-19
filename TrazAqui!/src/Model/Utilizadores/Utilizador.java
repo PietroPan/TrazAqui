@@ -7,6 +7,7 @@
  */
 
 import java.awt.geom.Point2D;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Utilizador extends BasicInfo implements InterfaceUtilizador {
@@ -105,4 +106,9 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador {
         this.messages.add(message);
     }
 
+    @Override
+    public void atualizaEstado(InterfaceEncomenda e) {
+        this.messages.add("A sua Encomenda de id "+e.getCodEncomenda()+" foi entregue");
+        this.pedidosEntregues.add(new AbstractMap.SimpleEntry<>(false,e.getCodEncomenda()));
+    }
 }

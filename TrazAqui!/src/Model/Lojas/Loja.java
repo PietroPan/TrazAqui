@@ -6,6 +6,7 @@
  * @version (número de versão ou data)
  */
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.awt.geom.Point2D;
 
@@ -13,6 +14,7 @@ public class Loja extends BasicInfo implements InterfaceLoja {
    private int tamanhoFila;
    private float tempoAtendimento;
    private Map<String, InterfaceEncomenda> pedidosProntos;
+   private Map<String, InterfaceEncomenda> pedidosEmEspera;
    
    public Loja() {
        this.setCodigo("n/a");
@@ -22,9 +24,10 @@ public class Loja extends BasicInfo implements InterfaceLoja {
        this.tamanhoFila = 0;
        this.tempoAtendimento=0;
        this.pedidosProntos=new HashMap<>();
+       this.pedidosEmEspera=new HashMap<>();
    }
    
-   public Loja(String codLoja, String nome, Point2D pos, String password, int tF, float tA, Map<String, InterfaceEncomenda> lE) {
+   public Loja(String codLoja, String nome, Point2D pos, String password, int tF, float tA, Map<String, InterfaceEncomenda> lE,Map<String, InterfaceEncomenda> le) {
        this.setCodigo(codLoja);
        this.setNome(nome);
        this.setPosicao((Point2D)pos.clone());
@@ -35,6 +38,10 @@ public class Loja extends BasicInfo implements InterfaceLoja {
        for (Map.Entry<String, InterfaceEncomenda> entry : lE.entrySet()) {
            this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
        }
+       this.pedidosEmEspera=new HashMap<>();
+       for (Map.Entry<String, InterfaceEncomenda> entry : le.entrySet()) {
+           this.pedidosEmEspera.put(entry.getKey(),entry.getValue().clone());
+       }
    }
    
    public Loja(InterfaceLoja l) {
@@ -44,10 +51,8 @@ public class Loja extends BasicInfo implements InterfaceLoja {
        this.setPassword(l.getPassword());
        this.tamanhoFila = l.getTamFila();
        this.tempoAtendimento=l.getTempoAtendimento();
-       this.pedidosProntos=new HashMap<>();
-       for (Map.Entry<String, InterfaceEncomenda> entry : l.getPedidos().entrySet()) {
-           this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
-       }
+       this.pedidosProntos=l.getPedidos();
+       this.pedidosEmEspera=l.getPedidosEspera();
    }
    
    @Override
@@ -88,6 +93,15 @@ public class Loja extends BasicInfo implements InterfaceLoja {
        }
        return m;
    }
+
+   @Override
+   public Map<String, InterfaceEncomenda> getPedidosEspera() {
+       Map<String, InterfaceEncomenda> m=new HashMap<>();
+       for (Map.Entry<String, InterfaceEncomenda> entry : this.pedidosEmEspera.entrySet()) {
+           m.put(entry.getKey(),entry.getValue().clone());
+       }
+       return m;
+   }
    
    @Override
    public String toString() {
@@ -113,18 +127,54 @@ public class Loja extends BasicInfo implements InterfaceLoja {
    public InterfaceLoja clone() {
        return new Loja(this);
    }
-   
-   @Override
-   public void addPronta(InterfaceEncomenda e) {
-	   this.pedidosProntos.put(e.getCodEncomenda(),e.clone());
-   }
 
    @Override
-   public InterfaceEncomenda getEncomenda(String id) {return this.pedidosProntos.get(id);}
+   public InterfaceEncomenda getEncomenda(String id) {
+       InterfaceEncomenda e=this.pedidosProntos.get(id);
+       if (e!=null) {
+           return e;
+       }
+       else return this.pedidosEmEspera.get(id);
+   }
+
+    @Override
+    public void addPronta(InterfaceEncomenda e) {
+        this.pedidosProntos.put(e.getCodEncomenda(),e.clone());
+    }
+
+    @Override
+    public void addNotReady(InterfaceEncomenda e) {
+       this.pedidosEmEspera.put(e.getCodEncomenda(),e.clone());
+    }
+
+    @Override
+    public void removeNotReady(String s) {
+       this.pedidosEmEspera.remove(s);
+    }
 
    @Override
    public void removeReady(String cod) {
        this.pedidosProntos.remove(cod);
    }
-   
+
+   @Override
+   public boolean isReady(String id) {
+       return pedidosProntos.get(id) != null;
+   }
+
+   @Override
+   public boolean isNotReady(String id) {
+       return this.pedidosEmEspera.get(id) != null;
+   }
+
+   @Override
+   public void atualizaLoja(LocalDateTime t) {
+       for (InterfaceEncomenda e : this.pedidosEmEspera.values()) {
+           if (e.getDataEntrega().plusMinutes((long)this.tempoAtendimento).isBefore(t)) {
+               this.pedidosEmEspera.remove(e.getCodEncomenda());
+               this.pedidosProntos.put(e.getCodEncomenda(), e);
+           }
+       }
+   }
+
 }

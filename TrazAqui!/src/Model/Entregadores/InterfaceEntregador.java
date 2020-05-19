@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface InterfaceEntregador extends InterfaceBasicInfo {
@@ -35,5 +36,11 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
 
     InterfaceEntregador clone();
 
+    boolean encomendaACaminho(String id, String s);
+
+    InterfaceEncomenda getEncomenda(String id);
+
     void classifica(float c);
+
+    List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
 }

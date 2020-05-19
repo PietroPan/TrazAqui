@@ -17,13 +17,23 @@ public class Data implements InterfaceData
     InterfaceUtilizadores users;
     InterfaceLojas lojas;
     InterfaceEntregadores entregadores;
-    InterfaceEncomendasAceites aceites;
+    LocalDateTime horas;
     
     public Data() {
      this.users=new Utilizadores();
      this.lojas=new Lojas();
      this.entregadores=new Entregadores();
-     this.aceites=new EncomendasAceites();
+     this.horas=LocalDateTime.now();
+    }
+
+    @Override
+    public LocalDateTime getHoras() {
+        return this.horas;
+    }
+
+    @Override
+    public void setHoras(LocalDateTime d) {
+        this.horas=d;
     }
 
     @Override public InterfaceUtilizador getUser(String cod) throws UtilizadorInexistenteException {
@@ -59,24 +69,24 @@ public class Data implements InterfaceData
            String [] idAndInfo = buffer.split(":",2);
            String[] tokens=idAndInfo[1].split(",",0);
            switch (idAndInfo[0]) {
-               case ("InterfaceUtilizador") :
+               case ("Utilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
                     InterfaceUtilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos,new HashSet<>(),new ArrayList<>());
                     this.users.addUser(u);
                break;
-               case ("InterfaceVoluntario") :
+               case ("Voluntario") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
                     InterfaceEntregador v = new Voluntario(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[4]),r.nextBoolean(),(float)(Math.round((r.nextFloat()+3)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),new ArrayList<>(),new Encomenda(),new ArrayList<InterfaceEncomenda>());
                     this.entregadores.setEntregador(tokens[0],v);
                break;
-               case ("InterfaceTransportadora") :
+               case ("Transportadora") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
                     InterfaceTransportadora t = new Transportadora(tokens[1],tokens[0],pos,"Password",Float.parseFloat(tokens[5]),tokens[4],Double.parseDouble(tokens[6]),r.nextDouble()%5,r.nextBoolean(),(float)(Math.round((r.nextFloat()+20)*100)/100.0),(float)(Math.round(r.nextFloat()*1000)/100),r.nextInt(),r.nextInt(),new ArrayList<InterfaceEncomenda>(),new ArrayList<InterfaceEncomenda>());
                     this.entregadores.setEntregador(tokens[0],t);
                break;
-               case ("InterfaceLoja") :
+               case ("Loja") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    InterfaceLoja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>());
+                    InterfaceLoja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>(),new HashMap<>());
                     this.lojas.setLoja(tokens[0],l);
                break;
                case ("Encomenda") :
@@ -90,17 +100,22 @@ public class Data implements InterfaceData
                    lojas.addEncomenda(tokens[2],e);
                break;
                case ("Aceite") :
-                   Set<String> lE = this.aceites.getCodEncomendas();
-                   lE.add(tokens[0]);
-                   this.aceites=new EncomendasAceites(lE);
+                   InterfaceEncomenda iE = getEncomenda(tokens[0]);
+                   this.lojas.removeNotReady(iE);
+                   this.lojas.addPronta(iE);
                break;
             }
        }
    }
 
-   @Override public boolean encomendaAceite(String id,String user) {
-        InterfaceEncomenda a=getEncomenda(id);
-        return this.aceites.existe(id) && a.getDestino().equals(user);
+    @Override public boolean encomendaACaminho(String id,String user) {
+        return this.entregadores.encomendaACaminho(id,user);
+   }
+
+   @Override
+   public boolean encomendaNotReady(String id,String user) {
+        InterfaceEncomenda a = getEncomenda(id);
+        return this.lojas.encomendaNotReady(id,a.getOrigem()) && a.getDestino().equals(user);
    }
 
    @Override public String voluntarioAvailable(String enc) throws UtilizadorInexistenteException, LojaInexistenteException {
@@ -125,12 +140,17 @@ public class Data implements InterfaceData
         this.entregadores.addPedidoVoluntario(idVoluntario,idEnc);
    }
 
+   @Override
+   public void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException {
+       addEncomendaLoja(e);
+       this.users.pay(e.getDestino(),preco);
+   }
+
    @Override public void aceitar(String entrega,String enc,double time) {
         InterfaceEncomenda e =getEncomenda(enc);
         e.setDataEntrega(LocalDateTime.now().plusMinutes((long)time));
         this.entregadores.addEncomenda(entrega,e);
-        this.aceites.add(enc);
-        this.lojas.removeReady(entrega,enc);
+        this.lojas.removeReady(e.getOrigem(),enc);
    }
 
    @Override public InterfaceEncomenda getEncomenda(String id) {
@@ -138,6 +158,10 @@ public class Data implements InterfaceData
         for (InterfaceLoja l : this.lojas.getLojas().values()) {
             if((r=l.getEncomenda(id))!=null)
                     return r;
+        }
+        for (InterfaceEntregador e : this.entregadores.getEntregadores().values()) {
+            if ((r=e.getEncomenda(id))!=null)
+                return r;
         }
         return null;
    }
@@ -190,7 +214,7 @@ public class Data implements InterfaceData
         entregadores.classifica(e,c);
     }
 
-    //InterfaceMenu de InterfaceVoluntario
+    //Menu de Voluntario
 
     @Override public List<String> getVoluntarioRequests(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         List<String> ls = new ArrayList<>();
@@ -203,10 +227,11 @@ public class Data implements InterfaceData
         return ls;
     }
 
-    @Override public double getTempoEsperado(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException {
+    @Override public double getTempoEsperado(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         InterfaceEntregador e = getEntregador(idEntregador);
         InterfaceEncomenda enc = getEncomenda(idEnc);
-        return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),lojas.getLoja(enc.getDestino()).getPosicao()) / e.getVelocidade();
+        if (enc==null) System.out.println("olaaa");
+        return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),users.getUser(enc.getDestino()).getPosicao()) / e.getVelocidade();
     }
 
     @Override public void denyAll(String cod) throws EntregadorInexistenteException {
@@ -219,6 +244,19 @@ public class Data implements InterfaceData
 
     @Override public void resetMessages(String cod) {
         this.users.resetMessages(cod);
+    }
+
+    @Override
+    public void maquinaTempo(int horas, int minutos) {
+        this.horas=this.horas.plusMinutes(horas*60+minutos);
+    }
+
+    @Override
+    public void atualizaEstado() {
+        List<InterfaceEncomenda> r;
+        this.lojas.atualizaEstado(getHoras());
+        r=this.entregadores.atualizaEstado(getHoras());
+        this.users.atualizaEstado(r);
     }
 
 }

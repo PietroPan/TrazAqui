@@ -1,5 +1,7 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Utilizadores implements InterfaceUtilizadores {
@@ -44,6 +46,16 @@ public class Utilizadores implements InterfaceUtilizadores {
     }
 
     @Override
+    public void pay(String e, double money) throws NotEnoughMoneyException {
+        InterfaceUtilizador u =this.users.get(e);
+        double after =u.getBalance()-money;
+        if (after<0) {
+            throw new NotEnoughMoneyException("O balanço da sua conta é insuficiente, a encomenda não pode ser feita");
+        }
+        u.setBalance(after);
+    }
+
+    @Override
     public void addMessageToUser(String cod, String message) {
         this.users.get(cod).addMessage(message);
     }
@@ -51,5 +63,13 @@ public class Utilizadores implements InterfaceUtilizadores {
     @Override
     public void resetMessages(String cod) {
         this.users.get(cod).setMessages(new ArrayList<>());
+    }
+
+    @Override
+    public void atualizaEstado(List<InterfaceEncomenda> l) {
+        for (InterfaceEncomenda e : l) {
+            System.out.println(e.getDestino());
+            this.users.get(e.getDestino()).atualizaEstado(e);
+        }
     }
 }

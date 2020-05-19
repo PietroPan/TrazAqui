@@ -7,6 +7,7 @@
  */
 
 import java.awt.geom.Point2D;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -127,8 +128,33 @@ public class Transportadora extends Entregador implements InterfaceTransportador
    public List<InterfaceEncomenda> getEncomendaAtual() {
        return this.encomendaAtual.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
    }
-   
-   @Override
+
+    @Override
+    public InterfaceEncomenda getEncomenda(String id) {
+       for (InterfaceEncomenda e : this.encomendaAtual) {
+           if (e.getCodEncomenda().equals(id))
+               return e.clone();
+       }
+       return null;
+    }
+
+    @Override
+    public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
+        List<InterfaceEncomenda> r = new ArrayList<>();
+        List<InterfaceEncomenda> h;
+        for (InterfaceEncomenda e : this.encomendaAtual) {
+            if (e.getDataEntrega().isBefore(t)) {
+                r.add(e.clone());
+                this.encomendaAtual.remove(e);
+            }
+        }
+        h = this.getHistorico();
+        h.addAll(r);
+        this.setHistorico(h);
+        return r;
+    }
+
+    @Override
    public String toString() {
        String s = "Nome de Empresa de Entregas: " + this.getNome() +
                "Codigo da Empresa: " + this.getCodigo() +
@@ -150,7 +176,16 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        return new Transportadora(this);
    }
 
-   @Override
+    @Override
+    public boolean encomendaACaminho(String id, String s) {
+        for (InterfaceEncomenda e : this.encomendaAtual) {
+            if (e.getCodEncomenda().equals(s))
+                return e.getDestino().equals(s);
+        }
+        return false;
+    }
+
+    @Override
    public boolean hasRoomAndMed(boolean med) {
        return (this.numeroDeEncomendas-this.encomendaAtual.size())>0 && (!med || this.getMedical());
    }

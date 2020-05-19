@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 public interface InterfaceEntregadores {
@@ -16,7 +18,11 @@ public interface InterfaceEntregadores {
 
     void addEncomenda(String s, InterfaceEncomenda e);
 
+    boolean encomendaACaminho(String s, String id);
+
     void classifica(InterfaceEncomenda e, float c);
 
     void denyAll(String cod);
+
+    List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
 }

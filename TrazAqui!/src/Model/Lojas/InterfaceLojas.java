@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public interface InterfaceLojas {
@@ -14,7 +15,15 @@ public interface InterfaceLojas {
 
     void addEncomenda(String s, InterfaceEncomenda e);
 
+    void removeNotReady(InterfaceEncomenda e);
+
     void removeReady(String s, String e);
 
     void addPronta(InterfaceEncomenda e);
+
+    boolean encomendaACaminho(String id, String loja);
+
+    boolean encomendaNotReady(String id, String loja);
+
+    void atualizaEstado(LocalDateTime t);
 }
