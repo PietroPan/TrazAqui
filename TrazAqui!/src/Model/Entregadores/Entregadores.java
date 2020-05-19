@@ -70,6 +70,16 @@ public class Entregadores implements InterfaceEntregadores {
     }
 
     @Override
+    public InterfaceEncomenda getEncomendaPassado(String id) {
+        InterfaceEncomenda r=null;
+        for (InterfaceEntregador e : this.entregadores.values()) {
+            if ((r=e.getEncomendaPassado(id))!=null)
+                return r;
+        }
+        return r;
+    }
+
+    @Override
     public void classifica(InterfaceEncomenda e, float c) {
         for (InterfaceEntregador en : this.entregadores.values()) {
             if (en.getHistorico().stream().anyMatch(l -> l.equals(e))) {

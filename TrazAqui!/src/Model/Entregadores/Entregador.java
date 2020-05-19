@@ -83,6 +83,15 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
     @Override
     abstract public InterfaceEntregador clone();
 
+   @Override
+   public InterfaceEncomenda getEncomendaPassado(String id) {
+       for (InterfaceEncomenda e : this.historicoEncomendas) {
+           if (e.getCodEncomenda().equals(id))
+               return e;
+       }
+       return null;
+   }
+
     @Override
     public void classifica(float c) {
         this.vezesClassificado++;

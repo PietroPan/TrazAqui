@@ -71,7 +71,7 @@ public class Data implements InterfaceData
            switch (idAndInfo[0]) {
                case ("Utilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    InterfaceUtilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble(),pos,new HashSet<>(),new ArrayList<>());
+                    InterfaceUtilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble()*10000,pos,new HashSet<>(),new ArrayList<>());
                     this.users.addUser(u);
                break;
                case ("Voluntario") :
@@ -151,6 +151,12 @@ public class Data implements InterfaceData
         e.setDataEntrega(LocalDateTime.now().plusMinutes((long)time));
         this.entregadores.addEncomenda(entrega,e);
         this.lojas.removeReady(e.getOrigem(),enc);
+        this.users.addMessageToUser(e.getDestino(),"O entregador "+entrega+" aceitou o seu pedido");
+   }
+   @Override
+   public InterfaceEncomenda getEncomendaPassado(String id) {
+        InterfaceEncomenda r=this.entregadores.getEncomendaPassado(id);
+        return r;
    }
 
    @Override public InterfaceEncomenda getEncomenda(String id) {

@@ -36,6 +36,8 @@ public interface InterfaceData {
 
     void aceitar(String entrega, String enc, double time);
 
+    InterfaceEncomenda getEncomendaPassado(String id);
+
     InterfaceEncomenda getEncomenda(String id);
 
     double calculaDistTotal(Point2D p1, Point2D p2, Point2D p3);

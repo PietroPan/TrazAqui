@@ -20,6 +20,8 @@ public interface InterfaceEntregadores {
 
     boolean encomendaACaminho(String s, String id);
 
+    InterfaceEncomenda getEncomendaPassado(String id);
+
     void classifica(InterfaceEncomenda e, float c);
 
     void denyAll(String cod);

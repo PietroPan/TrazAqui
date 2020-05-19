@@ -20,9 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9c6f001-bfbd-43b0-9baf-2bef6f7f7fc1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Exceptions/NotEnoughMoneyException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InterfaceMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Data.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/Entregador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/Entregador.java" afterDir="false" />
@@ -30,17 +28,7 @@
       <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/InterfaceEntregador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/InterfaceEntregador.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/InterfaceEntregadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/InterfaceEntregadores.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/Transportadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/Transportadora.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/Voluntario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Entregadores/Voluntario.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/InterfaceData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/InterfaceData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLoja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLoja.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLojas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLojas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/Loja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/Loja.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/Lojas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/Lojas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Utilizadores/InterfaceUtilizador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Utilizadores/InterfaceUtilizador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Utilizadores/InterfaceUtilizadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Utilizadores/InterfaceUtilizadores.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Utilizadores/Utilizador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Utilizadores/Utilizador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Utilizadores/Utilizadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Utilizadores/Utilizadores.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Printer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/logs.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -133,7 +121,7 @@
       <workItem from="1589561013661" duration="12639000" />
       <workItem from="1589635897619" duration="10000" />
       <workItem from="1589724077180" duration="8094000" />
-      <workItem from="1589897993727" duration="16742000" />
+      <workItem from="1589897993727" duration="19607000" />
     </task>
     <servers />
   </component>
@@ -169,22 +157,22 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="737" y="114" width="426" height="535" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1589305557788" />
-    <state width="1277" height="319" key="GridCell.Tab.0.bottom" timestamp="1589914601639">
+    <state width="1469" height="318" key="GridCell.Tab.0.bottom" timestamp="1589926336258">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1277" height="319" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589914601639" />
-    <state width="1277" height="319" key="GridCell.Tab.0.center" timestamp="1589914601638">
+    <state width="1469" height="318" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1589926336258" />
+    <state width="1469" height="318" key="GridCell.Tab.0.center" timestamp="1589926336258">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1277" height="319" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589914601638" />
-    <state width="1277" height="319" key="GridCell.Tab.0.left" timestamp="1589914601637">
+    <state width="1469" height="318" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1589926336258" />
+    <state width="1469" height="318" key="GridCell.Tab.0.left" timestamp="1589926336257">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1277" height="319" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589914601637" />
-    <state width="1277" height="319" key="GridCell.Tab.0.right" timestamp="1589914601639">
+    <state width="1469" height="318" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1589926336257" />
+    <state width="1469" height="318" key="GridCell.Tab.0.right" timestamp="1589926336258">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1277" height="319" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589914601639" />
+    <state width="1469" height="318" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1589926336258" />
     <state x="139" y="243" width="677" height="498" key="NewModule_or_Project.wizard" timestamp="1589039306961">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

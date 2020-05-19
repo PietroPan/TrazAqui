@@ -343,7 +343,7 @@ public class Menu implements InterfaceMenu {
                     break;
                 case ("4") :
                     Set<Map.Entry<Boolean,String>> encomendasID = this.info.getUser(this.codUser).getPedidosEntregues();
-                    Set<String> classifica= encomendasID.stream().filter(k -> !k.getKey()).map(l -> this.info.getEncomenda(l.getValue()).toString()).collect(Collectors.toSet());
+                    Set<String> classifica= encomendasID.stream().filter(k -> !k.getKey()).map(l -> this.info.getEncomendaPassado(l.getValue()).toString()).collect(Collectors.toSet());
                     if (classifica.isEmpty()) {
                         p.nadaAApresentar();
                         break;
@@ -388,7 +388,6 @@ public class Menu implements InterfaceMenu {
                     String encomenda = read.nextLine();
                     if (!encomenda.equals("-1")) {
                      this.info.aceitar(codUser,encomenda,this.info.getTempoEsperado(codUser,encomenda));
-                     //enviar mensagem ao user
                     }
                     this.info.denyAll(codUser);
                     break;

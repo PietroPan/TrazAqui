@@ -8,11 +8,6 @@ Utilizador:u78,LuÃ­s Pedro da Silva Vila,64.87256,43.373962
 Utilizador:u40,LuÃ­s AnÃ­bal Barbosa de AraÃºjo,99.15073,-45.263195
 Utilizador:u68,Pedro GonÃ§alo dos Santos Pires Pinheiro,-71.837296,-29.223396
 Utilizador:u81,Rui Pedro Neto Reis,-67.93489,99.649734
-Voluntario:v20,JoÃ£o Pedro Gomes Coelho,-88.56778,-1.4521866,1.0
-Voluntario:v73,Rui Pedro Gomes Coelho,-45.424522,-79.517136,15.0
-Voluntario:v69,Pedro Miguel da Silva Paiva AntÃ³nio,-3.4494247,78.96666,164.0
-Voluntario:v59,JoÃ£o Carlos Delgado Monteiro,87.60193,-67.35995,56.0
-Voluntario:v33,SimÃ£o Pedro Santa Cruz Oliveira,11.959328,95.35214,81.0
 Transportadora:t26,TERCARGO - TRANSITÃRIOS,68.8905,-38.96917,539968772,119.0,0.5
 Transportadora:t24,TORRESTIR TRANSITÃRIOS LDA,74.59796,12.1732025,881936632,114.0,1.5
 Transportadora:t51,SÃBIA ATITUDE - CONSTRUÃ‡Ã•ES,-39.519154,8.964966,455159118,167.0,3.5

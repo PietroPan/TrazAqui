@@ -8,6 +8,7 @@
 
 import java.awt.geom.Point2D;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -142,14 +143,16 @@ public class Transportadora extends Entregador implements InterfaceTransportador
     public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
         List<InterfaceEncomenda> r = new ArrayList<>();
         List<InterfaceEncomenda> h;
-        for (InterfaceEncomenda e : this.encomendaAtual) {
+        Iterator<InterfaceEncomenda> i =this.encomendaAtual.iterator();
+        while (i.hasNext()) {
+            InterfaceEncomenda e = i.next();
             if (e.getDataEntrega().isBefore(t)) {
                 r.add(e.clone());
-                this.encomendaAtual.remove(e);
+                i.remove();
             }
         }
         h = this.getHistorico();
-        h.addAll(r);
+        h.addAll(r.stream().map(InterfaceEncomenda::clone).collect(Collectors.toSet()));
         this.setHistorico(h);
         return r;
     }

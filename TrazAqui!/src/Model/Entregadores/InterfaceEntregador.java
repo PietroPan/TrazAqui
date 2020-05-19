@@ -40,6 +40,8 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
 
     InterfaceEncomenda getEncomenda(String id);
 
+    InterfaceEncomenda getEncomendaPassado(String id);
+
     void classifica(float c);
 
     List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
