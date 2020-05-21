@@ -1,4 +1,6 @@
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public interface InterfaceLoja extends InterfaceBasicInfo {
@@ -8,6 +10,10 @@ public interface InterfaceLoja extends InterfaceBasicInfo {
 
     void setPedidos(Map<String, InterfaceEncomenda> lE);
 
+    void setPedidosEspera(HashMap<String, InterfaceEncomenda> m);
+
+    void setStock(HashMap<String, InterfaceLinhaEncomenda> m);
+
     int getTamFila();
 
     float getTempoAtendimento();
@@ -15,6 +21,10 @@ public interface InterfaceLoja extends InterfaceBasicInfo {
     Map<String, InterfaceEncomenda> getPedidos();
 
     Map<String, InterfaceEncomenda> getPedidosEspera();
+
+    Map<String,InterfaceLinhaEncomenda> getStock();
+
+    void addToStock(List<InterfaceLinhaEncomenda> l);
 
     String toString();
 
@@ -35,6 +45,8 @@ public interface InterfaceLoja extends InterfaceBasicInfo {
     boolean isReady(String id);
 
     boolean isNotReady(String id);
+
+    List<InterfaceLinhaEncomenda> formaListaLinhasEncomenda(List<Map.Entry<String, Double>> l) throws ProductNotAvailableException;
 
     void atualizaLoja(LocalDateTime t);
 }

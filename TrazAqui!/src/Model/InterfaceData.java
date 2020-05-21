@@ -32,6 +32,8 @@ public interface InterfaceData {
 
     void askVoluntario(String idVoluntario, String idEnc);
 
+    List<InterfaceLinhaEncomenda> formaListaDeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException;
+
     void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException;
 
     void aceitar(String entrega, String enc, double time);
@@ -43,8 +45,6 @@ public interface InterfaceData {
     double calculaDistTotal(Point2D p1, Point2D p2, Point2D p3);
 
     Set<String[]> getEntregadoresDisp(String id) throws UtilizadorInexistenteException, LojaInexistenteException;
-
-    void addEncomendaLoja(InterfaceEncomenda e);
 
     void classifica(Set<Map.Entry<Boolean, String>> encomendasID, String eID, String codUser, float c) throws UtilizadorInexistenteException;
 
@@ -59,4 +59,6 @@ public interface InterfaceData {
     void maquinaTempo(int horas, int minutos);
 
     void atualizaEstado();
+
+    List<InterfaceLinhaEncomenda> getStock(String l);
 }

@@ -35,7 +35,7 @@ public class Menu implements InterfaceMenu {
             return LocalDateTime.of(i.get(0), i.get(1), i.get(2), i.get(3), i.get(4));
         }
         catch (DateTimeException d) {
-            p.invalid("Formato de InterfaceData");
+            p.invalid("Formato de Data");
             return null;
         }
     }
@@ -195,7 +195,7 @@ public class Menu implements InterfaceMenu {
         int tF = Integer.parseInt(read.nextLine());
         p.askTempoAtendimento();
         float t = Float.parseFloat(read.nextLine());
-        this.info.addLoja(new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>(),new HashMap<>()));
+        this.info.addLoja(new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>(),new HashMap<>(),new HashMap<>()));
         return cod;
     }
 
@@ -265,23 +265,30 @@ public class Menu implements InterfaceMenu {
         while(!(opcao=read.nextLine()).equals("0")) {
             switch (opcao) {
                 case ("1"):
+                    List<InterfaceLinhaEncomenda> stock;
                     float peso =0;
                     p.askLojaID();
                     String loja=read.nextLine();
+                    try {
+                        stock = this.info.getStock(loja);
+                    }
+                    catch (NullPointerException e) {
+                        throw new LojaInexistenteException("Loja inexistente");
+                    }
                     p.askMedical();
                     boolean med = read.nextLine().toUpperCase().equals("S");
-                    List<InterfaceLinhaEncomenda> list=new ArrayList<>();
-                    InterfaceEncomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,list, LocalDateTime.now());
+                    List<Map.Entry<String,Double>> list=new ArrayList<>();
+                    List<InterfaceLinhaEncomenda> lista = new ArrayList<>();
+                    InterfaceEncomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,lista, LocalDateTime.now());
+                    p.apresentaStock(stock);
                     p.askLinhaEnc();
                     opcao=read.nextLine().toUpperCase();
                     while (opcao.equals("S")) {
                         p.askCodProduto();
                         String codProd=read.nextLine();
-                        p.askDescricao();
-                        String desc=read.nextLine();
                         p.askQuantidade();
                         double qnt=Double.parseDouble(read.nextLine());
-                        InterfaceLinhaEncomenda l = new LinhaEncomenda(codProd,desc,rand.nextFloat()*100*qnt,qnt);
+                        AbstractMap.SimpleEntry<String,Double> l = new AbstractMap.SimpleEntry<>(codProd,qnt);
                         peso+=rand.nextFloat()*5*qnt;
                         list.add(l);
                         p.askLinhaEnc();
@@ -291,7 +298,14 @@ public class Menu implements InterfaceMenu {
                         p.nadaAApresentar();
                         break;
                     }
-                    enc.setPedido(list);
+                    try {
+                        lista = this.info.formaListaDeLinhasEncomenda(loja,list);
+                    }
+                    catch (ProductNotAvailableException e) {
+                        p.exception(e.getLocalizedMessage());
+                        break;
+                    }
+                    enc.setPedido(lista);
                     enc.setPeso(peso);
                     enc.setDataEntrega(LocalDateTime.now());
                     double preco=enc.calculaValorTotal();

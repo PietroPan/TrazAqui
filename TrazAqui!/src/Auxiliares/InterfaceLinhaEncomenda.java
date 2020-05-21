@@ -20,4 +20,6 @@ public interface InterfaceLinhaEncomenda {
     boolean equals(Object obj);
 
     String toString();
+
+    void removeQuantidade(double quantidade);
 }

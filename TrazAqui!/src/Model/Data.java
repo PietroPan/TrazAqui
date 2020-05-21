@@ -86,18 +86,24 @@ public class Data implements InterfaceData
                break;
                case ("Loja") :
                     pos = new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    InterfaceLoja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>(),new HashMap<>());
+                    InterfaceLoja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>(),new HashMap<>(),new HashMap<>());
                     this.lojas.setLoja(tokens[0],l);
                break;
                case ("Encomenda") :
-                   List<InterfaceLinhaEncomenda> lista =new ArrayList<InterfaceLinhaEncomenda>();
+                   Random rand = new Random();
+                   List<InterfaceLinhaEncomenda> lista =new ArrayList<>();
                    int i=4,size=tokens.length;
                    while (i+3<size) {
+
                        lista.add(new LinhaEncomenda(tokens[i],tokens[i+1],Double.parseDouble(tokens[i+2]),Double.parseDouble(tokens[i+3])));
                        i+=4;
                    }
-                   InterfaceEncomenda e = new Encomenda(tokens[0],r.nextBoolean(),Float.parseFloat(tokens[3]),tokens[2],tokens[1],lista, LocalDateTime.now().plusMinutes(r.nextLong()%60));
+                   InterfaceEncomenda e = new Encomenda(tokens[0],rand.nextBoolean(),Float.parseFloat(tokens[3]),tokens[2],tokens[1],lista, LocalDateTime.now().plusMinutes(r.nextLong()%60));
                    lojas.addEncomenda(tokens[2],e);
+                   for (InterfaceLinhaEncomenda iLE : lista) {
+                       iLE.setQuantidade(r.nextDouble()*1000);
+                   }
+                   lojas.addToStock(tokens[2],lista);
                break;
                case ("Aceite") :
                    InterfaceEncomenda iE = getEncomenda(tokens[0]);
@@ -141,8 +147,13 @@ public class Data implements InterfaceData
    }
 
    @Override
+   public List<InterfaceLinhaEncomenda> formaListaDeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException {
+        return lojas.formaListadeLinhasEncomenda(loja,l);
+   }
+
+   @Override
    public void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException {
-       addEncomendaLoja(e);
+       this.lojas.addEncomenda(e.getOrigem(),e);
        this.users.pay(e.getDestino(),preco);
    }
 
@@ -205,10 +216,6 @@ public class Data implements InterfaceData
        return setOpcoes;
     }
 
-    @Override public void addEncomendaLoja(InterfaceEncomenda e) {
-        this.lojas.addPronta(e);
-    }
-
     @Override public void classifica(Set<Map.Entry<Boolean,String>> encomendasID,String eID,String codUser,float c) throws UtilizadorInexistenteException {
         Map.Entry<Boolean,String> encomendaAclassificar = new AbstractMap.SimpleEntry<>(false,eID);
         encomendasID.remove(encomendaAclassificar);
@@ -263,6 +270,11 @@ public class Data implements InterfaceData
         this.lojas.atualizaEstado(getHoras());
         r=this.entregadores.atualizaEstado(getHoras());
         this.users.atualizaEstado(r);
+    }
+
+    @Override
+    public List<InterfaceLinhaEncomenda> getStock(String l) throws NullPointerException {
+        return this.lojas.getStock(l);
     }
 
 }

@@ -234,4 +234,14 @@ public class Printer
         }
         System.out.println("###########################");
     }
+
+    public void apresentaStock(List<InterfaceLinhaEncomenda> l) {
+        int i=0;
+        for (InterfaceLinhaEncomenda p : l) {
+            i++;
+            System.out.println("#######Produto "+i +"#######");
+            System.out.println(p.toString());
+
+        }
+    }
 }

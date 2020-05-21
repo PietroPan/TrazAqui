@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 public interface InterfaceLojas {
@@ -21,9 +22,15 @@ public interface InterfaceLojas {
 
     void addPronta(InterfaceEncomenda e);
 
+    void addToStock(String idLoja, List<InterfaceLinhaEncomenda> l);
+
     boolean encomendaACaminho(String id, String loja);
 
     boolean encomendaNotReady(String id, String loja);
 
+    List<InterfaceLinhaEncomenda> formaListadeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException;
+
     void atualizaEstado(LocalDateTime t);
+
+    List<InterfaceLinhaEncomenda> getStock(String l);
 }

@@ -6,6 +6,7 @@
  * @version (número de versão ou data)
  */
 
+import java.sql.SQLInvalidAuthorizationSpecException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.awt.geom.Point2D;
@@ -13,6 +14,7 @@ import java.awt.geom.Point2D;
 public class Loja extends BasicInfo implements InterfaceLoja {
    private int tamanhoFila;
    private float tempoAtendimento;
+   private Map<String,InterfaceLinhaEncomenda> stock;
    private Map<String, InterfaceEncomenda> pedidosProntos;
    private Map<String, InterfaceEncomenda> pedidosEmEspera;
    
@@ -23,11 +25,12 @@ public class Loja extends BasicInfo implements InterfaceLoja {
        this.setPassword("n/a");
        this.tamanhoFila = 0;
        this.tempoAtendimento=0;
+       this.stock=new HashMap<>();
        this.pedidosProntos=new HashMap<>();
        this.pedidosEmEspera=new HashMap<>();
    }
    
-   public Loja(String codLoja, String nome, Point2D pos, String password, int tF, float tA, Map<String, InterfaceEncomenda> lE,Map<String, InterfaceEncomenda> le) {
+   public Loja(String codLoja, String nome, Point2D pos, String password, int tF, float tA, Map<String, InterfaceEncomenda> lE,Map<String, InterfaceEncomenda> le,Map<String,InterfaceLinhaEncomenda> stock) {
        this.setCodigo(codLoja);
        this.setNome(nome);
        this.setPosicao((Point2D)pos.clone());
@@ -42,6 +45,10 @@ public class Loja extends BasicInfo implements InterfaceLoja {
        for (Map.Entry<String, InterfaceEncomenda> entry : le.entrySet()) {
            this.pedidosEmEspera.put(entry.getKey(),entry.getValue().clone());
        }
+       this.stock=new HashMap<>();
+       for (Map.Entry<String, InterfaceLinhaEncomenda> entry : stock.entrySet()) {
+           this.stock.put(entry.getKey(),entry.getValue().clone());
+       }
    }
    
    public Loja(InterfaceLoja l) {
@@ -51,6 +58,7 @@ public class Loja extends BasicInfo implements InterfaceLoja {
        this.setPassword(l.getPassword());
        this.tamanhoFila = l.getTamFila();
        this.tempoAtendimento=l.getTempoAtendimento();
+       this.stock=l.getStock();
        this.pedidosProntos=l.getPedidos();
        this.pedidosEmEspera=l.getPedidosEspera();
    }
@@ -67,8 +75,25 @@ public class Loja extends BasicInfo implements InterfaceLoja {
    
    @Override
    public void setPedidos(Map<String, InterfaceEncomenda> lE) {
+       this.pedidosProntos=new HashMap<>();
        for (Map.Entry<String, InterfaceEncomenda> entry : lE.entrySet()) {
            this.pedidosProntos.put(entry.getKey(),entry.getValue().clone());
+       }
+   }
+
+   @Override
+   public void setPedidosEspera(HashMap<String, InterfaceEncomenda> m) {
+       this.pedidosEmEspera=new HashMap<>();
+       for (Map.Entry<String, InterfaceEncomenda> entry : m.entrySet()) {
+           this.pedidosEmEspera.put(entry.getKey(),entry.getValue().clone());
+       }
+   }
+
+   @Override
+   public void setStock(HashMap<String, InterfaceLinhaEncomenda> m) {
+       this.stock=new HashMap<>();
+       for (Map.Entry<String, InterfaceLinhaEncomenda> entry : m.entrySet()) {
+           this.stock.put(entry.getKey(),entry.getValue().clone());
        }
    }
    
@@ -101,6 +126,29 @@ public class Loja extends BasicInfo implements InterfaceLoja {
            m.put(entry.getKey(),entry.getValue().clone());
        }
        return m;
+   }
+
+   @Override
+   public Map<String,InterfaceLinhaEncomenda> getStock() {
+       Map<String, InterfaceLinhaEncomenda> m=new HashMap<>();
+       for (Map.Entry<String, InterfaceLinhaEncomenda> entry : this.stock.entrySet()) {
+           m.put(entry.getKey(),entry.getValue().clone());
+       }
+       return m;
+   }
+
+   @Override
+   public void addToStock(List<InterfaceLinhaEncomenda> l) {
+       for (InterfaceLinhaEncomenda e : l) {
+           InterfaceLinhaEncomenda ant =this.stock.get(e.getcodProduto());
+           if (ant!=null) {
+               ant.setQuantidade(ant.getQuantidade()+e.getQuantidade());
+               ant.setPreco(e.getPreco());
+           }
+           else {
+               this.stock.put(e.getcodProduto(),e.clone());
+           }
+       }
    }
    
    @Override
@@ -144,7 +192,12 @@ public class Loja extends BasicInfo implements InterfaceLoja {
 
     @Override
     public void addNotReady(InterfaceEncomenda e) {
+       InterfaceLinhaEncomenda p;
        this.pedidosEmEspera.put(e.getCodEncomenda(),e.clone());
+       for (InterfaceLinhaEncomenda l :e.getPedido()) {
+           if ((p=this.stock.get(l.getcodProduto()))!=null)
+            p.removeQuantidade(l.getQuantidade());
+       }
     }
 
     @Override
@@ -165,6 +218,27 @@ public class Loja extends BasicInfo implements InterfaceLoja {
    @Override
    public boolean isNotReady(String id) {
        return this.pedidosEmEspera.get(id) != null;
+   }
+
+   @Override
+   public List<InterfaceLinhaEncomenda> formaListaLinhasEncomenda(List<Map.Entry<String, Double>> l) throws ProductNotAvailableException {
+       int r=0;
+       List<InterfaceLinhaEncomenda> lista = new ArrayList<>();
+       List<String> exceptions=new ArrayList<>();
+       for (Map.Entry<String,Double> e : l) {
+           InterfaceLinhaEncomenda p = this.stock.get(e.getKey());
+           if (p==null || p.getQuantidade()<e.getValue() ) {
+               r=1;
+               exceptions.add(e.getKey());
+           }
+           else {
+               lista.add(new LinhaEncomenda(p.getcodProduto(),p.getDescricao(),p.getPreco()*e.getValue(),e.getValue()));
+           }
+       }
+       if (r==1) {
+           throw new ProductNotAvailableException ("Os seguintes não estão disponíveis: " +exceptions.toString());
+       }
+       return lista;
    }
 
    @Override

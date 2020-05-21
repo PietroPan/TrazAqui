@@ -1,5 +1,7 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Lojas implements InterfaceLojas {
@@ -67,6 +69,11 @@ public class Lojas implements InterfaceLojas {
     }
 
     @Override
+    public void addToStock(String idLoja,List<InterfaceLinhaEncomenda> l) {
+        this.lojas.get(idLoja).addToStock(l);
+    }
+
+    @Override
     public boolean encomendaACaminho(String id, String loja) {
         return this.lojas.get(loja).isReady(id);
     }
@@ -77,9 +84,19 @@ public class Lojas implements InterfaceLojas {
     }
 
     @Override
+    public List<InterfaceLinhaEncomenda> formaListadeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException {
+        return lojas.get(loja).formaListaLinhasEncomenda(l);
+    }
+
+    @Override
     public void atualizaEstado(LocalDateTime t) {
         for (InterfaceLoja l : this.lojas.values()) {
             l.atualizaLoja(t);
         }
+    }
+
+    @Override
+    public List<InterfaceLinhaEncomenda> getStock(String l) throws NullPointerException {
+        return new ArrayList<>(this.lojas.get(l).getStock().values());
     }
 }

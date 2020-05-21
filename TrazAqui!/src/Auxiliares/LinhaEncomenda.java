@@ -71,7 +71,12 @@ public class LinhaEncomenda implements InterfaceLinhaEncomenda {
    public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
-    
+
+    @Override
+    public void removeQuantidade(double d) {
+       this.quantidade-=d;
+    }
+
    @Override
    public InterfaceLinhaEncomenda clone() {
         return new LinhaEncomenda(this);
@@ -89,11 +94,9 @@ public class LinhaEncomenda implements InterfaceLinhaEncomenda {
     
    @Override
    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\nCodigo Produto: ").append(this.codProduto);
-        sb.append("\nDescriçao: ").append(this.descricao);
-        sb.append("\nPreço: ").append(this.preco);
-        sb.append("\nQuantidade: ").append(this.quantidade);
-        return sb.toString();
+       return "Codigo Produto: " + this.codProduto +
+               "\nDescriçao: " + this.descricao +
+               "\nPreço: " + this.preco +
+               "\nQuantidade: " + this.quantidade;
     }            
 }
