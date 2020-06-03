@@ -273,9 +273,10 @@ public class Data implements InterfaceData, Serializable
     @Override
     public void atualizaEstado() {
         List<InterfaceEncomenda> r;
-        this.lojas.atualizaEstado(getHoras());
+        Map<String,List<String>> m;
+        m=this.lojas.atualizaEstado(getHoras());
         r=this.entregadores.atualizaEstado(getHoras());
-        this.users.atualizaEstado(r);
+        this.users.atualizaEstado(r,m);
     }
 
     @Override

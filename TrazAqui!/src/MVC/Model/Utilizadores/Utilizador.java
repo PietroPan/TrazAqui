@@ -109,7 +109,7 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
 
     @Override
     public void atualizaEstado(InterfaceEncomenda e) {
-        this.messages.add("A sua Common.Encomenda de id "+e.getCodEncomenda()+" foi entregue");
+        this.messages.add("A sua Encomenda de id "+e.getCodEncomenda()+" foi entregue");
         this.pedidosEntregues.add(new AbstractMap.SimpleEntry<>(false,e.getCodEncomenda()));
     }
 }

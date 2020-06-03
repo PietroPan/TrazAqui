@@ -94,10 +94,19 @@ public class Lojas implements InterfaceLojas, Serializable {
     }
 
     @Override
-    public void atualizaEstado(LocalDateTime t) {
+    public Map<String, List<String>> atualizaEstado(LocalDateTime t) {
+        Map<String,List<String>> r =new HashMap<>();
+        Map<String,List<String>> m;
         for (InterfaceLoja l : this.lojas.values()) {
-            l.atualizaLoja(t);
+            m=l.atualizaLoja(t);
+            for (Map.Entry<String,List<String>> entry : m.entrySet()) {
+                if (r.containsKey(entry.getKey())) {
+                    r.get(entry.getKey()).addAll(entry.getValue());
+                }
+                else r.put(entry.getKey(),entry.getValue());
+            }
         }
+        return r;
     }
 
     @Override

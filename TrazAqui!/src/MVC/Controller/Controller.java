@@ -41,7 +41,7 @@ public class Controller implements InterfaceController, Serializable {
             return LocalDateTime.of(i.get(0), i.get(1), i.get(2), i.get(3), i.get(4));
         }
         catch (DateTimeException d) {
-            p.invalid("Formato de MVC.Model.Data");
+            p.invalid("Formato de Data");
             return null;
         }
     }

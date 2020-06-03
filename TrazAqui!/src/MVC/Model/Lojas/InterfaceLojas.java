@@ -34,7 +34,7 @@ public interface InterfaceLojas {
 
     List<InterfaceLinhaEncomenda> formaListadeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException;
 
-    void atualizaEstado(LocalDateTime t);
+    Map<String, List<String>> atualizaEstado(LocalDateTime t);
 
     List<InterfaceLinhaEncomenda> getStock(String l);
 }

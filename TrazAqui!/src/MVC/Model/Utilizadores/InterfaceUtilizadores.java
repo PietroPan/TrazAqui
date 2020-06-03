@@ -20,5 +20,5 @@ public interface InterfaceUtilizadores {
 
     void resetMessages(String cod);
 
-    void atualizaEstado(List<InterfaceEncomenda> e);
+    void atualizaEstado(List<InterfaceEncomenda> e, Map<String, List<String>> m);
 }

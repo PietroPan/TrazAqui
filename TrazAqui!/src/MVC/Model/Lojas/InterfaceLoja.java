@@ -52,5 +52,5 @@ public interface InterfaceLoja extends InterfaceBasicInfo {
 
     List<InterfaceLinhaEncomenda> formaListaLinhasEncomenda(List<Map.Entry<String, Double>> l) throws ProductNotAvailableException;
 
-    void atualizaLoja(LocalDateTime t);
+    Map<String, List<String>> atualizaLoja(LocalDateTime t);
 }
