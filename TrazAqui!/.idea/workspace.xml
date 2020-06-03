@@ -21,15 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d9c6f001-bfbd-43b0-9baf-2bef6f7f7fc1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/logs.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MVC/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Controller/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MVC/Model/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/Model/Lojas/InterfaceLoja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Lojas/InterfaceLoja.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/Model/Lojas/InterfaceLojas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Lojas/InterfaceLojas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MVC/Model/Lojas/Loja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Lojas/Loja.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/Model/Lojas/Lojas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Lojas/Lojas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/InterfaceUtilizadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/InterfaceUtilizadores.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/Utilizador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/Utilizador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/Utilizadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/Utilizadores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MVC/View/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/View/Printer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +140,8 @@
       <workItem from="1590161786529" duration="1398000" />
       <workItem from="1590415262761" duration="81000" />
       <workItem from="1590432810645" duration="14000" />
-      <workItem from="1591177855344" duration="6077000" />
+      <workItem from="1591177855344" duration="6735000" />
+      <workItem from="1591189630796" duration="2149000" />
     </task>
     <servers />
   </component>
@@ -196,22 +193,22 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="737" y="114" width="426" height="535" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1589305557788" />
-    <state width="1874" height="579" key="GridCell.Tab.0.bottom" timestamp="1591183645635">
+    <state width="829" height="114" key="GridCell.Tab.0.bottom" timestamp="1591188695697">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="579" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1591183645635" />
-    <state width="1874" height="579" key="GridCell.Tab.0.center" timestamp="1591183645634">
+    <state width="829" height="114" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1591188695697" />
+    <state width="829" height="114" key="GridCell.Tab.0.center" timestamp="1591188695697">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="579" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1591183645634" />
-    <state width="1874" height="579" key="GridCell.Tab.0.left" timestamp="1591183645633">
+    <state width="829" height="114" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1591188695697" />
+    <state width="829" height="114" key="GridCell.Tab.0.left" timestamp="1591188695696">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="579" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1591183645633" />
-    <state width="1874" height="579" key="GridCell.Tab.0.right" timestamp="1591183645634">
+    <state width="829" height="114" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1591188695696" />
+    <state width="829" height="114" key="GridCell.Tab.0.right" timestamp="1591188695697">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1874" height="579" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1591183645634" />
+    <state width="829" height="114" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1591188695697" />
     <state x="139" y="243" width="677" height="498" key="NewModule_or_Project.wizard" timestamp="1589039306961">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

@@ -95,7 +95,7 @@ public class Data implements InterfaceData, Serializable
                     InterfaceLoja l = new Loja(tokens[0],tokens[1],pos,"Password",r.nextInt()%20,r.nextFloat(),new HashMap<>(),new HashMap<>(),new HashMap<>());
                     this.lojas.setLoja(tokens[0],l);
                break;
-               case ("Common.Encomenda") :
+               case ("Encomenda") :
                    Random rand = new Random();
                    List<InterfaceLinhaEncomenda> lista =new ArrayList<>();
                    int i=4,size=tokens.length;

@@ -34,8 +34,10 @@ public class Controller implements InterfaceController, Serializable {
     @Override
     public LocalDateTime StringToLocalDateTime(String s) {
         String[] a=s.split(":",0);
-        if (a.length!=5)
+        if (a.length!=5) {
             p.invalid("Formato");
+            return null;
+        }
         List<Integer> i = Arrays.stream(a).map(Integer::parseInt).collect(Collectors.toList());
         try {
             return LocalDateTime.of(i.get(0), i.get(1), i.get(2), i.get(3), i.get(4));
@@ -372,7 +374,7 @@ public class Controller implements InterfaceController, Serializable {
                     p.askEncomendaId();
                     String eID = read.nextLine();
                     if (encomendasID.stream().noneMatch(l -> l.getValue().equals(eID))) {
-                        p.invalid("ID de Common.Encomenda");
+                        p.invalid("ID de Encomenda");
                         break;
                     }
                     p.askClassificacao();

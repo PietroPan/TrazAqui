@@ -91,7 +91,7 @@ public class Printer implements Serializable
     }
 
     public void askData() {
-        System.out.println("Insira MVC.Model.Data no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23):Minute(0 a 59)");
+        System.out.println("Insira Data no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23):Minute(0 a 59)");
     }
 
     public void askVelocidadeNormal() {
