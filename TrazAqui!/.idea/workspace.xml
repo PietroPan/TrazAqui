@@ -20,18 +20,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9c6f001-bfbd-43b0-9baf-2bef6f7f7fc1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Exceptions/ProductNotAvailableException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/Constantes.cfg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Common/Const.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Auxiliares/InterfaceLinhaEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Auxiliares/InterfaceLinhaEncomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Auxiliares/LinhaEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Auxiliares/LinhaEncomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/InterfaceData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/InterfaceData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLoja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLoja.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLojas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLojas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/Loja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/Loja.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/Lojas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Lojas/Lojas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Printer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diagrama de classes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrazAqui!.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TrazAqui!.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Auxiliares/BasicInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/BasicInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Auxiliares/Encomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/Encomenda.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Auxiliares/InterfaceBasicInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/InterfaceBasicInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Auxiliares/InterfaceEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/InterfaceEncomenda.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Auxiliares/InterfaceLinhaEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/InterfaceLinhaEncomenda.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Auxiliares/LinhaEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Common/LinhaEncomenda.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exceptions/EntregadorInexistenteException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exceptions/EntregadorInexistenteException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exceptions/LojaInexistenteException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exceptions/LojaInexistenteException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exceptions/NotEnoughMoneyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exceptions/NotEnoughMoneyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exceptions/ProductNotAvailableException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exceptions/ProductNotAvailableException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exceptions/UtilizadorInexistenteException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exceptions/UtilizadorInexistenteException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InterfaceMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Controller/InterfaceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/EncomendasAceites/EncomendasAceites.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/EncomendasAceites/InterfaceEncomendasAceites.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/Entregador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Entregadores/Entregador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/Entregadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Entregadores/Entregadores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/InterfaceEntregador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Entregadores/InterfaceEntregador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/InterfaceEntregadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Entregadores/InterfaceEntregadores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/InterfaceTransportadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Entregadores/InterfaceTransportadora.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/InterfaceVoluntario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Entregadores/InterfaceVoluntario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/Transportadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Entregadores/Transportadora.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Entregadores/Voluntario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Entregadores/Voluntario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/InterfaceData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/InterfaceData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLoja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Lojas/InterfaceLoja.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/InterfaceLojas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Lojas/InterfaceLojas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/Loja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Lojas/Loja.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Lojas/Lojas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Lojas/Lojas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Utilizadores/InterfaceUtilizador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/InterfaceUtilizador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Utilizadores/InterfaceUtilizadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/InterfaceUtilizadores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Utilizadores/Utilizador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/Utilizador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Utilizadores/Utilizadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Utilizadores/Utilizadores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/View/Printer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/logs.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +90,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Model" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -69,6 +99,19 @@
   <component name="RecentsManager">
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="MVC" />
+      <recent name="Exceptions" />
+      <recent name="Common" />
+      <recent name="View" />
+      <recent name="Model" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources" />
     </key>
   </component>
   <component name="RunManager">
@@ -127,7 +170,12 @@
       <workItem from="1589986826446" duration="35000" />
       <workItem from="1590058784307" duration="12000" />
       <workItem from="1590059496128" duration="4288000" />
-      <workItem from="1590069272745" duration="8493000" />
+      <workItem from="1590069272745" duration="9996000" />
+      <workItem from="1590136188557" duration="54000" />
+      <workItem from="1590161786529" duration="1398000" />
+      <workItem from="1590415262761" duration="81000" />
+      <workItem from="1590432810645" duration="14000" />
+      <workItem from="1591177855344" duration="3327000" />
     </task>
     <servers />
   </component>
@@ -147,14 +195,26 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="439" y="7" width="1026" height="838" key="#Project_Structure" timestamp="1589725432107">
+    <state x="438" y="-15" width="1026" height="838" key="#Project_Structure" timestamp="1591178559222">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="439" y="7" width="1026" height="838" key="#Project_Structure/0.0.1920.1080@0.0.1920.1080" timestamp="1589725432107" />
+    <state x="438" y="-15" width="1026" height="838" key="#Project_Structure/0.0.1920.1080@0.0.1920.1080" timestamp="1591178559222" />
+    <state x="417" y="153" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591179400775">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="417" y="153" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1591179400775" />
     <state x="733" y="-566" width="468" height="619" key="#com.intellij.ide.util.MemberChooser" timestamp="1590069433683">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="733" y="-566" width="468" height="619" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1590069433683" />
+    <state x="727" y="31" width="433" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1591180357525">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="727" y="31" width="433" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1080@0.0.1920.1080" timestamp="1591180357525" />
+    <state x="745" y="360" width="415" height="175" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1591180410538">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="745" y="360" width="415" height="175" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1920.1080@0.0.1920.1080" timestamp="1591180410538" />
     <state x="-6" y="-132" width="1912" height="1073" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1589735878480">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -167,22 +227,22 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="737" y="114" width="426" height="535" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1589305557788" />
-    <state width="1469" height="239" key="GridCell.Tab.0.bottom" timestamp="1590079087627">
+    <state width="1874" height="254" key="GridCell.Tab.0.bottom" timestamp="1591181121987">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1469" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1590079087627" />
-    <state width="1469" height="239" key="GridCell.Tab.0.center" timestamp="1590079087626">
+    <state width="1874" height="254" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1591181121987" />
+    <state width="1874" height="254" key="GridCell.Tab.0.center" timestamp="1591181121985">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1469" height="239" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1590079087626" />
-    <state width="1469" height="239" key="GridCell.Tab.0.left" timestamp="1590079087625">
+    <state width="1874" height="254" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1591181121985" />
+    <state width="1874" height="254" key="GridCell.Tab.0.left" timestamp="1591181121984">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1469" height="239" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1590079087625" />
-    <state width="1469" height="239" key="GridCell.Tab.0.right" timestamp="1590079087626">
+    <state width="1874" height="254" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1591181121984" />
+    <state width="1874" height="254" key="GridCell.Tab.0.right" timestamp="1591181121986">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1469" height="239" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1590079087626" />
+    <state width="1874" height="254" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1591181121986" />
     <state x="139" y="243" width="677" height="498" key="NewModule_or_Project.wizard" timestamp="1589039306961">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -191,6 +251,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="138" y="-22" width="1026" height="838" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1589541924358" />
+    <state x="759" y="206" width="376" height="432" key="chooseDestDirectoryDialog" timestamp="1591180025301">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="759" y="206" width="376" height="432" key="chooseDestDirectoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1591180025301" />
     <state x="432" y="-45" width="1033" height="809" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1590070639572">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

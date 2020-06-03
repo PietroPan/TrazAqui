@@ -7,14 +7,15 @@
       <sourceFolder url="file://$MODULE_DIR$/src/Entregadores" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Lojas" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Utilizadores" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/View" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Model/Entregadores" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Model" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Model/Utilizadores" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Model/Lojas" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Vieww" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Modell/Entregadores" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Modell" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Modell/Utilizadores" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Modell/Lojas" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Auxiliares" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Model/EncomendasAceites" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Exceptions" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Exceptionsss" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
