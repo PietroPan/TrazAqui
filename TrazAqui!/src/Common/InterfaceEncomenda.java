@@ -16,6 +16,8 @@ public interface InterfaceEncomenda {
 
     void setPedido(List<InterfaceLinhaEncomenda> lE);
 
+    void setDataInicio(LocalDateTime t);
+
     String getCodEncomenda();
 
     boolean getMedical();
@@ -30,6 +32,8 @@ public interface InterfaceEncomenda {
 
     LocalDateTime getDataEntrega();
 
+    LocalDateTime getDataInicio();
+
     void setDataEntrega(LocalDateTime t);
 
     boolean equals(Object enc);
@@ -39,4 +43,6 @@ public interface InterfaceEncomenda {
     InterfaceEncomenda clone();
 
     double calculaValorTotal();
+
+    double calculaTempoDemorado();
 }

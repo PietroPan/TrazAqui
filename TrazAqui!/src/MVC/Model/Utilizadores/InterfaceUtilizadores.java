@@ -21,4 +21,10 @@ public interface InterfaceUtilizadores {
     void resetMessages(String cod);
 
     void atualizaEstado(List<InterfaceEncomenda> e, Map<String, List<String>> m);
+
+    void addPedido(InterfaceEncomenda enc,String trans);
+
+    void alteraPedido(InterfaceEncomenda enc,String trans,String stat);
+
+    void addEntregue(String uti,String enc);
 }

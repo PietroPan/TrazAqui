@@ -18,6 +18,8 @@ public interface InterfaceUtilizador extends InterfaceBasicInfo {
 
     Set<Map.Entry<Boolean,String>> getPedidosEntregues();
 
+    List<TriploPedido> getPedidos();
+
     String toString();
 
     boolean equals(Object user);
@@ -29,4 +31,10 @@ public interface InterfaceUtilizador extends InterfaceBasicInfo {
     void addMessage(String message);
 
     void atualizaEstado(InterfaceEncomenda e);
+
+    void addPedido(InterfaceEncomenda enc,String trans);
+
+    void addPedido(InterfaceEncomenda enc,String trans,String stat);
+
+    void alteraPedido(InterfaceEncomenda enc,String trans,String stat);
 }

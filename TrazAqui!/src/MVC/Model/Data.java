@@ -104,7 +104,7 @@ public class Data implements InterfaceData, Serializable
                        lista.add(new LinhaEncomenda(tokens[i],tokens[i+1],Double.parseDouble(tokens[i+2]),Double.parseDouble(tokens[i+3])));
                        i+=4;
                    }
-                   InterfaceEncomenda e = new Encomenda(tokens[0],rand.nextBoolean(),Float.parseFloat(tokens[3]),tokens[2],tokens[1],lista, LocalDateTime.now().plusMinutes(r.nextLong()%60));
+                   InterfaceEncomenda e = new Encomenda(tokens[0],rand.nextBoolean(),Float.parseFloat(tokens[3]),tokens[2],tokens[1],lista, LocalDateTime.now().plusMinutes(r.nextLong()%60),LocalDateTime.now());
                    lojas.addEncomenda(tokens[2],e);
                    for (InterfaceLinhaEncomenda iLE : lista) {
                        iLE.setQuantidade(r.nextDouble()*1000);
@@ -163,13 +163,22 @@ public class Data implements InterfaceData, Serializable
        this.users.pay(e.getDestino(),preco);
    }
 
+
+
    @Override public void aceitar(String entrega,String enc,double time) {
         InterfaceEncomenda e =getEncomenda(enc);
-        e.setDataEntrega(LocalDateTime.now().plusMinutes((long)time));
+        //e.setDataEntrega(LocalDateTime.now().plusMinutes((long)time));
         this.entregadores.addEncomenda(entrega,e);
         this.lojas.removeReady(e.getOrigem(),enc);
         this.users.addMessageToUser(e.getDestino(),"O entregador "+entrega+" aceitou o seu pedido");
    }
+
+   @Override
+   public void aceitarPedido(InterfaceEncomenda enc,String trans) {
+        this.entregadores.alteraPedido(enc,trans,"a");
+        this.users.alteraPedido(enc,trans,"a");
+   }
+
    @Override
    public InterfaceEncomenda getEncomendaPassado(String id) {
         InterfaceEncomenda r=this.entregadores.getEncomendaPassado(id);
@@ -222,6 +231,15 @@ public class Data implements InterfaceData, Serializable
        return setOpcoes;
     }
 
+    @Override
+    public List<InterfaceEncomenda> getEncomendasDisp(String trans){
+        List<InterfaceEncomenda> r = new ArrayList<>();
+        for (InterfaceLoja l : this.lojas.getLojas().values()){
+            r.addAll(l.getPedidos().values());
+        }
+        return r;
+    }
+
     @Override public void classifica(Set<Map.Entry<Boolean,String>> encomendasID,String eID,String codUser,float c) throws UtilizadorInexistenteException {
         Map.Entry<Boolean,String> encomendaAclassificar = new AbstractMap.SimpleEntry<>(false,eID);
         encomendasID.remove(encomendaAclassificar);
@@ -251,6 +269,13 @@ public class Data implements InterfaceData, Serializable
         InterfaceEncomenda enc = getEncomenda(idEnc);
         if (enc==null) System.out.println("olaaa");
         return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),users.getUser(enc.getDestino()).getPosicao()) / e.getVelocidade();
+    }
+
+    @Override public double getDistTotal(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
+        InterfaceEntregador e = getEntregador(idEntregador);
+        InterfaceEncomenda enc = getEncomenda(idEnc);
+        if (enc==null) System.out.println("olaaa");
+        return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),users.getUser(enc.getDestino()).getPosicao());
     }
 
     @Override public void denyAll(String cod) throws EntregadorInexistenteException {
@@ -284,4 +309,85 @@ public class Data implements InterfaceData, Serializable
         return this.lojas.getStock(l);
     }
 
+    @Override
+    public String gerarCodUser() {
+        Random rand = new Random();
+        String cod = "u";
+        boolean b=true;
+        while (b){
+            int num = rand.nextInt(1000);
+            cod=cod.concat(String.valueOf(num));
+            b=users.getUsers().containsKey(cod) ;
+        }
+        return cod;
+    }
+
+    @Override
+    public String gerarCodLoja() {
+        Random rand = new Random();
+        String cod = "l";
+        boolean b=true;
+        while (b){
+            int num = rand.nextInt(1000);
+            cod=cod.concat(String.valueOf(num));
+            b=lojas.getLojas().containsKey(cod) ;
+        }
+        return cod;
+    }
+
+    @Override
+    public String gerarCodVol() {
+        Random rand = new Random();
+        String cod = "v";
+        boolean b=true;
+        while (b){
+            int num = rand.nextInt(1000);
+            cod=cod.concat(String.valueOf(num));
+            b=entregadores.getEntregadores().containsKey(cod) ;
+        }
+        return cod;
+    }
+
+    @Override
+    public String gerarCodTrans() {
+        Random rand = new Random();
+        String cod = "t";
+        boolean b=true;
+        while (b){
+            int num = rand.nextInt(1000);
+            cod=cod.concat(String.valueOf(num));
+            b=entregadores.getEntregadores().containsKey(cod) ;
+        }
+        return cod;
+    }
+    @Override
+    public void fazerEncomenda(String cod) throws EntregadorInexistenteException , LojaInexistenteException, UtilizadorInexistenteException{
+        double sec=0;
+        if (cod.contains("t")){
+            InterfaceTransportadora trans = (InterfaceTransportadora) this.getEntregador(cod);
+            for (InterfaceEncomenda e : trans.getEncomendaAtual()){
+                sec += calculaDistTotal(lojas.getLoja(e.getOrigem()).getPosicao(),trans.getPosicao(),users.getUser(e.getDestino()).getPosicao()) / trans.getVelocidade();
+                e.setDataInicio(LocalDateTime.now());
+                e.setDataEntrega(LocalDateTime.now().plusSeconds((long)sec));
+                this.entregadores.addToHistorico(cod,e);
+                this.users.addEntregue(e.getDestino(),e.getCodEncomenda());
+            }
+            this.entregadores.clearAtual(cod);
+        }
+        else {
+            InterfaceVoluntario vol = (InterfaceVoluntario) this.getEntregador(cod);
+            InterfaceEncomenda e = vol.getEncomenda();
+            sec += calculaDistTotal(lojas.getLoja(e.getOrigem()).getPosicao(),vol.getPosicao(),users.getUser(e.getDestino()).getPosicao()) / vol.getVelocidade();
+            e.setDataInicio(LocalDateTime.now());
+            e.setDataEntrega(LocalDateTime.now().plusSeconds((long)sec));
+            this.entregadores.addToHistorico(cod,e);
+            this.users.addEntregue(e.getDestino(),e.getCodEncomenda());
+        }
+    }
+
+    @Override
+    public void fazerPedido(InterfaceEncomenda enc,String trans){
+        this.entregadores.addPedido(enc,trans);
+        this.users.addPedido(enc,trans);
+    }
 }

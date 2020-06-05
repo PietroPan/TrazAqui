@@ -9,9 +9,7 @@ package MVC.Model.Entregadores;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import Common.*;
 
@@ -21,6 +19,7 @@ public class Transportadora extends Entregador implements InterfaceTransportador
    private double custoKg;
    private int numeroDeEncomendas;
    private List<InterfaceEncomenda> encomendaAtual;
+   private List<Map.Entry<InterfaceEncomenda,String>> pedidos;
    
    public Transportadora() {
        this.setNome("Empresa Standard");
@@ -38,6 +37,7 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.numeroDeEncomendas=0;
        this.encomendaAtual=new ArrayList<>();
        this.setHistorico(new ArrayList<>());
+       this.pedidos=new ArrayList<>();
    }
    
    public Transportadora(String nome, String codEmpresa, Point2D pos, String password, float raio, String NIF, double custoKm, double custoKg, boolean levaMedical, float velocidadeDeEntrega, float c, int vC, int numeroDeEncomendas, List<InterfaceEncomenda> encomendaAtual, List<InterfaceEncomenda> historicoEncomendas) {
@@ -56,6 +56,7 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.numeroDeEncomendas=numeroDeEncomendas;
        this.encomendaAtual=encomendaAtual.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
        this.setHistorico(historicoEncomendas.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList()));
+       this.pedidos=new ArrayList<>();
    }
    
    public Transportadora(Transportadora e) {
@@ -74,6 +75,7 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.numeroDeEncomendas=e.getNumEnc();
        this.encomendaAtual=e.getEncomendaAtual();
        this.setHistorico(e.getHistorico());
+       this.pedidos=e.getPedidos();
    }
    
    @Override
@@ -142,6 +144,11 @@ public class Transportadora extends Entregador implements InterfaceTransportador
     }
 
     @Override
+    public List<Map.Entry<InterfaceEncomenda,String>> getPedidos(){
+       return new ArrayList<>(this.pedidos);
+    }
+
+    @Override
     public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
         List<InterfaceEncomenda> r = new ArrayList<>();
         List<InterfaceEncomenda> h;
@@ -195,4 +202,27 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        return (this.numeroDeEncomendas-this.encomendaAtual.size())>0 && (!med || this.getMedical());
    }
 
+   @Override
+    public double calculaCusto(double dist,double peso){
+       return (dist*custoKm)+(peso*custoKg);
+   }
+
+   @Override
+    public void addPedido(InterfaceEncomenda enc){
+       this.pedidos.add(new AbstractMap.SimpleEntry<>(enc,"p"));
+   }
+
+    @Override
+    public void addPedido(InterfaceEncomenda enc,String stat){ this.pedidos.add(new AbstractMap.SimpleEntry<>(enc,stat));    }
+
+   @Override
+    public void alteraPedido(InterfaceEncomenda enc,String stat){
+       this.pedidos=this.getPedidos().stream().filter(i->!(i.getKey().getCodEncomenda().equals(enc.getCodEncomenda()))).collect(Collectors.toList());
+       this.addPedido(enc,stat);
+   }
+
+   @Override
+    public void clearAtual(){
+       this.encomendaAtual= new ArrayList<>();
+   }
 }

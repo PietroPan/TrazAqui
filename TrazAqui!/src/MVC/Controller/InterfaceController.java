@@ -20,11 +20,11 @@ public interface InterfaceController {
 
     int escolheMenu();
 
-    int menuUser() throws UtilizadorInexistenteException, LojaInexistenteException;
+    int menuUser() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException;
 
     int menuVoluntario() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException;
 
-    int menuTransportadora();
+    int menuTransportadora() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException;
 
     int menuLoja();
 

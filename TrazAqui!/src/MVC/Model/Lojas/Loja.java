@@ -246,11 +246,11 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
    @Override
    public Map<String, List<String>> atualizaLoja(LocalDateTime t) {
        Map<String, List<String>> messages = new HashMap<>();
+       Map<String,InterfaceEncomenda> aux = new HashMap<>();
        List<String> lista;
        for (InterfaceEncomenda e : this.pedidosEmEspera.values()) {
            if (e.getDataEntrega().plusMinutes((long)this.tempoAtendimento*this.tamanhoFila).isBefore(t)) {
-               this.pedidosEmEspera.remove(e.getCodEncomenda());
-               this.pedidosProntos.put(e.getCodEncomenda(), e);
+               aux.put(e.getCodEncomenda(),e.clone());
                if (messages.containsKey(e.getDestino())) {
                    lista = messages.get(e.getDestino());
                }
@@ -260,7 +260,8 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
                messages.put(e.getDestino(), lista);
            }
        }
+       this.pedidosEmEspera.entrySet().removeIf(l->aux.containsKey(l.getKey()));
+       this.pedidosProntos.putAll(aux);
        return messages;
    }
-
 }

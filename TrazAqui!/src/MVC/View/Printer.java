@@ -3,6 +3,7 @@ package MVC.View;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import Common.*;
 
@@ -146,10 +147,11 @@ public class Printer implements Serializable
 
     public void showUserOptions(){
         System.out.println("1.Fazer encomenda" +
-                            "\n2.Solicitar entrega de encomenda" +
+                            "\n2.Verificar ofertas de transporte" +
                             "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
                             "\n4.Classificar encomendas já recebidas" +
-                            "\n5.Mudar de Conta" +
+                            "\n5.Dados" +
+                            "\n6.Mudar de Conta" +
                             "\n0.Sair" );
     }
 
@@ -157,6 +159,17 @@ public class Printer implements Serializable
         System.out.println("1.Ver pedidos de entrega" +
                             "\n2.Mudar de Conta" +
                             "\n0.Sair");
+    }
+
+    public void showTransportadoraOptions() {
+        System.out.println("1.Ver pedidos de entrega" +
+                "\n2.Calcular preco de transporte"+
+                "\n3.Propor Entrega"+
+                "\n4.Verificar Pedidos Propostos"+
+                "\n5.Fazer Entrega"+
+                "\n6.Dados" +
+                "\n7.Mudar de Conta" +
+                "\n0.Sair");
     }
 
     public void showBye() {
@@ -196,7 +209,7 @@ public class Printer implements Serializable
     }
 
     public void encomendaNotReady() {
-        System.out.println("A sua Common.Encomenda está a ser preparada");
+        System.out.println("A sua Encomenda está a ser preparada");
     }
 
     public void apresentaEntregador(String[] s) {
@@ -210,7 +223,7 @@ public class Printer implements Serializable
     }
 
     public void apresentaEncomenda(String enc) {
-        System.out.println("Common.Encomenda:\n" + enc + "\n");
+        System.out.println("Encomenda:\n" + enc + "\n");
     }
 
     public void apresentaPrecoEnc(double preco) {
@@ -247,5 +260,70 @@ public class Printer implements Serializable
             System.out.println(p.toString());
 
         }
+    }
+
+    public void apresentaStockAll(List<InterfaceEncomenda> l){
+        int i=0;
+        for (InterfaceEncomenda p : l) {
+            i++;
+            System.out.println("#######Encomenda "+i +"#######");
+            System.out.println(p.toString());
+
+        }
+    }
+
+    public void apresentaPedidos1(List<TriploPedido> l) {
+        int i=0;
+        for (TriploPedido p : l) {
+            i++;
+            System.out.println("\n#######Pedido "+i +"#######");
+            System.out.println(p.toString());
+        }
+    }
+
+    public void apresentaPedidos2(List<Map.Entry<InterfaceEncomenda,String>> l) {
+        int i=0;
+        for (Map.Entry<InterfaceEncomenda,String> p : l) {
+            i++;
+            System.out.println("\n#######Pedido "+i +"#######");
+            System.out.println(p.getKey().toString());
+            System.out.println("Status: "+printStatus(p.getValue()));
+        }
+    }
+
+    public String printStatus(String stat){
+        switch (stat) {
+            case "a": return "Aceite";
+            case "p": return "Pendente";
+            case "c": return "Cancelada";
+            default: return "Error";
+        }
+    }
+    public void askOferta(){
+        System.out.println("Deseja aceitar alguma oferta? (s/S) ou (n/N)");
+    }
+
+    public void askCodEnc(){
+        System.out.println("Digite o código da encomenda:");
+    }
+
+    public void askCodTrans(){
+        System.out.println("Digite o código da Empresa Transportadora:");
+    }
+
+    public void showValTransporte(double val){
+        System.out.println("O valor de transporte será: "+val);
+    }
+
+    public void pedidoSucesso(){
+        System.out.println("Pedido solicitado com sucesso!");
+    }
+
+    public void encomendaSucesso(){
+        System.out.println("Encomenda efetuada com sucesso!");
+    }
+
+    public void fazerEncomenda(){
+        System.out.println("Deseja fazer a encomenda atual?");
     }
 }

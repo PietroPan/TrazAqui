@@ -108,4 +108,29 @@ public class Entregadores implements InterfaceEntregadores, Serializable {
         return r;
     }
 
+    @Override
+    public void addPedido(InterfaceEncomenda enc,String trans){
+        InterfaceTransportadora aux = ((InterfaceTransportadora)this.entregadores.get(trans));
+        aux.addPedido(enc);
+    }
+
+    @Override
+    public void alteraPedido(InterfaceEncomenda enc,String trans,String stat){
+        InterfaceTransportadora aux = ((InterfaceTransportadora)this.entregadores.get(trans));
+        aux.alteraPedido(enc,stat);
+    }
+
+    @Override
+    public void addToHistorico(String ent,InterfaceEncomenda enc){
+        InterfaceEntregador aux = this.entregadores.get(ent);
+        aux.addToHistorico(enc);
+    }
+
+    @Override
+    public void clearAtual(String trans){
+        InterfaceTransportadora aux = (InterfaceTransportadora)this.entregadores.get(trans);
+        aux.clearAtual();
+    }
+
+
 }

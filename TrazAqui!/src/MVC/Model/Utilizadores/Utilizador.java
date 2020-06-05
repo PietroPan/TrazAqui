@@ -9,12 +9,16 @@ package MVC.Model.Utilizadores;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import Common.*;
 
 public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serializable {
     private double balance;
     private Set<Map.Entry<Boolean,String>> pedidosEntregues;
     private List<String> messages;
+    private List<TriploPedido> pedidos;
 
     public Utilizador() {
         this.setNome("NoName");
@@ -25,6 +29,7 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         this.balance = 0.00;
         this.pedidosEntregues=new HashSet<>();
         this.messages=new ArrayList<>();
+        this.pedidos= new ArrayList<>();
     }
 
     public Utilizador(String codUtilizador, String password, String nome, double balance, Point2D pos, Set<Map.Entry<Boolean,String>> pedidosEntregues, List<String> messages) {
@@ -35,6 +40,7 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         this.setPedidosEntregues(pedidosEntregues);
         this.balance = balance;
         this.messages = new ArrayList<>(messages);
+        this.pedidos = new ArrayList<>();
     }
 
     public Utilizador(InterfaceUtilizador u) {
@@ -45,6 +51,7 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         this.balance = u.getBalance();
         this.pedidosEntregues = u.getPedidosEntregues();
         this.messages=u.getMessages();
+        this.pedidos=u.getPedidos();
     }
 
     @Override
@@ -75,6 +82,11 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
     @Override
     public Set<Map.Entry<Boolean,String>> getPedidosEntregues() {
         return new HashSet<>(pedidosEntregues);
+    }
+
+    @Override
+    public List<TriploPedido> getPedidos(){
+        return new ArrayList<>(pedidos);
     }
 
     @Override
@@ -112,4 +124,22 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         this.messages.add("A sua Encomenda de id "+e.getCodEncomenda()+" foi entregue");
         this.pedidosEntregues.add(new AbstractMap.SimpleEntry<>(false,e.getCodEncomenda()));
     }
+
+    @Override
+    public void addPedido(InterfaceEncomenda enc, String trans) {
+        this.pedidos.add(new TriploPedido(enc,trans,"p"));
+    }
+
+    @Override
+    public void addPedido(InterfaceEncomenda enc, String trans, String stat) {
+        this.pedidos.add(new TriploPedido(enc,trans,stat));
+    }
+
+    @Override
+    public void alteraPedido(InterfaceEncomenda enc, String trans, String stat) {
+        this.pedidos=this.getPedidos().stream().filter(i->!(i.getEnc().getCodEncomenda().equals(enc.getCodEncomenda())&&i.getTrans().equals(trans))).collect(Collectors.toList());
+        this.addPedido(enc,trans,stat);
+    }
+
+
 }

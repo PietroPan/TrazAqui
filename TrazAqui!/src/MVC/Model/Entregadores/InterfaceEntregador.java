@@ -29,6 +29,10 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
 
     void setVezesClassificado(int vezesClassificado);
 
+    List<String> getMessages();
+
+    void setMessages(List<String> messages);
+
     boolean hasRoomAndMed(boolean med);
 
     void addEncomenda(InterfaceEncomenda enc);
@@ -48,4 +52,8 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
     void classifica(float c);
 
     List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
+
+    public void addMessage(String message);
+
+    void addToHistorico(InterfaceEncomenda enc);
 }

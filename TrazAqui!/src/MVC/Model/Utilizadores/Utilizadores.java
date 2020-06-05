@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import Exceptions.*;
 import Common.*;
+import MVC.Model.Entregadores.InterfaceTransportadora;
 
 public class Utilizadores implements InterfaceUtilizadores, Serializable {
     private Map<String, InterfaceUtilizador> users;
@@ -81,5 +82,22 @@ public class Utilizadores implements InterfaceUtilizadores, Serializable {
         for (InterfaceEncomenda e : l) {
             this.users.get(e.getDestino()).atualizaEstado(e);
         }
+    }
+
+    @Override
+    public void addPedido(InterfaceEncomenda enc,String trans){
+        InterfaceUtilizador aux = this.users.get(enc.getDestino());
+        aux.addPedido(enc,trans);
+    }
+
+    @Override
+    public void alteraPedido(InterfaceEncomenda enc,String trans,String stat){
+        InterfaceUtilizador aux = this.users.get(enc.getDestino());
+        aux.alteraPedido(enc,trans,stat);
+    }
+
+    @Override
+    public void addEntregue(String uti,String enc){
+        this.users.get(uti).addEntregue(enc);
     }
 }

@@ -7,6 +7,7 @@ package Common;
  */
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
     private String userDestino;
     private List<InterfaceLinhaEncomenda> pedido;
     private LocalDateTime dataEntrega;
+    private LocalDateTime dataInicio;
     
     public Encomenda() {
         this.codEncomenda="Common.Encomenda Standard";
@@ -29,16 +31,18 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
         this.userDestino="User Standard";
         this.pedido=new ArrayList<>();
         this.dataEntrega= LocalDateTime.now();
+        this.dataInicio= LocalDateTime.now();
     }
     
-    public Encomenda(String enc, boolean medical, float peso, String loja, String user, List<InterfaceLinhaEncomenda> pedido, LocalDateTime t) {
+    public Encomenda(String enc, boolean medical, float peso, String loja, String user, List<InterfaceLinhaEncomenda> pedido, LocalDateTime t1,LocalDateTime t2) {
         this.codEncomenda=enc;
         this.medical=medical;
         this.peso=peso;
         this.lojaOrigem=loja;
         this.userDestino=user;
         this.pedido=pedido.stream().map(l -> l.clone()).collect(Collectors.toList());
-        this.dataEntrega=t;
+        this.dataEntrega=t1;
+        this.dataInicio=t2;
     }
     
     public Encomenda(InterfaceEncomenda e) {
@@ -49,6 +53,7 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
         this.userDestino=e.getDestino();
         this.pedido=e.getPedido();
         this.dataEntrega=e.getDataEntrega();
+        this.dataInicio=e.getDataInicio();
     }
     
     @Override
@@ -122,6 +127,16 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
     }
 
     @Override
+    public LocalDateTime getDataInicio() {
+        return dataInicio;
+    }
+
+    @Override
+    public void setDataInicio(LocalDateTime dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    @Override
     public boolean equals(Object enc) {
         InterfaceEncomenda e;
         if (enc==null || enc.getClass()!=enc.getClass()) 
@@ -133,10 +148,10 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("Codigo de Common.Encomenda: ").append(this.codEncomenda)
+        s.append("Codigo de Encomenda: ").append(this.codEncomenda)
         .append("\nInterfaceLoja de Origem: ").append(this.lojaOrigem)
         .append("\nInterfaceUtilizador de Destino: ").append(this.userDestino)
-        .append("\nCommon.Encomenda Médica: ").append(this.medical)
+        .append("\nEncomenda Médica: ").append(this.medical)
         .append("\nPeso(Kgs): ").append(this.peso)
         .append("\nPedido: ").append(this.pedido.toString());
         return s.toString();
@@ -150,5 +165,11 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
     @Override
     public double calculaValorTotal() {
         return this.pedido.stream().map(InterfaceLinhaEncomenda::getPreco).reduce(0.0, Double::sum);
+    }
+
+    @Override
+    public double calculaTempoDemorado(){
+        Duration duration = Duration.between(this.getDataEntrega(),this.getDataInicio());
+        return (double)duration.getSeconds();
     }
 }

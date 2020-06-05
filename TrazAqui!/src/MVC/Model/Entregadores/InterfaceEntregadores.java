@@ -31,4 +31,12 @@ public interface InterfaceEntregadores {
     void denyAll(String cod);
 
     List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
+
+    void addPedido(InterfaceEncomenda enc,String trans);
+
+    void alteraPedido(InterfaceEncomenda enc,String trans,String stat);
+
+    void addToHistorico(String ent,InterfaceEncomenda enc);
+
+    void clearAtual(String trans);
 }

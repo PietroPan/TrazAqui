@@ -69,4 +69,22 @@ public interface InterfaceData {
     void atualizaEstado();
 
     List<InterfaceLinhaEncomenda> getStock(String l);
+
+    String gerarCodUser();
+
+    String gerarCodLoja();
+
+    String gerarCodVol();
+
+    String gerarCodTrans();
+
+    double getDistTotal(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
+
+    List<InterfaceEncomenda> getEncomendasDisp(String trans);
+
+    void fazerEncomenda(String cod) throws EntregadorInexistenteException , LojaInexistenteException, UtilizadorInexistenteException;
+
+    void aceitarPedido(InterfaceEncomenda enc,String trans);
+
+    void fazerPedido(InterfaceEncomenda enc,String trans);
 }
