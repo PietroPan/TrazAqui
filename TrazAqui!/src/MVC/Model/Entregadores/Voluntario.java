@@ -28,9 +28,11 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
         this.setVelocidade(0);
         this.setClassificacao(0);
         this.setVezesClassificado(1);
+        this.setMessages(new ArrayList<>());
         this.pedidos=new ArrayList<>();
         this.encomendaAtual=new Encomenda();
         this.setHistorico(new ArrayList<>());
+        this.setAEntregar(false);
     }
     
     public Voluntario(String nome, String codEntregador, Point2D pos, String password, float raio, boolean levaMedical, float velocidadeDeEntrega, float c, int vC, ArrayList<String> pedidos, InterfaceEncomenda e, List<InterfaceEncomenda> lE) {
@@ -43,9 +45,11 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
         this.setVelocidade(velocidadeDeEntrega);
         this.setClassificacao(c);
         this.setVezesClassificado(vC);
+        this.setMessages(new ArrayList<>());
         this.pedidos= new ArrayList<>(pedidos);
         this.encomendaAtual=e.clone();
         this.setHistorico(lE.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList()));
+        this.setAEntregar(false);
    }
     
    public Voluntario(Voluntario v) {
@@ -58,9 +62,11 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
        this.setVelocidade(v.getVelocidade());
        this.setClassificacao(v.getClassificacao());
        this.setVezesClassificado(v.getVezesClassificado());
+       this.setMessages(v.getMessages());
        this.pedidos=v.getPedidos();
        this.encomendaAtual=v.getEncomenda();
        this.setHistorico(v.getHistorico());
+       this.setAEntregar(false);
    }
    
    @Override
@@ -114,7 +120,6 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
 
    @Override
    public void addEncomenda(InterfaceEncomenda e) {
-        this.pedidos.removeIf(l -> l.equals(e.getCodEncomenda()));
         this.encomendaAtual=e.clone();
     }
 
@@ -132,6 +137,7 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
     public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
         List<InterfaceEncomenda> r = new ArrayList<>();
         List<InterfaceEncomenda> h;
+        boolean a = this.encomendaAtual.getCodEncomenda().contains("v");
         if (this.encomendaAtual.getDataEntrega().isBefore(t) && !this.encomendaAtual.getDestino().equals("User Standard")) {
             h = this.getHistorico();
             h.add(this.encomendaAtual.clone());
@@ -139,6 +145,13 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
             r.add(this.encomendaAtual.clone());
             this.encomendaAtual=new Encomenda();
         }
+        boolean b = this.encomendaAtual.getCodEncomenda().contains("v");
+        if (a&&!b) this.setAEntregar(false);
         return r;
+    }
+
+    @Override
+    public void atualizaAtual(InterfaceEncomenda enc){
+        this.encomendaAtual=enc.clone();
     }
 }

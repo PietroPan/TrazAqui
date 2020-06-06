@@ -34,10 +34,12 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.setVelocidade(0);
        this.setClassificacao(0);
        this.setVezesClassificado(1);
+       this.setMessages(new ArrayList<>());
        this.numeroDeEncomendas=0;
        this.encomendaAtual=new ArrayList<>();
        this.setHistorico(new ArrayList<>());
        this.pedidos=new ArrayList<>();
+       this.setAEntregar(false);
    }
    
    public Transportadora(String nome, String codEmpresa, Point2D pos, String password, float raio, String NIF, double custoKm, double custoKg, boolean levaMedical, float velocidadeDeEntrega, float c, int vC, int numeroDeEncomendas, List<InterfaceEncomenda> encomendaAtual, List<InterfaceEncomenda> historicoEncomendas) {
@@ -53,10 +55,12 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.setVelocidade(velocidadeDeEntrega);
        this.setClassificacao(c);
        this.setVezesClassificado(vC);
+       this.setMessages(new ArrayList<>());
        this.numeroDeEncomendas=numeroDeEncomendas;
        this.encomendaAtual=encomendaAtual.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
        this.setHistorico(historicoEncomendas.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList()));
        this.pedidos=new ArrayList<>();
+       this.setAEntregar(false);
    }
    
    public Transportadora(Transportadora e) {
@@ -72,10 +76,12 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.setVelocidade(e.getVelocidade());
        this.setClassificacao(e.getClassificacao());
        this.setVezesClassificado(e.getVezesClassificado());
+       this.setMessages(e.getMessages());
        this.numeroDeEncomendas=e.getNumEnc();
        this.encomendaAtual=e.getEncomendaAtual();
        this.setHistorico(e.getHistorico());
        this.pedidos=e.getPedidos();
+       this.setAEntregar(false);
    }
    
    @Override
@@ -152,6 +158,7 @@ public class Transportadora extends Entregador implements InterfaceTransportador
     public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
         List<InterfaceEncomenda> r = new ArrayList<>();
         List<InterfaceEncomenda> h;
+        int a = this.encomendaAtual.size();
         Iterator<InterfaceEncomenda> i =this.encomendaAtual.iterator();
         while (i.hasNext()) {
             InterfaceEncomenda e = i.next();
@@ -160,6 +167,8 @@ public class Transportadora extends Entregador implements InterfaceTransportador
                 i.remove();
             }
         }
+        int b = this.encomendaAtual.size();
+        if (a>0&&b==0) this.setAEntregar(false);
         h = this.getHistorico();
         h.addAll(r.stream().map(InterfaceEncomenda::clone).collect(Collectors.toSet()));
         this.setHistorico(h);
@@ -224,5 +233,11 @@ public class Transportadora extends Entregador implements InterfaceTransportador
    @Override
     public void clearAtual(){
        this.encomendaAtual= new ArrayList<>();
+   }
+
+   @Override
+    public void atualizaAtual (InterfaceEncomenda enc){
+       this.encomendaAtual.removeIf(i->i.getCodEncomenda().equals(enc.getCodEncomenda()));
+       this.encomendaAtual.add(enc);
    }
 }

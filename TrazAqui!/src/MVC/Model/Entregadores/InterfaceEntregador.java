@@ -5,6 +5,10 @@ import java.util.List;
 import Common.*;
 
 public interface InterfaceEntregador extends InterfaceBasicInfo {
+    void setAEntregar(boolean aEntregar);
+
+    boolean isAEntregar();
+
     void setRaio(float raio);
 
     void setMedical(boolean medical);

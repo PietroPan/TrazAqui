@@ -19,4 +19,7 @@ public interface InterfaceVoluntario extends InterfaceBasicInfo, InterfaceEntreg
     void addPedido(String enc);
 
     void denyAllRequests();
+
+    void atualizaAtual(InterfaceEncomenda enc);
 }
+// u898 e288 v244

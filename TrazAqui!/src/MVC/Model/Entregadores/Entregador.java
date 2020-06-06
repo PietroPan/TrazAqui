@@ -18,9 +18,20 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
     private float velocidadeDeEntrega;
     private float classificacao;
     private int vezesClassificado;
+    private boolean aEntregar;
     private List<InterfaceEncomenda> historicoEncomendas;
     private List<String> messages;
-   
+
+    @Override
+    public void setAEntregar(boolean aEntregar){
+        this.aEntregar=aEntregar;
+    }
+
+    @Override
+    public boolean isAEntregar(){
+        return this.aEntregar;
+    }
+
    @Override
    public void setRaio(float raio) {
        this.raio=raio;

@@ -110,6 +110,15 @@ public class Controller implements InterfaceController, Serializable {
                 }
                 break;
             case ('v'):
+                try {
+                    InterfaceEntregador e = this.info.getEntregador(cod);
+                    r= e!=null && password.equals(e.getPassword());
+                }
+                catch (EntregadorInexistenteException d) {
+                    p.naoRegistado("InterfaceEntregador");
+                    r=false;
+                }
+                break;
             case ('t'):
                 try {
                     InterfaceEntregador e = this.info.getEntregador(cod);
@@ -144,7 +153,7 @@ public class Controller implements InterfaceController, Serializable {
         p.askLocalizacao("y");
         float y = Float.parseFloat(read.nextLine());
         user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y),new HashSet<>(),new ArrayList<>());
-        user.addMessage("User cridado com sucesso\nCódigo: "+userCod+""+"\nBem Vindo!");
+        user.addMessage("User cridado com sucesso\nCódigo: "+userCod+"\nBem Vindo!");
         info.addUser(user);
         return userCod;
     }
@@ -171,7 +180,9 @@ public class Controller implements InterfaceController, Serializable {
         p.askVelocidadeNormal();
         float v = Float.parseFloat(read.nextLine());
         if (i==1) {
-            this.info.addEntregador(new Voluntario(name,cod,new Point2D.Double(x,y),password,r,medical,v,0,0,new ArrayList<>(),new Encomenda(),new ArrayList<>()));
+            InterfaceVoluntario vol = new Voluntario(name,cod,new Point2D.Double(x,y),password,r,medical,v,0,0,new ArrayList<>(),new Encomenda(),new ArrayList<>());
+            vol.addMessage("User cridado com sucesso\nCódigo: "+cod+"\nBem Vindo!");
+            this.info.addEntregador(vol);
         }
         else {
             p.askNIF();
@@ -182,7 +193,9 @@ public class Controller implements InterfaceController, Serializable {
             float km = Float.parseFloat(read.nextLine());
             p.askNEncomendas();
             int n = Integer.parseInt(read.nextLine());
-            this.info.addEntregador(new Transportadora(name,cod,new Point2D.Double(x,y),password,r,nif,km,kg,medical,v,0,0,n,new ArrayList<>(),new ArrayList<>()));
+            InterfaceTransportadora trans = new Transportadora(name,cod,new Point2D.Double(x,y),password,r,nif,km,kg,medical,v,0,0,n,new ArrayList<>(),new ArrayList<>());
+            trans.addMessage("User cridado com sucesso\nCódigo: "+cod+"\nBem Vindo!");
+            this.info.addEntregador(trans);
         }
         return cod;
     }
@@ -241,14 +254,14 @@ public class Controller implements InterfaceController, Serializable {
                 try {
                     r = menuUser();
                 } catch (UtilizadorInexistenteException | LojaInexistenteException | EntregadorInexistenteException u) {
-                    p.exception(u.getLocalizedMessage());
+                    p.exception(u.getLocalizedMessage()+"op1");
                 }
                 break;
             case ('v'):
                 try {
                     r = menuVoluntario();
                 } catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
-                    p.exception(e.getLocalizedMessage());
+                    p.exception(e.getLocalizedMessage()+"op2");
                 }
                 break;
             case ('t'):
@@ -256,7 +269,7 @@ public class Controller implements InterfaceController, Serializable {
                     r = menuTransportadora();
                 }
                 catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
-                    p.exception(e.getLocalizedMessage());
+                    p.exception(e.getLocalizedMessage()+"op3");
                 }
                 break;
             case ('l'):
@@ -291,7 +304,7 @@ public class Controller implements InterfaceController, Serializable {
                     boolean med = read.nextLine().toUpperCase().equals("S");
                     List<Map.Entry<String,Double>> list=new ArrayList<>();
                     List<InterfaceLinhaEncomenda> lista = new ArrayList<>();
-                    InterfaceEncomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,lista, LocalDateTime.now(),LocalDateTime.now());
+                    InterfaceEncomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,lista, this.info.getHoras(),this.info.getHoras());
                     p.apresentaStock(stock);
                     p.askLinhaEnc();
                     opcao=read.nextLine().toUpperCase();
@@ -368,16 +381,16 @@ public class Controller implements InterfaceController, Serializable {
                     p.apresentaPedidos1(this.info.getUser(codUser).getPedidos());
                     p.askOferta();
                     String r = read.nextLine();
-                    if (r.equals("s") || r.equals("S")){
+                    while (r.equals("s")|| r.equals("S")){
                         p.askCodEnc();
                         String encS = read.nextLine();
                         p.askCodTrans();
                         String trans = read.nextLine();
                         this.info.aceitarPedido(this.info.getEncomenda(encS),trans);
+                        p.askOfertaMais();
+                        r = read.nextLine();
                     }
-
                 case ("3"):
-
                     break;
                 case ("4") :
                     Set<Map.Entry<Boolean,String>> encomendasID = this.info.getUser(this.codUser).getPedidosEntregues();
@@ -402,9 +415,6 @@ public class Controller implements InterfaceController, Serializable {
                     this.info.classifica(encomendasID,eID,codUser,c);
                     break;
                 case("5"):
-                    System.out.println(codUser);
-                    break;
-                case("6"):
                     return 1;
                 default:
                     p.invalid("Opção");
@@ -415,7 +425,7 @@ public class Controller implements InterfaceController, Serializable {
         return 0;
     }
 
-    @Override
+    /*@Override
     public int menuVoluntario() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
@@ -441,47 +451,105 @@ public class Controller implements InterfaceController, Serializable {
             p.showVoluntarioOptions();
         }
         return 0;
+    } u96 e6149 t485
+     */
+    public int menuVoluntario() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
+        String opcao;
+        Scanner read = new Scanner(System.in);
+        p.apresentaUnreadMessages(this.info.getEntregador(codUser).getMessages());
+        this.info.resetMessages(codUser);
+        p.showVoluntarioOptions();
+        while (!(opcao=read.nextLine()).equals("0")) {
+            switch (opcao) {
+                case ("1"):
+                    if (!this.info.isAEntregar(codUser)) {
+                        List<InterfaceEncomenda> ls = this.info.getEncomendasDisp(codUser);
+                        p.apresentaStockAll(ls);
+                    } else p.acaoIndesponivel();
+                    break;
+                case ("2"):
+                    if (!this.info.isAEntregar(codUser)){
+                        p.askCodEnc();
+                        String enc = read.nextLine();
+                        this.info.addEncomendaVol(this.info.getEncomenda(enc),codUser);
+                        p.pedidoAceite();
+                        p.fazerEncomenda();
+                        String r = read.nextLine();
+                        if (r.equals("s") || r.equals("S")) {
+                            this.info.fazerEncomenda(codUser);
+                        }
+                    } else p.acaoIndesponivel();
+                    break;
+                case ("3"):
+                    if (!this.info.isAEntregar(codUser)) {
+                        p.fazerEncomenda();
+                        String r = read.nextLine();
+                        if (r.equals("s") || r.equals("S")) {
+                            this.info.fazerEncomenda(codUser);
+                        }
+                    } else p.acaoIndesponivel();
+                    break;
+                case ("4"):
+                    return 1;
+                default:
+                    p.invalid("Opção");
+                    break;
+            }
+            p.showVoluntarioOptions();
+        }
+        return 0;
     }
 
     @Override
     public int menuTransportadora() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
+        p.apresentaUnreadMessages(this.info.getEntregador(codUser).getMessages());
         p.showTransportadoraOptions();
         InterfaceTransportadora trans = (InterfaceTransportadora) this.info.getEntregador(codUser);
         while (!(opcao=read.nextLine()).equals("0")) {
             switch (opcao) {
                 case ("1"):
-                    List<InterfaceEncomenda> ls = this.info.getEncomendasDisp(codUser);
-                    p.apresentaStockAll(ls);
+                    if (!this.info.isAEntregar(codUser)){
+                        List<InterfaceEncomenda> ls = this.info.getEncomendasDisp(codUser);
+                        p.apresentaStockAll(ls);
+                    } else p.acaoIndesponivel();
                     break;
                 case ("2"):
-                    p.askCodEnc();
-                    String enc = read.nextLine();
-                    p.showValTransporte(this.info.getDistTotal(codUser,enc)*trans.getCustoKm());
+                    if (!this.info.isAEntregar(codUser)) {
+                        p.askCodEnc();
+                        String enc = read.nextLine();
+                        p.showValTransporte(this.info.getDistTotal(codUser, enc) * trans.getCustoKm());
+                    } else p.acaoIndesponivel();
                     break;
                 case ("3"):
-                    p.askCodEnc();
-                    enc = read.nextLine();
-                    this.info.fazerPedido(this.info.getEncomenda(enc), codUser);
-                    p.pedidoSucesso();
+                    if (!this.info.isAEntregar(codUser)) {
+                        p.askCodEnc();
+                        String enc = read.nextLine();
+                        List<Boolean> b = this.info.fazerPedido(this.info.getEncomenda(enc), codUser);
+                        if (!b.get(0)) p.naoRaio();
+                        if (!b.get(1)) p.naoMedical();
+                        if (!b.get(2)) p.naoPronto();
+                        if (b.get(0) && b.get(1) && b.get(2)) p.pedidoSucesso();
+                    } else p.acaoIndesponivel();
                     break;
                 case ("4"):
-                    trans = (InterfaceTransportadora) this.info.getEntregador(codUser);
-                    p.apresentaPedidos2(trans.getPedidos());
+                    if (!this.info.isAEntregar(codUser)){
+                        trans = (InterfaceTransportadora) this.info.getEntregador(codUser);
+                        p.apresentaPedidos2(trans.getPedidos());
+                    } else p.acaoIndesponivel();
                     break;
                 case ("5"):
-                    p.fazerEncomenda();
-                    String r = read.nextLine();
-                    if (r.equals("s") || r.equals("S")) {
-                        this.info.fazerEncomenda(codUser);
-                        p.encomendaSucesso();
-                    }
+                    if (!this.info.isAEntregar(codUser)) {
+                        p.fazerEncomenda();
+                        String r = read.nextLine();
+                        if (r.equals("s") || r.equals("S")) {
+                            this.info.fazerEncomenda(codUser);
+                            p.encomendaEntregue();
+                        }
+                    } else p.acaoIndesponivel();
                     break;
                 case ("6"):
-                    System.out.println(codUser);
-                    break;
-                case ("7"):
                     return 1;
                 default:
                     p.invalid("Opção");

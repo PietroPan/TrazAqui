@@ -248,8 +248,10 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
        Map<String, List<String>> messages = new HashMap<>();
        Map<String,InterfaceEncomenda> aux = new HashMap<>();
        List<String> lista;
+       int i=5;
+       if (this.tamanhoFila>0) i=this.tamanhoFila;
        for (InterfaceEncomenda e : this.pedidosEmEspera.values()) {
-           if (e.getDataEntrega().plusMinutes((long)this.tempoAtendimento*this.tamanhoFila).isBefore(t)) {
+           if (e.getDataInicio().plusMinutes((long)this.tempoAtendimento*i).isBefore(t)) {
                aux.put(e.getCodEncomenda(),e.clone());
                if (messages.containsKey(e.getDestino())) {
                    lista = messages.get(e.getDestino());

@@ -80,11 +80,17 @@ public interface InterfaceData {
 
     double getDistTotal(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
 
-    List<InterfaceEncomenda> getEncomendasDisp(String trans);
+    List<InterfaceEncomenda> getEncomendasDisp(String trans) throws EntregadorInexistenteException, UtilizadorInexistenteException;
 
     void fazerEncomenda(String cod) throws EntregadorInexistenteException , LojaInexistenteException, UtilizadorInexistenteException;
 
     void aceitarPedido(InterfaceEncomenda enc,String trans);
 
-    void fazerPedido(InterfaceEncomenda enc,String trans);
+    List<Boolean> fazerPedido(InterfaceEncomenda enc,String trans) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
+
+    boolean isNear (InterfaceEntregador cod,InterfaceLoja loja,InterfaceUtilizador uti);
+
+    void addEncomendaVol (InterfaceEncomenda enc,String vol);
+
+    boolean isAEntregar(String cod);
 }

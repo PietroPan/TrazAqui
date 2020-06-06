@@ -132,5 +132,36 @@ public class Entregadores implements InterfaceEntregadores, Serializable {
         aux.clearAtual();
     }
 
+    @Override
+    public void addMessage(String cod, String message) {
+        this.entregadores.get(cod).addMessage(message);
+    }
+
+    @Override
+    public void atualizaAtual(String cod,InterfaceEncomenda enc){
+        if (cod.contains("t")){
+            InterfaceTransportadora trans = (InterfaceTransportadora)this.entregadores.get(cod);
+            trans.atualizaAtual(enc);
+        }
+        else {
+            InterfaceVoluntario vol = (InterfaceVoluntario)this.entregadores.get(cod);
+            vol.atualizaAtual(enc);
+        }
+    }
+
+    @Override
+    public void resetMessages(String cod) {
+        this.entregadores.get(cod).setMessages(new ArrayList<>());
+    }
+
+    @Override
+    public void setAEntregar(String cod,boolean b){
+        this.entregadores.get(cod).setAEntregar(b);
+    }
+
+    @Override
+    public boolean isAEntregar(String cod){
+        return this.entregadores.get(cod).isAEntregar();
+    }
 
 }

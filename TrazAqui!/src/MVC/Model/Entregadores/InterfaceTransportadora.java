@@ -45,4 +45,6 @@ public interface InterfaceTransportadora extends InterfaceBasicInfo, InterfaceEn
     void alteraPedido(InterfaceEncomenda enc,String stat);
 
     void clearAtual();
+
+    void atualizaAtual (InterfaceEncomenda enc);
 }

@@ -150,14 +150,15 @@ public class Printer implements Serializable
                             "\n2.Verificar ofertas de transporte" +
                             "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
                             "\n4.Classificar encomendas já recebidas" +
-                            "\n5.Dados" +
-                            "\n6.Mudar de Conta" +
+                            "\n5.Mudar de Conta" +
                             "\n0.Sair" );
     }
 
     public void showVoluntarioOptions() {
         System.out.println("1.Ver pedidos de entrega" +
-                            "\n2.Mudar de Conta" +
+                            "\n2.Pedir Entrega"+
+                            "\n3.Fazer Entrega"+
+                            "\n4.Mudar de Conta"+
                             "\n0.Sair");
     }
 
@@ -167,8 +168,7 @@ public class Printer implements Serializable
                 "\n3.Propor Entrega"+
                 "\n4.Verificar Pedidos Propostos"+
                 "\n5.Fazer Entrega"+
-                "\n6.Dados" +
-                "\n7.Mudar de Conta" +
+                "\n6.Mudar de Conta" +
                 "\n0.Sair");
     }
 
@@ -205,7 +205,7 @@ public class Printer implements Serializable
     /*Apresenta Resultados*/
 
     public void encomendaACaminho(LocalDateTime t) {
-        System.out.println("A sua Common.Encomenda já está a caminho\nMVC.Model.Data estimada de entrega: " + t.toString());
+        System.out.println("A sua Encomenda já está a caminho\nData estimada de entrega: " + t.toString());
     }
 
     public void encomendaNotReady() {
@@ -303,6 +303,14 @@ public class Printer implements Serializable
         System.out.println("Deseja aceitar alguma oferta? (s/S) ou (n/N)");
     }
 
+    public void askOfertaMais(){
+        System.out.println("Deseja aceitar mais alguma oferta? (s/S) ou (n/N)");
+    }
+
+    public void askEfetuar(){
+        System.out.println("Deseja efetuar já a encomenda? (s/S) ou (n/N)");
+    }
+
     public void askCodEnc(){
         System.out.println("Digite o código da encomenda:");
     }
@@ -325,5 +333,29 @@ public class Printer implements Serializable
 
     public void fazerEncomenda(){
         System.out.println("Deseja fazer a encomenda atual?");
+    }
+
+    public void pedidoAceite() {
+        System.out.println("Pedido de entrega aceite!");
+    }
+
+    public void naoRaio(){
+        System.out.println("Encomenda não se encontra no sei raio de ação");
+    }
+
+    public void naoMedical(){
+        System.out.println("Não tem permissao para levantar encomendas do tipo medical");
+    }
+
+    public void naoPronto(){
+        System.out.println("Essa encomenda não se encontra pronta para levantamento");
+    }
+
+    public void encomendaEntregue(){
+        System.out.println("Encomenda a ser entregue");
+    }
+
+    public void acaoIndesponivel(){
+        System.out.println("Acão indesponível, está a ser efetuada uma entrega");
     }
 }

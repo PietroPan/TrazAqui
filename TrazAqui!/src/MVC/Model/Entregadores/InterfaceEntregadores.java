@@ -39,4 +39,14 @@ public interface InterfaceEntregadores {
     void addToHistorico(String ent,InterfaceEncomenda enc);
 
     void clearAtual(String trans);
+
+    void addMessage(String cod, String message);
+
+    void atualizaAtual(String trans,InterfaceEncomenda enc);
+
+    void resetMessages(String cod);
+
+    void setAEntregar(String cod,boolean b);
+
+    boolean isAEntregar(String cod);
 }

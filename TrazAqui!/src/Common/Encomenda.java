@@ -153,9 +153,12 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
         .append("\nInterfaceUtilizador de Destino: ").append(this.userDestino)
         .append("\nEncomenda Médica: ").append(this.medical)
         .append("\nPeso(Kgs): ").append(this.peso)
-        .append("\nPedido: ").append(this.pedido.toString());
+        .append("\nPedido: ").append(this.pedido.toString())
+        .append("\nDataInicio: ").append(this.dataInicio.toString())
+        .append("\nDataFinal: ").append(this.dataEntrega.toString());
         return s.toString();
     }
+
     
     @Override
     public InterfaceEncomenda clone() {
