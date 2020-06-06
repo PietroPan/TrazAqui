@@ -27,6 +27,7 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.setPosicao(new Point2D.Double(0,0));
        this.setPassword("n/a");
        this.setRaio(0);
+       this.setMessages(new ArrayList<>());
        this.NIF="n/a";
        this.custoKm=0;
        this.custoKg=0;
@@ -111,7 +112,6 @@ public class Transportadora extends Entregador implements InterfaceTransportador
 
    @Override
    public void addEncomenda(InterfaceEncomenda e) {
-       this.numeroDeEncomendas++;
        this.encomendaAtual.add(e.clone());
    }
 
@@ -168,7 +168,10 @@ public class Transportadora extends Entregador implements InterfaceTransportador
             }
         }
         int b = this.encomendaAtual.size();
-        if (a>0&&b==0) this.setAEntregar(false);
+        if (a>0&&b==0) {
+            this.setAEntregar(false);
+            alteraTodosPedidosIf("p","s");
+        }
         h = this.getHistorico();
         h.addAll(r.stream().map(InterfaceEncomenda::clone).collect(Collectors.toSet()));
         this.setHistorico(h);
@@ -212,6 +215,11 @@ public class Transportadora extends Entregador implements InterfaceTransportador
    }
 
    @Override
+   public boolean hasRoom(){
+       return (this.encomendaAtual.size()<this.numeroDeEncomendas);
+   }
+
+   @Override
     public double calculaCusto(double dist,double peso){
        return (dist*custoKm)+(peso*custoKg);
    }
@@ -224,10 +232,28 @@ public class Transportadora extends Entregador implements InterfaceTransportador
     @Override
     public void addPedido(InterfaceEncomenda enc,String stat){ this.pedidos.add(new AbstractMap.SimpleEntry<>(enc,stat));    }
 
-   @Override
+    @Override
+    public void addPedidos(List<InterfaceEncomenda> encs,String stat){
+       for (InterfaceEncomenda i : encs){
+           this.pedidos.add(new AbstractMap.SimpleEntry<>(i,stat));
+       }
+   }
+
+
+    @Override
     public void alteraPedido(InterfaceEncomenda enc,String stat){
        this.pedidos=this.getPedidos().stream().filter(i->!(i.getKey().getCodEncomenda().equals(enc.getCodEncomenda()))).collect(Collectors.toList());
        this.addPedido(enc,stat);
+   }
+
+   @Override
+   public void alteraTodosPedidosIf(String stat,String statIf){
+       List<InterfaceEncomenda> aux = new ArrayList<>();
+       for (Map.Entry<InterfaceEncomenda,String> i : this.getPedidos()){
+           if (i.getValue().equals(statIf)) aux.add(i.getKey());
+       }
+       this.pedidos.removeIf(i->i.getValue().equals(statIf));
+       addPedidos(aux,stat);
    }
 
    @Override
@@ -239,5 +265,13 @@ public class Transportadora extends Entregador implements InterfaceTransportador
     public void atualizaAtual (InterfaceEncomenda enc){
        this.encomendaAtual.removeIf(i->i.getCodEncomenda().equals(enc.getCodEncomenda()));
        this.encomendaAtual.add(enc);
+   }
+
+   @Override
+    public boolean existePedido (String enc){
+       for (Map.Entry<InterfaceEncomenda,String> i : this.pedidos){
+           if (i.getKey().getCodEncomenda().equals(enc)) return true;
+       }
+       return false;
    }
 }

@@ -93,4 +93,10 @@ public interface InterfaceData {
     void addEncomendaVol (InterfaceEncomenda enc,String vol);
 
     boolean isAEntregar(String cod);
+
+    String checkStatPedido(String enc,String trans,String user);
+
+    void atualizaPedidos(List<String> trans);
+
+    boolean existePedido(String trans,String enc);
 }

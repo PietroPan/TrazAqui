@@ -17,7 +17,6 @@ import Common.*;
 public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serializable {
     private double balance;
     private Set<Map.Entry<Boolean,String>> pedidosEntregues;
-    private List<String> messages;
     private List<TriploPedido> pedidos;
 
     public Utilizador() {
@@ -28,7 +27,7 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         this.setPedidosEntregues(new HashSet<>());
         this.balance = 0.00;
         this.pedidosEntregues=new HashSet<>();
-        this.messages=new ArrayList<>();
+        this.setMessages(new ArrayList<>());
         this.pedidos= new ArrayList<>();
     }
 
@@ -39,7 +38,7 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         this.setPosicao(pos);
         this.setPedidosEntregues(pedidosEntregues);
         this.balance = balance;
-        this.messages = new ArrayList<>(messages);
+        this.setMessages(new ArrayList<>(messages));
         this.pedidos = new ArrayList<>();
     }
 
@@ -50,18 +49,8 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         this.setPosicao((Point2D)u.getPosicao().clone());
         this.balance = u.getBalance();
         this.pedidosEntregues = u.getPedidosEntregues();
-        this.messages=u.getMessages();
+        this.setMessages(u.getMessages());
         this.pedidos=u.getPedidos();
-    }
-
-    @Override
-    public List<String> getMessages() {
-        return new ArrayList<>(messages);
-    }
-
-    @Override
-    public void setMessages(List<String> messages) {
-        this.messages = new ArrayList<>(messages);
     }
 
     @Override
@@ -115,13 +104,8 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
     }
 
     @Override
-    public void addMessage(String message) {
-        this.messages.add(message);
-    }
-
-    @Override
     public void atualizaEstado(InterfaceEncomenda e) {
-        this.messages.add("A sua Encomenda de id "+e.getCodEncomenda()+" foi entregue");
+        this.addMessage("A sua Encomenda de id "+e.getCodEncomenda()+" foi entregue");
         this.pedidosEntregues.add(new AbstractMap.SimpleEntry<>(false,e.getCodEncomenda()));
     }
 
@@ -136,10 +120,41 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
     }
 
     @Override
+    public void addPedidos(List<InterfaceEncomenda> encs,String trans,String stat){
+        for (InterfaceEncomenda i : encs){
+            this.addPedido(i,trans,stat);
+        }
+    }
+
+    @Override
     public void alteraPedido(InterfaceEncomenda enc, String trans, String stat) {
         this.pedidos=this.getPedidos().stream().filter(i->!(i.getEnc().getCodEncomenda().equals(enc.getCodEncomenda())&&i.getTrans().equals(trans))).collect(Collectors.toList());
         this.addPedido(enc,trans,stat);
     }
 
+    @Override
+    public InterfaceUtilizador alteraTodosPedidosIf(String trans,String stat,String statif){
+        List<InterfaceEncomenda> aux = new ArrayList<>();
+        int n=0;
+        for (TriploPedido i : this.getPedidos()){
+            if (i.getTrans().equals(trans)&&i.getStat().equals(statif)) {
+                n++;
+                aux.add(i.getEnc());
+            }
+        }
+        this.pedidos.removeIf(i->i.getStat().equals(statif)&&i.getTrans().equals(trans));
+        this.addPedidos(aux,trans,stat);
+        if (n>0&&statif.equals("p")) addMessage("Pedidos pendentes feitos pela transportadora "+trans+" foram congelados");
+        else if (n>0&&statif.equals("s")) addMessage("Pedidos pendentes feitos pela transportadora "+trans+" foram descongelados");
+        return this.clone();
+    }
+
+    @Override
+    public String checkStatPedido(String enc,String trans){
+        for (TriploPedido i : this.getPedidos()){
+            if (i.getTrans().equals(trans)&&i.getEnc().getCodEncomenda().equals(enc)) return i.getStat();
+        }
+        return "x";
+    }
 
 }

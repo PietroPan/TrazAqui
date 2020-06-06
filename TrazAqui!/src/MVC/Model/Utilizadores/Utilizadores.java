@@ -1,10 +1,9 @@
 package MVC.Model.Utilizadores;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import Exceptions.*;
 import Common.*;
 import MVC.Model.Entregadores.InterfaceTransportadora;
@@ -99,5 +98,22 @@ public class Utilizadores implements InterfaceUtilizadores, Serializable {
     @Override
     public void addEntregue(String uti,String enc){
         this.users.get(uti).addEntregue(enc);
+    }
+
+    @Override
+    public void alteraTodosPedidosIf(String trans,String stat,String statif){
+        this.users=this.users.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, i->i.getValue().alteraTodosPedidosIf(trans,stat,statif)));
+    }
+
+    @Override
+    public String checkStatPedido(String enc,String trans,String user){
+         return this.users.get(user).checkStatPedido(enc,trans);
+    }
+
+    @Override
+    public void atualizaPedidos(List<String> trans){
+        for (String i : trans){
+            alteraTodosPedidosIf(i,"p","s");
+        }
     }
 }

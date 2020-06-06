@@ -2,12 +2,27 @@ package Common;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BasicInfo implements InterfaceBasicInfo, Serializable {
     private String codigo;
     private String nome;
     private Point2D posicao;
     private String password;
+    private List<String> messages;
+
+    public List<String> getMessages() {
+        return new ArrayList<>(messages);
+    }
+
+    public void setMessages(List<String> messages) {
+        this.messages = new ArrayList<>(messages);
+    }
+
+    public void addMessage(String msg){
+        this.messages.add(msg);
+    }
 
     @Override
     public String getPassword() {

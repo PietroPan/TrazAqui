@@ -27,4 +27,10 @@ public interface InterfaceUtilizadores {
     void alteraPedido(InterfaceEncomenda enc,String trans,String stat);
 
     void addEntregue(String uti,String enc);
+
+    void alteraTodosPedidosIf(String trans,String stat,String statif);
+
+    String checkStatPedido(String enc,String trans,String user);
+
+    void atualizaPedidos(List<String> trans);
 }

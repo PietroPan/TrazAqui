@@ -37,4 +37,10 @@ public interface InterfaceUtilizador extends InterfaceBasicInfo {
     void addPedido(InterfaceEncomenda enc,String trans,String stat);
 
     void alteraPedido(InterfaceEncomenda enc,String trans,String stat);
+
+    InterfaceUtilizador alteraTodosPedidosIf(String trans,String stat,String statif);
+
+    void addPedidos(List<InterfaceEncomenda> encs,String trans,String stat);
+
+    String checkStatPedido(String enc,String trans);
 }

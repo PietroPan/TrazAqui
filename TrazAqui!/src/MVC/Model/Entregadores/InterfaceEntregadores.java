@@ -49,4 +49,12 @@ public interface InterfaceEntregadores {
     void setAEntregar(String cod,boolean b);
 
     boolean isAEntregar(String cod);
+
+    boolean hasRoom(String trans);
+
+    void alteraTodosPedidosIf(String trans,String stat,String statIf);
+
+    List<String> getAllFree();
+
+    boolean existePedido(String trans,String enc);
 }

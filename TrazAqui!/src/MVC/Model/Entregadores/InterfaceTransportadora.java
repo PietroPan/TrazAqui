@@ -47,4 +47,12 @@ public interface InterfaceTransportadora extends InterfaceBasicInfo, InterfaceEn
     void clearAtual();
 
     void atualizaAtual (InterfaceEncomenda enc);
+
+    void addPedidos(List<InterfaceEncomenda> encs,String stat);
+
+    void alteraTodosPedidosIf(String stat,String statIf);
+
+    boolean hasRoom();
+
+    boolean existePedido (String enc);
 }

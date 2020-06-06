@@ -295,7 +295,8 @@ public class Printer implements Serializable
         switch (stat) {
             case "a": return "Aceite";
             case "p": return "Pendente";
-            case "c": return "Cancelada";
+            case "c": return "Cancelado";
+            case "s": return "Congelado";
             default: return "Error";
         }
     }
@@ -357,5 +358,31 @@ public class Printer implements Serializable
 
     public void acaoIndesponivel(){
         System.out.println("Acão indesponível, está a ser efetuada uma entrega");
+    }
+
+    public void pedido(String stat){
+        switch (stat){
+            case ("x"):
+                System.out.println("Esse pedido não existe");
+                break;
+            case ("s"):
+                System.out.println("Esse pedido foi congelado");
+                break;
+            case ("a"):
+                System.out.println("Esse pedido já foi aceite");
+                break;
+            case ("p"):
+                System.out.println("Pedido aceite com sucesso");
+                break;
+            case ("c"):
+                System.out.println("Esse pedido foi cancelado");
+                break;
+            default:
+                System.out.println("Erro no pedido");
+        }
+    }
+
+    public void existePedido(){
+        System.out.println("Esse pedido já foi feito");
     }
 }

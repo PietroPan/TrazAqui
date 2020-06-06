@@ -20,7 +20,6 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
     private int vezesClassificado;
     private boolean aEntregar;
     private List<InterfaceEncomenda> historicoEncomendas;
-    private List<String> messages;
 
     @Override
     public void setAEntregar(boolean aEntregar){
@@ -88,16 +87,6 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
     }
 
     @Override
-    public List<String> getMessages() {
-        return new ArrayList<>(messages);
-    }
-
-    @Override
-    public void setMessages(List<String> messages) {
-        this.messages = new ArrayList<>(messages);
-    }
-
-    @Override
     public boolean equals(InterfaceEntregador v) {
 	    if (v==null || !v.getClass().equals(this.getClass()))
 	 	   return false;
@@ -120,11 +109,6 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
     public void classifica(float c) {
         this.vezesClassificado++;
         this.classificacao=((this.classificacao*this.vezesClassificado+c)/(this.vezesClassificado));
-    }
-
-    @Override
-    public void addMessage(String message) {
-        this.messages.add(message);
     }
 
     @Override

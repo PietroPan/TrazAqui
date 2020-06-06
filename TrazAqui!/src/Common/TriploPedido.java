@@ -20,11 +20,11 @@ public class TriploPedido {
     }
 
     public InterfaceEncomenda getEnc() {
-        return enc;
+        return enc.clone();
     }
 
     public void setEnc(InterfaceEncomenda enc) {
-        this.enc = enc;
+        this.enc = enc.clone();
     }
 
     public String getTrans() {
@@ -64,7 +64,8 @@ public class TriploPedido {
         switch (stat) {
             case "a": return "Aceite";
             case "p": return "Pendente";
-            case "c": return "Cancelada";
+            case "c": return "Cancelad0";
+            case "s": return "Congelado";
             default: return "Error";
         }
     }

@@ -386,7 +386,9 @@ public class Controller implements InterfaceController, Serializable {
                         String encS = read.nextLine();
                         p.askCodTrans();
                         String trans = read.nextLine();
-                        this.info.aceitarPedido(this.info.getEncomenda(encS),trans);
+                        String stat = this.info.checkStatPedido(encS,trans,codUser);
+                        if (stat.equals("p")) this.info.aceitarPedido(this.info.getEncomenda(encS),trans);
+                        p.pedido(stat);
                         p.askOfertaMais();
                         r = read.nextLine();
                     }
@@ -505,6 +507,7 @@ public class Controller implements InterfaceController, Serializable {
         String opcao;
         Scanner read = new Scanner(System.in);
         p.apresentaUnreadMessages(this.info.getEntregador(codUser).getMessages());
+        this.info.resetMessages(codUser);
         p.showTransportadoraOptions();
         InterfaceTransportadora trans = (InterfaceTransportadora) this.info.getEntregador(codUser);
         while (!(opcao=read.nextLine()).equals("0")) {
@@ -526,11 +529,15 @@ public class Controller implements InterfaceController, Serializable {
                     if (!this.info.isAEntregar(codUser)) {
                         p.askCodEnc();
                         String enc = read.nextLine();
-                        List<Boolean> b = this.info.fazerPedido(this.info.getEncomenda(enc), codUser);
-                        if (!b.get(0)) p.naoRaio();
-                        if (!b.get(1)) p.naoMedical();
-                        if (!b.get(2)) p.naoPronto();
-                        if (b.get(0) && b.get(1) && b.get(2)) p.pedidoSucesso();
+                        if (this.info.existePedido(codUser,enc)) p.existePedido();
+                        else {
+                            List<Boolean> b = this.info.fazerPedido(this.info.getEncomenda(enc), codUser);
+                            if (!b.get(0)) p.naoRaio();
+                            if (!b.get(1)) p.naoMedical();
+                            if (!b.get(2)) p.naoPronto();
+                            if (b.get(0) && b.get(1) && b.get(2)) p.pedidoSucesso();
+                        }
+
                     } else p.acaoIndesponivel();
                     break;
                 case ("4"):

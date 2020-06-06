@@ -12,6 +12,8 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.awt.geom.Point2D;
+import java.util.stream.Collectors;
+
 import Common.*;
 import Exceptions.*;
 import MVC.Model.Utilizadores.*;
@@ -179,6 +181,10 @@ public class Data implements InterfaceData, Serializable
         this.entregadores.addEncomenda(trans,enc);
         this.entregadores.addMessage(trans,"A sua proposta para a encomenda "+enc.getCodEncomenda()+" foi aceite!");
         this.users.alteraPedido(enc,trans,"a");
+        if (!this.entregadores.hasRoom(trans)){
+            this.entregadores.alteraTodosPedidosIf(trans,"s","p");
+            this.users.alteraTodosPedidosIf(trans,"s","p");
+       }
    }
 
    @Override
@@ -317,7 +323,14 @@ public class Data implements InterfaceData, Serializable
         Map<String,List<String>> m;
         m=this.lojas.atualizaEstado(getHoras());
         r=this.entregadores.atualizaEstado(getHoras());
+        List<String> trans = this.entregadores.getAllFree();
+        atualizaPedidos(trans);
         this.users.atualizaEstado(r,m);
+    }
+
+    @Override
+    public void atualizaPedidos(List<String> trans){
+        this.users.atualizaPedidos(trans);
     }
 
     @Override
@@ -390,10 +403,11 @@ public class Data implements InterfaceData, Serializable
                 e.setDataEntrega(dataF);
                 this.entregadores.addToHistorico(cod,e);
                 this.entregadores.atualizaAtual(cod,e);
-                this.entregadores.setAEntregar(cod,true);
                 this.users.addMessageToUser(e.getDestino(),"A sua encomenda de código "+e.getCodEncomenda()+" está em movimento!");
             }
-
+            this.entregadores.setAEntregar(cod,true);
+            this.entregadores.alteraTodosPedidosIf(cod,"s","p");
+            this.users.alteraTodosPedidosIf(cod,"s","p");
         }
 
         else {
@@ -434,5 +448,15 @@ public class Data implements InterfaceData, Serializable
     @Override
     public boolean isAEntregar(String cod){
         return this.entregadores.isAEntregar(cod);
+    }
+
+    @Override
+    public String checkStatPedido(String enc,String trans,String user){
+        return this.users.checkStatPedido(enc,trans,user);
+    }
+
+    @Override
+    public boolean existePedido(String trans,String enc){
+        return this.entregadores.existePedido(trans,enc);
     }
 }

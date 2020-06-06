@@ -30,6 +30,7 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
        this.stock=new HashMap<>();
        this.pedidosProntos=new HashMap<>();
        this.pedidosEmEspera=new HashMap<>();
+       this.setMessages(new ArrayList<>());
    }
 
    public Loja(String codLoja, String nome, Point2D pos, String password, int tF, float tA, Map<String, InterfaceEncomenda> lE, Map<String, InterfaceEncomenda> le, Map<String, InterfaceLinhaEncomenda> stock) {
@@ -51,6 +52,7 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
        for (Map.Entry<String, InterfaceLinhaEncomenda> entry : stock.entrySet()) {
            this.stock.put(entry.getKey(),entry.getValue().clone());
        }
+       this.setMessages(new ArrayList<>());
    }
 
    public Loja(InterfaceLoja l) {
@@ -63,6 +65,7 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
        this.stock=l.getStock();
        this.pedidosProntos=l.getPedidos();
        this.pedidosEmEspera=l.getPedidosEspera();
+       this.setMessages(new ArrayList<>());
    }
 
    @Override

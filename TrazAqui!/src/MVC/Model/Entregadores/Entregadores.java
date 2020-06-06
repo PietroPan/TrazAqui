@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import Common.*;
 import Exceptions.*;
 
@@ -164,4 +166,26 @@ public class Entregadores implements InterfaceEntregadores, Serializable {
         return this.entregadores.get(cod).isAEntregar();
     }
 
+    @Override
+    public boolean hasRoom(String trans) {
+        InterfaceTransportadora t = (InterfaceTransportadora) this.entregadores.get(trans);
+        return t.hasRoom();
+    }
+
+    @Override
+    public void alteraTodosPedidosIf(String trans,String stat,String statIf){
+        InterfaceTransportadora t = (InterfaceTransportadora) this.entregadores.get(trans);
+        t.alteraTodosPedidosIf(stat,statIf);
+    }
+
+    @Override
+    public List<String> getAllFree(){
+        return this.entregadores.entrySet().stream().filter(i->i.getKey().contains("t")&&!(i.getValue().isAEntregar())).map(Map.Entry::getKey).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean existePedido(String trans,String enc){
+        InterfaceTransportadora t = (InterfaceTransportadora)this.entregadores.get(trans);
+        return t.existePedido(enc);
+    }
 }
