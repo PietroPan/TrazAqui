@@ -154,7 +154,6 @@ public class Transportadora extends Entregador implements InterfaceTransportador
     @Override
     public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
         List<InterfaceEncomenda> r = new ArrayList<>();
-        List<InterfaceEncomenda> h;
         int a = this.encomendaAtual.size();
         Iterator<InterfaceEncomenda> i =this.encomendaAtual.iterator();
         while (i.hasNext()) {

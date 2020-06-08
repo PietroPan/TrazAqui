@@ -87,10 +87,10 @@ public class Entregadores implements InterfaceEntregadores, Serializable {
     }
 
     @Override
-    public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
-        List<InterfaceEncomenda> r = new ArrayList<>();
+    public Map<String,List<InterfaceEncomenda>> atualizaEstado(LocalDateTime t) {
+        Map<String,List<InterfaceEncomenda>> r = new HashMap<>();
         for (InterfaceEntregador e : this.entregadores.values()) {
-            r.addAll(e.atualizaEstado(t));
+            r.put(e.getCodigo(),e.atualizaEstado(t));
         }
         return r;
     }

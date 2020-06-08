@@ -20,6 +20,8 @@ import MVC.Model.Utilizadores.*;
 import Common.*;
 import Exceptions.*;
 
+import javax.swing.*;
+
 public class Controller implements InterfaceController, Serializable {
     private InterfaceData info;
     private String codUser;
@@ -34,7 +36,7 @@ public class Controller implements InterfaceController, Serializable {
     @Override
     public LocalDateTime StringToLocalDateTime(String s) {
         String[] a=s.split(":",0);
-        if (a.length!=5) {
+        if (a.length!=4) {
             p.invalid("Formato");
             return null;
         }
@@ -348,7 +350,7 @@ public class Controller implements InterfaceController, Serializable {
                     }
                     break;
                 case ("2"):
-                    p.apresentaPedidos1(this.info.getUser(codUser).getPedidos());
+                    p.apresentaPedidos1(this.info.getByPreco(this.info.getUser(codUser).getPedidos()));
                     p.askOferta();
                     String r = read.nextLine();
                     while (r.equals("s")|| r.equals("S")){
@@ -469,6 +471,27 @@ public class Controller implements InterfaceController, Serializable {
     }
 
     @Override
+    public int menuQueries() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException {
+        String opcao;
+        Scanner read = new Scanner(System.in);
+        p.showQueriesMenu();
+        while (!(opcao=read.nextLine()).equals("0")){
+            switch (opcao){
+                case ("1"):
+                    p.showTop10Users(this.info.top10Users());
+                    break;
+                case ("2"):
+                    p.showTop10Trans(this.info.top10Trans());
+                    break;
+                case ("3"):
+                    return 1;
+            }
+            p.showQueriesMenu();
+        }
+        return 0;
+    }
+
+    @Override
     public int menuTransportadora() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
@@ -537,7 +560,20 @@ public class Controller implements InterfaceController, Serializable {
                     }
                     p.printHist(l);
                     break;
-                case ("7"):
+                case("7"):
+                    p.askByData();
+                    r=read.nextLine();
+                    if (r.equals("s")||r.equals("S")) {
+                        p.askDataInicio();
+                        String s = read.nextLine();
+                        LocalDateTime l1 = this.StringToLocalDateTime(s);
+                        p.askDataFim();
+                        s = read.nextLine();
+                        LocalDateTime l2 = this.StringToLocalDateTime(s);
+                        p.showTotalFat(this.info.totalFaturado(codUser,l1,l2));
+                    }
+                    break;
+                case ("8"):
                     return 1;
                 default:
                     p.invalid("Opção");
@@ -581,6 +617,14 @@ public class Controller implements InterfaceController, Serializable {
                     }
                     break;
                 case("4"):
+                    try {
+                        r=menuQueries();
+                    }
+                    catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
+                        p.LOL();
+                    }
+                    break;
+                case("5"):
                     r=0;
                     break;
                 default:

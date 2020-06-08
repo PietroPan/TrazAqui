@@ -148,13 +148,18 @@ public class Printer implements Serializable
         System.out.println("Digite a data final((no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23))):" );
     }
 
+    public void showTotalFat(double f){
+        System.out.println("Faturou um total de "+f+" euros");
+    }
+
     /*Menu prints*/
 
     public void showMainMenu() {
         System.out.println("1.Login" +
                             "\n2.Criar conta" +
                             "\n3.Avançar tempo" +
-                            "\n4.Sair");
+                            "\n4.Queries do Sistema" +
+                            "\n5.Sair");
     }
 
     public void showLoginOptions() {
@@ -190,7 +195,15 @@ public class Printer implements Serializable
                 "\n4.Verificar Pedidos Propostos"+
                 "\n5.Fazer Entrega"+
                 "\n6.Histórico de entregas efetuadas" +
-                "\n7.Mudar de Conta" +
+                "\n7.Total Faturado"+
+                "\n8.Mudar de Conta" +
+                "\n0.Sair");
+    }
+
+    public void showQueriesMenu(){
+        System.out.println("1.Top 10 Utilizadores" +
+                "\n2.Top 10 Transportadoras"+
+                "\n3.Voltar Para Menu" +
                 "\n0.Sair");
     }
 
@@ -249,7 +262,7 @@ public class Printer implements Serializable
     }
 
     public void apresentaPrecoEnc(double preco) {
-        System.out.println("Preco Total: " + preco);
+        System.out.println("Preco Total: " + preco+ "\n");
     }
 
     public void apresentaUserEncomendas(Set<String> classifica) {
@@ -294,12 +307,13 @@ public class Printer implements Serializable
         }
     }
 
-    public void apresentaPedidos1(List<TriploPedido> l) {
+    public void apresentaPedidos1(List<Map.Entry<Double,TriploPedido>> l) {
         int i=0;
-        for (TriploPedido p : l) {
+        for (Map.Entry<Double,TriploPedido> p : l) {
             i++;
             System.out.println("\n#######Pedido "+i +"#######");
-            System.out.println(p.toString());
+            System.out.println(p.getValue().toString());
+            System.out.println("Preço de Entrega : "+p.getKey()+"\n");
         }
     }
 
@@ -319,6 +333,26 @@ public class Printer implements Serializable
             i++;
             System.out.println("\n#######Entrega "+i +"#######");
             System.out.println(h.toString());
+        }
+    }
+
+    public void showTop10Users(List<Map.Entry<String,Integer>> top){
+        int i=0;
+        for (Map.Entry<String,Integer> l : top){
+            i++;
+            System.out.println("\n####### "+i +"º Utilizador #######");
+            System.out.println(l.getKey());
+            System.out.println("Número de Encomendas: "+l.getValue());
+        }
+    }
+
+    public void showTop10Trans(List<Map.Entry<String,Double>> top){
+        int i=0;
+        for (Map.Entry<String,Double> l : top){
+            i++;
+            System.out.println("\n####### "+i +"ª Transportadora #######");
+            System.out.println(l.getKey());
+            System.out.println("Número de Kms Percorridos: "+l.getValue());
         }
     }
 
@@ -421,5 +455,9 @@ public class Printer implements Serializable
         if (res==0) System.out.println("Entregador classificado com sucesso!");
         if (res==2) System.out.println("Entregador já foi classificado recentemente");
         if (res==1) System.out.println("Entregador não encontrado");
+    }
+
+    public void LOL(){
+        System.out.println("Nunca vai dar erro LOL");
     }
 }

@@ -101,5 +101,6 @@ public class LinhaEncomenda implements InterfaceLinhaEncomenda, Serializable {
                "\nDescriçao: " + this.descricao +
                "\nPreço: " + this.preco +
                "\nQuantidade: " + this.quantidade;
-    }            
+    }
+
 }

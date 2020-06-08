@@ -315,13 +315,9 @@ public class Data implements InterfaceData, Serializable
 
     @Override
     public void atualizaEstado() {
-        List<InterfaceEncomenda> r;
-        Map<String,List<String>> m;
-        m=this.lojas.atualizaEstado(getHoras());
-        r=this.entregadores.atualizaEstado(getHoras());
-        List<String> trans = this.entregadores.getAllFree();
-        atualizaPedidos(trans);
-        this.users.atualizaEstado(r,m);
+        this.users.atualizaEstado(this.lojas.atualizaEstado(getHoras()));
+        this.atualizaHistorico(this.entregadores.atualizaEstado(getHoras()));
+        atualizaPedidos(this.entregadores.getAllFree());
     }
 
     @Override
@@ -397,7 +393,6 @@ public class Data implements InterfaceData, Serializable
                 LocalDateTime dataF = getHoras().plusSeconds((long)sec);
                 e.setDataInicio(dataI);
                 e.setDataEntrega(dataF);
-                this.historico.add(cod,e);
                 this.entregadores.atualizaAtual(cod,e);
                 this.users.addMessageToUser(e.getDestino(),"A sua encomenda de código "+e.getCodEncomenda()+" está em movimento!");
             }
@@ -412,14 +407,12 @@ public class Data implements InterfaceData, Serializable
             sec += calculaDistTotal(lojas.getLoja(e.getOrigem()).getPosicao(),vol.getPosicao(),users.getUser(e.getDestino()).getPosicao()) / vol.getVelocidade();
             e.setDataInicio(getHoras());
             e.setDataEntrega(getHoras().plusSeconds((long)sec));
-            this.historico.add(cod,e);
             this.entregadores.atualizaAtual(cod,e);
             this.entregadores.setAEntregar(cod,true);
             this.users.addMessageToUser(e.getDestino(),"A sua encomenda de código "+e.getCodEncomenda()+" está em movimento!");
 
         }
     }
-
     @Override
     public List<Boolean> fazerPedido(InterfaceEncomenda enc,String trans) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         InterfaceEntregador t = this.entregadores.getEntregador(trans);
@@ -473,5 +466,94 @@ public class Data implements InterfaceData, Serializable
     public List<TriploHist> getHistoricoByEnt(String ent,List<TriploHist> l){
         Comparator<TriploHist> c = Comparator.comparing(TriploHist::getEnt);
         return l.stream().filter(i -> i.getEnt().equals(ent)).sorted(c).collect(Collectors.toList());
+    }
+
+    @Override
+    public void atualizaHistorico(Map<String,List<InterfaceEncomenda>> m){
+        for(Map.Entry<String,List<InterfaceEncomenda>> i : m.entrySet()){
+            for (InterfaceEncomenda j : i.getValue()){
+                this.users.addMessageToUser(j.getDestino(), "A sua Encomenda de id "+j.getCodEncomenda()+" foi entregue");
+                this.historico.add(i.getKey(),j);
+            }
+        }
+    }
+
+    @Override
+    public List<Map.Entry<Double,TriploPedido>> getByPreco (List<TriploPedido> l) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
+        List<Map.Entry<Double,TriploPedido>> r = new ArrayList<>();
+        InterfaceTransportadora ent;
+        double preco=0;
+        for (TriploPedido i : l){
+            ent = (InterfaceTransportadora) this.getEntregador(i.getTrans());
+            preco = ent.getCustoKm()*getDistTotal(ent.getCodigo(),i.getEnc().getCodEncomenda());
+            r.add(new AbstractMap.SimpleEntry<>(preco,i));
+        }
+        return r;
+    }
+
+    @Override
+    public double totalFaturado(String trans,LocalDateTime after, LocalDateTime before) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
+        List<TriploHist> aux = this.getHistoricoByDate(after,before,this.getHistorico(trans));
+        double r=0;
+        InterfaceTransportadora ent;
+        for (TriploHist i : aux){
+            ent = (InterfaceTransportadora) this.getEntregador(i.getEnt());
+            r+=ent.getCustoKm()*getDistTotal(ent.getCodigo(),i.getEnc().getCodEncomenda());
+        }
+        return r;
+    }
+
+    @Override
+    public List<Map.Entry<String,Integer>> top10Users(){
+        Map<String,Integer> r = new HashMap<>();
+        String usr;
+        for (TriploHist i : this.historico.getHistorico()){
+            usr=i.getEnc().getDestino();
+            if (r.containsKey(usr)){
+                Integer aux = (r.get(usr))+1;
+                r.put(usr,aux);
+            }
+            else r.put(usr,1);
+        }
+        SortedSet<Map.Entry<String,Integer>> rTree = new TreeSet<>(
+                (t1, t2) -> Integer.compare(t2.getValue(), t1.getValue())
+        );
+        rTree.addAll(r.entrySet());
+        Iterator<Map.Entry<String,Integer>> itr = rTree.iterator();
+        List<Map.Entry<String,Integer>> rList = new ArrayList<>();
+        int n=0;
+        while (itr.hasNext()&&n<10){
+            rList.add((itr.next()));
+            n++;
+        }
+        return rList;    }
+
+    @Override
+    public List<Map.Entry<String,Double>> top10Trans() throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
+        Map<String,Double> r = new HashMap<>();
+        String trans;
+        for (TriploHist i : this.historico.getHistorico()){
+            trans=i.getEnt();
+            if (trans.contains("t")){
+                Double kms = this.getDistTotal(trans,i.getEnc().getCodEncomenda());
+                if (r.containsKey(trans)){
+                    Double aux = (r.get(trans))+kms;
+                    r.put(trans,aux);
+                }
+                else r.put(trans,kms);
+            }
+        }
+        SortedSet<Map.Entry<String,Double>> rTree = new TreeSet<>(
+                (t1, t2) -> Double.compare(t2.getValue(), t1.getValue())
+        );
+        rTree.addAll(r.entrySet());
+        Iterator<Map.Entry<String,Double>> itr = rTree.iterator();
+        List<Map.Entry<String,Double>> rList = new ArrayList<>();
+        int n=0;
+        while (itr.hasNext()&&n<10){
+            rList.add((itr.next()));
+            n++;
+        }
+        return rList;
     }
 }

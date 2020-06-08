@@ -103,4 +103,14 @@ public interface InterfaceData {
     List<TriploHist> getHistoricoByEnt(String ent,List<TriploHist> l);
 
     List<TriploHist> getHistoricoByDate(LocalDateTime after,LocalDateTime before,List<TriploHist> l);
+
+    void atualizaHistorico(Map<String,List<InterfaceEncomenda>> m);
+
+    List<Map.Entry<Double,TriploPedido>> getByPreco (List<TriploPedido> l) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
+
+    double totalFaturado(String trans,LocalDateTime after, LocalDateTime before) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
+
+    List<Map.Entry<String,Integer>> top10Users();
+
+    List<Map.Entry<String,Double>> top10Trans() throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
 }

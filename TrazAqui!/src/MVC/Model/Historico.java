@@ -14,6 +14,11 @@ public class Historico implements InterfaceHistorico {
     }
 
     @Override
+    public List<TriploHist> getHistorico(){
+        return this.historico.stream().map(TriploHist::clone).collect(Collectors.toList());
+    }
+
+    @Override
     public void add(String cod, InterfaceEncomenda encomenda){
         this.historico.add(new TriploHist(cod,false,encomenda.clone()));
     }

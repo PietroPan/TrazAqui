@@ -26,7 +26,7 @@ public interface InterfaceEntregadores {
 
     void denyAll(String cod);
 
-    List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
+    Map<String,List<InterfaceEncomenda>> atualizaEstado(LocalDateTime t);
 
     void addPedido(InterfaceEncomenda enc,String trans);
 

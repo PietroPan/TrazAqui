@@ -20,7 +20,7 @@ public interface InterfaceUtilizadores {
 
     void resetMessages(String cod);
 
-    void atualizaEstado(List<InterfaceEncomenda> e, Map<String, List<String>> m);
+    void atualizaEstado(Map<String, List<String>> m);
 
     void addPedido(InterfaceEncomenda enc,String trans);
 

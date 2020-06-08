@@ -17,4 +17,6 @@ public interface InterfaceHistorico {
     void changeStat(String cod,String user);
 
     int checkClass (String ent,String user);
+
+    public List<TriploHist> getHistorico();
 }

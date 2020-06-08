@@ -70,16 +70,12 @@ public class Utilizadores implements InterfaceUtilizadores, Serializable {
     }
 
     @Override
-    public void atualizaEstado(List<InterfaceEncomenda> l, Map<String, List<String>> m) {
-
+    public void atualizaEstado(Map<String, List<String>> m) {
         for(Map.Entry<String,List<String>> mEntry : m.entrySet()) {
             InterfaceUtilizador u =this.users.get(mEntry.getKey());
             for (String mens : mEntry.getValue()) {
                 u.addMessage(mens);
             }
-        }
-        for (InterfaceEncomenda e : l) {
-            this.users.get(e.getDestino()).atualizaEstado(e);
         }
     }
 

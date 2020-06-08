@@ -29,4 +29,6 @@ public interface InterfaceController {
     int menuLoja();
 
     void menu();
+
+    int menuQueries() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException;
 }
