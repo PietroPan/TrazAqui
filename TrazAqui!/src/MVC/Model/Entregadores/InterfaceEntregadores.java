@@ -24,10 +24,6 @@ public interface InterfaceEntregadores {
 
     boolean encomendaACaminho(String s, String id);
 
-    InterfaceEncomenda getEncomendaPassado(String id);
-
-    void classifica(InterfaceEncomenda e, float c);
-
     void denyAll(String cod);
 
     List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
@@ -35,8 +31,6 @@ public interface InterfaceEntregadores {
     void addPedido(InterfaceEncomenda enc,String trans);
 
     void alteraPedido(InterfaceEncomenda enc,String trans,String stat);
-
-    void addToHistorico(String ent,InterfaceEncomenda enc);
 
     void clearAtual(String trans);
 
@@ -57,4 +51,6 @@ public interface InterfaceEntregadores {
     List<String> getAllFree();
 
     boolean existePedido(String trans,String enc);
+
+    void classificaUser(String cod,float clas);
 }

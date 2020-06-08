@@ -19,7 +19,6 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
     private float classificacao;
     private int vezesClassificado;
     private boolean aEntregar;
-    private List<InterfaceEncomenda> historicoEncomendas;
 
     @Override
     public void setAEntregar(boolean aEntregar){
@@ -48,11 +47,6 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
 
    @Override
    public void setClassificacao(float c) {this.classificacao=c;}
-
-   @Override
-   public void setHistorico(List<InterfaceEncomenda> lE) {
-       this.historicoEncomendas=lE.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
-   }
    
    @Override
    public float getRaio() {
@@ -72,10 +66,6 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
    @Override
    public float getClassificacao() { return this.classificacao;}
 
-   @Override
-   public List<InterfaceEncomenda> getHistorico() {
-       return this.historicoEncomendas.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
-   }
     @Override
     public int getVezesClassificado() {
         return vezesClassificado;
@@ -96,23 +86,6 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
     @Override
     abstract public InterfaceEntregador clone();
 
-   @Override
-   public InterfaceEncomenda getEncomendaPassado(String id) {
-       for (InterfaceEncomenda e : this.historicoEncomendas) {
-           if (e.getCodEncomenda().equals(id))
-               return e;
-       }
-       return null;
-   }
-
     @Override
-    public void classifica(float c) {
-        this.vezesClassificado++;
-        this.classificacao=((this.classificacao*this.vezesClassificado+c)/(this.vezesClassificado));
-    }
-
-    @Override
-    public void addToHistorico(InterfaceEncomenda enc){
-       this.historicoEncomendas.add(enc);
-    }
+    public void classifica(float c) { this.classificacao=((this.classificacao*(this.vezesClassificado++)+c)/(this.vezesClassificado)); }
 }

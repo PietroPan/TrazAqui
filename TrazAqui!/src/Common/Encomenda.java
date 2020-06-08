@@ -148,14 +148,12 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("Codigo de Encomenda: ").append(this.codEncomenda)
+        s.append("\nCodigo de Encomenda: ").append(this.codEncomenda)
         .append("\nInterfaceLoja de Origem: ").append(this.lojaOrigem)
         .append("\nInterfaceUtilizador de Destino: ").append(this.userDestino)
         .append("\nEncomenda Médica: ").append(this.medical)
         .append("\nPeso(Kgs): ").append(this.peso)
-        .append("\nPedido: ").append(this.pedido.toString())
-        .append("\nDataInicio: ").append(this.dataInicio.toString())
-        .append("\nDataFinal: ").append(this.dataEntrega.toString());
+        .append("\nPedido: ").append(this.pedido.toString());
         return s.toString();
     }
 

@@ -46,15 +46,11 @@ public interface InterfaceData {
 
     void aceitar(String entrega, String enc, double time);
 
-    InterfaceEncomenda getEncomendaPassado(String id);
-
     InterfaceEncomenda getEncomenda(String id);
 
     double calculaDistTotal(Point2D p1, Point2D p2, Point2D p3);
 
     Set<String[]> getEntregadoresDisp(String id) throws UtilizadorInexistenteException, LojaInexistenteException;
-
-    void classifica(Set<Map.Entry<Boolean, String>> encomendasID, String eID, String codUser, float c) throws UtilizadorInexistenteException;
 
     List<String> getVoluntarioRequests(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException;
 
@@ -99,4 +95,12 @@ public interface InterfaceData {
     void atualizaPedidos(List<String> trans);
 
     boolean existePedido(String trans,String enc);
+
+    List<TriploHist> getHistorico(String cod);
+
+    int classificaEnt(String ent,String user,float clas);
+
+    List<TriploHist> getHistoricoByEnt(String ent,List<TriploHist> l);
+
+    List<TriploHist> getHistoricoByDate(LocalDateTime after,LocalDateTime before,List<TriploHist> l);
 }

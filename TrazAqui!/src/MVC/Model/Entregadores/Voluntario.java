@@ -31,7 +31,6 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
         this.setMessages(new ArrayList<>());
         this.pedidos=new ArrayList<>();
         this.encomendaAtual=new Encomenda();
-        this.setHistorico(new ArrayList<>());
         this.setAEntregar(false);
     }
     
@@ -48,7 +47,6 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
         this.setMessages(new ArrayList<>());
         this.pedidos= new ArrayList<>(pedidos);
         this.encomendaAtual=e.clone();
-        this.setHistorico(lE.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList()));
         this.setAEntregar(false);
    }
     
@@ -65,7 +63,6 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
        this.setMessages(v.getMessages());
        this.pedidos=v.getPedidos();
        this.encomendaAtual=v.getEncomenda();
-       this.setHistorico(v.getHistorico());
        this.setAEntregar(false);
    }
    
@@ -97,8 +94,7 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
        .append("\nRaio de açao: ").append(this.getRaio())
        .append("\nTransporta encomendas Medicas: ").append(this.getMedical())
        .append("\nVelocidade media(Km/h): ").append(this.getVelocidade())
-       .append("\nCommon.Encomenda Atual: ").append(this.encomendaAtual)
-       .append("\nHistorico de Encomendas: ").append(this.getHistorico().toString());
+       .append("\nCommon.Encomenda Atual: ").append(this.encomendaAtual);
        return s.toString();
    }
    
@@ -136,12 +132,8 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
     @Override
     public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
         List<InterfaceEncomenda> r = new ArrayList<>();
-        List<InterfaceEncomenda> h;
         boolean a = this.encomendaAtual.getCodEncomenda().contains("v");
         if (this.encomendaAtual.getDataEntrega().isBefore(t) && !this.encomendaAtual.getDestino().equals("User Standard")) {
-            h = this.getHistorico();
-            h.add(this.encomendaAtual.clone());
-            this.setHistorico(h);
             r.add(this.encomendaAtual.clone());
             this.encomendaAtual=new Encomenda();
         }

@@ -26,6 +26,7 @@ public class Data implements InterfaceData, Serializable
     InterfaceLojas lojas;
     InterfaceEntregadores entregadores;
     LocalDateTime horas;
+    InterfaceHistorico historico;
     
     public Data() {
      this.users=new Utilizadores();
@@ -69,10 +70,12 @@ public class Data implements InterfaceData, Serializable
     }
 
     @Override public void readFile() throws java.io.IOException {
+        this.historico=new Historico();
         BufferedReader bufferAll = new BufferedReader (new FileReader(Const.fileToRead));
         String buffer;
         Random r = new Random();
         Point2D pos;
+        //u962 e7433 e7902 e2277 t606
         while((buffer=bufferAll.readLine())!=null) {
            String [] idAndInfo = buffer.split(":",2);
            String[] tokens=idAndInfo[1].split(",",0);
@@ -187,12 +190,6 @@ public class Data implements InterfaceData, Serializable
        }
    }
 
-   @Override
-   public InterfaceEncomenda getEncomendaPassado(String id) {
-        InterfaceEncomenda r=this.entregadores.getEncomendaPassado(id);
-        return r;
-   }
-
    @Override public InterfaceEncomenda getEncomenda(String id) {
         InterfaceEncomenda r;
         for (InterfaceLoja l : this.lojas.getLojas().values()) {
@@ -258,15 +255,14 @@ public class Data implements InterfaceData, Serializable
         return ((cod.getPosicao().distance(loja.getPosicao()) < cod.getRaio())&&(cod.getPosicao().distance(uti.getPosicao()) < cod.getRaio() ));
     }
 
-    @Override public void classifica(Set<Map.Entry<Boolean,String>> encomendasID,String eID,String codUser,float c) throws UtilizadorInexistenteException {
-        Map.Entry<Boolean,String> encomendaAclassificar = new AbstractMap.SimpleEntry<>(false,eID);
-        encomendasID.remove(encomendaAclassificar);
-        encomendasID.add(new AbstractMap.SimpleEntry<>(true,eID));
-        InterfaceUtilizador atualizado = this.users.getUser(codUser);
-        atualizado.setPedidosEntregues(encomendasID);
-        users.addUser(atualizado);
-        InterfaceEncomenda e = getEncomenda(eID);
-        entregadores.classifica(e,c);
+    @Override
+    public int classificaEnt(String ent,String user,float clas){
+        int i=this.historico.checkClass(ent,user);
+        if (i==0) {
+            this.historico.changeStat(ent, user);
+            this.entregadores.classificaUser(ent, clas);
+        }
+        return i;
     }
 
     @Override public List<String> getVoluntarioRequests(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
@@ -401,7 +397,7 @@ public class Data implements InterfaceData, Serializable
                 LocalDateTime dataF = getHoras().plusSeconds((long)sec);
                 e.setDataInicio(dataI);
                 e.setDataEntrega(dataF);
-                this.entregadores.addToHistorico(cod,e);
+                this.historico.add(cod,e);
                 this.entregadores.atualizaAtual(cod,e);
                 this.users.addMessageToUser(e.getDestino(),"A sua encomenda de código "+e.getCodEncomenda()+" está em movimento!");
             }
@@ -416,7 +412,7 @@ public class Data implements InterfaceData, Serializable
             sec += calculaDistTotal(lojas.getLoja(e.getOrigem()).getPosicao(),vol.getPosicao(),users.getUser(e.getDestino()).getPosicao()) / vol.getVelocidade();
             e.setDataInicio(getHoras());
             e.setDataEntrega(getHoras().plusSeconds((long)sec));
-            this.entregadores.addToHistorico(cod,e);
+            this.historico.add(cod,e);
             this.entregadores.atualizaAtual(cod,e);
             this.entregadores.setAEntregar(cod,true);
             this.users.addMessageToUser(e.getDestino(),"A sua encomenda de código "+e.getCodEncomenda()+" está em movimento!");
@@ -458,5 +454,24 @@ public class Data implements InterfaceData, Serializable
     @Override
     public boolean existePedido(String trans,String enc){
         return this.entregadores.existePedido(trans,enc);
+    }
+
+    @Override
+    public List<TriploHist> getHistorico(String cod){
+        if (cod.contains("v")||cod.contains("t")) return this.historico.getEnt(cod);
+        else if (cod.contains("u")) return this.historico.getUser(cod);
+        else return this.historico.getLoja(cod);
+    }
+
+    @Override
+    public List<TriploHist> getHistoricoByDate(LocalDateTime after,LocalDateTime before,List<TriploHist> l){
+        Comparator<TriploHist> c = Comparator.comparing((TriploHist triploHist) -> triploHist.getEnc().getDataInicio()).thenComparing(triploHist -> triploHist.getEnc().getDataEntrega());
+        return l.stream().filter(i->i.getEnc().getDataInicio().isAfter(after)&&i.getEnc().getDataEntrega().isBefore(before)).sorted(c).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TriploHist> getHistoricoByEnt(String ent,List<TriploHist> l){
+        Comparator<TriploHist> c = Comparator.comparing(TriploHist::getEnt);
+        return l.stream().filter(i -> i.getEnt().equals(ent)).sorted(c).collect(Collectors.toList());
     }
 }

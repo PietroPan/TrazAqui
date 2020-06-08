@@ -40,7 +40,7 @@ public class Controller implements InterfaceController, Serializable {
         }
         List<Integer> i = Arrays.stream(a).map(Integer::parseInt).collect(Collectors.toList());
         try {
-            return LocalDateTime.of(i.get(0), i.get(1), i.get(2), i.get(3), i.get(4));
+            return LocalDateTime.of(i.get(0), i.get(1), i.get(2), i.get(3), 0);
         }
         catch (DateTimeException d) {
             p.invalid("Formato de Data");
@@ -282,7 +282,7 @@ public class Controller implements InterfaceController, Serializable {
     @Override
     public int menuUser() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException {
         Random rand = new Random();
-        String id,idVoluntario,opcao;
+        String opcao;
         p.apresentaUnreadMessages(this.info.getUser(codUser).getMessages());
         this.info.resetMessages(codUser);
         p.showUserOptions();
@@ -347,36 +347,6 @@ public class Controller implements InterfaceController, Serializable {
                         }
                     }
                     break;
-                /*case ("2"):
-                    Set<String[]> opcoes;
-                    p.askEncomendaId();
-                    id=read.nextLine();
-                    if (info.getEncomenda(id) == null) {
-                        p.invalid("Common.Encomenda");
-                        break;
-                    } else if (info.encomendaACaminho(id,codUser)) {
-                        p.encomendaACaminho(info.getEncomenda(id).getDataEntrega());
-                        break;
-                    }
-                    else if (info.encomendaNotReady(id,codUser)) {
-                        p.encomendaNotReady();
-                        break;
-                    }
-                    else {
-                        if (!((idVoluntario = this.info.voluntarioAvailable(id)).equals("n/a"))) {
-                            this.info.askVoluntario(idVoluntario, id);
-                            p.voluntarioLivre();
-                            break;
-                        }
-                        opcoes = info.getEntregadoresDisp(id);
-                        p.apresentaEntregadores(opcoes);
-                        p.askEntregadorId();
-                        String idEntregador = read.nextLine();
-                        double time = Double.parseDouble(opcoes.stream().filter(l -> l[0].equals(idEntregador)).findFirst().get()[4]);
-                        this.info.aceitar(idEntregador, id, time);
-                        p.encomendaACaminho(info.getEncomenda(id).getDataEntrega());
-                        break;
-                    }*/
                 case ("2"):
                     p.apresentaPedidos1(this.info.getUser(codUser).getPedidos());
                     p.askOferta();
@@ -392,31 +362,39 @@ public class Controller implements InterfaceController, Serializable {
                         p.askOfertaMais();
                         r = read.nextLine();
                     }
-                case ("3"):
                     break;
-                case ("4") :
-                    Set<Map.Entry<Boolean,String>> encomendasID = this.info.getUser(this.codUser).getPedidosEntregues();
-                    Set<String> classifica= encomendasID.stream().filter(k -> !k.getKey()).map(l -> this.info.getEncomendaPassado(l.getValue()).toString()).collect(Collectors.toSet());
-                    if (classifica.isEmpty()) {
-                        p.nadaAApresentar();
-                        break;
+                case ("3"):
+                    List<TriploHist> l = this.info.getHistorico(codUser);
+                    p.askByData();
+                    r=read.nextLine();
+                    if (r.equals("s")||r.equals("S")) {
+                        p.askDataInicio();
+                        String s = read.nextLine();
+                        LocalDateTime l1 = this.StringToLocalDateTime(s);
+                        p.askDataFim();
+                        s = read.nextLine();
+                        LocalDateTime l2 = this.StringToLocalDateTime(s);
+                        l = this.info.getHistoricoByDate(l1,l2,l);
                     }
-                    p.apresentaUserEncomendas(classifica);
-                    p.askEncomendaId();
+                    p.askByEnt();
+                    r=read.nextLine();
+                    if (r.equals("s")||r.equals("S")) {
+                        p.askEnt();
+                        r=read.nextLine();
+                        l = this.info.getHistoricoByEnt(r,l);
+                    }
+                    p.printHist(l);
+                    break;
+                case("4") :
+                    p.printHist(this.info.getHistorico(codUser));
+                    p.askEntregadorId();
                     String eID = read.nextLine();
-                    if (encomendasID.stream().noneMatch(l -> l.getValue().equals(eID))) {
-                        p.invalid("ID de Encomenda");
-                        break;
-                    }
                     p.askClassificacao();
                     float c = Float.parseFloat(read.nextLine());
-                    if (c<0 || c>10) {
-                        p.invalid("Classificação");
-                        break;
-                    }
-                    this.info.classifica(encomendasID,eID,codUser,c);
+                    int res = this.info.classificaEnt(eID,codUser,c);
+                    p.classificacao(res);
                     break;
-                case("5"):
+                case("5") :
                     return 1;
                 default:
                     p.invalid("Opção");
@@ -427,34 +405,7 @@ public class Controller implements InterfaceController, Serializable {
         return 0;
     }
 
-    /*@Override
-    public int menuVoluntario() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
-        String opcao;
-        Scanner read = new Scanner(System.in);
-        p.showVoluntarioOptions();
-        while (!(opcao=read.nextLine()).equals("0")) {
-            switch (opcao) {
-                case ("1"):
-                    List<String> ls = this.info.getVoluntarioRequests(codUser);
-                    p.apresentaListRequest(ls);
-                    p.askEncomendaId();
-                    String encomenda = read.nextLine();
-                    if (!encomenda.equals("-1")) {
-                     this.info.aceitar(codUser,encomenda,this.info.getTempoEsperado(codUser,encomenda));
-                    }
-                    this.info.denyAll(codUser);
-                    break;
-                case ("2"):
-                    return 1;
-                default:
-                    p.invalid("Opção");
-                    break;
-            }
-            p.showVoluntarioOptions();
-        }
-        return 0;
-    } u96 e6149 t485
-     */
+
     public int menuVoluntario() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
@@ -492,6 +443,21 @@ public class Controller implements InterfaceController, Serializable {
                     } else p.acaoIndesponivel();
                     break;
                 case ("4"):
+                    List<TriploHist> l = this.info.getHistorico(codUser);
+                    p.askByData();
+                    String r=read.nextLine();
+                    if (r.equals("s")||r.equals("S")) {
+                        p.askDataInicio();
+                        String s = read.nextLine();
+                        LocalDateTime l1 = this.StringToLocalDateTime(s);
+                        p.askDataFim();
+                        s = read.nextLine();
+                        LocalDateTime l2 = this.StringToLocalDateTime(s);
+                        l = this.info.getHistoricoByDate(l1,l2,l);
+                    }
+                    p.printHist(l);
+                    break;
+                case ("5"):
                     return 1;
                 default:
                     p.invalid("Opção");
@@ -557,6 +523,21 @@ public class Controller implements InterfaceController, Serializable {
                     } else p.acaoIndesponivel();
                     break;
                 case ("6"):
+                    List<TriploHist> l = this.info.getHistorico(codUser);
+                    p.askByData();
+                    String r=read.nextLine();
+                    if (r.equals("s")||r.equals("S")) {
+                        p.askDataInicio();
+                        String s = read.nextLine();
+                        LocalDateTime l1 = this.StringToLocalDateTime(s);
+                        p.askDataFim();
+                        s = read.nextLine();
+                        LocalDateTime l2 = this.StringToLocalDateTime(s);
+                        l = this.info.getHistoricoByDate(l1,l2,l);
+                    }
+                    p.printHist(l);
+                    break;
+                case ("7"):
                     return 1;
                 default:
                     p.invalid("Opção");

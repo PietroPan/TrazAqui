@@ -38,7 +38,6 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.setMessages(new ArrayList<>());
        this.numeroDeEncomendas=0;
        this.encomendaAtual=new ArrayList<>();
-       this.setHistorico(new ArrayList<>());
        this.pedidos=new ArrayList<>();
        this.setAEntregar(false);
    }
@@ -59,7 +58,6 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.setMessages(new ArrayList<>());
        this.numeroDeEncomendas=numeroDeEncomendas;
        this.encomendaAtual=encomendaAtual.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
-       this.setHistorico(historicoEncomendas.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList()));
        this.pedidos=new ArrayList<>();
        this.setAEntregar(false);
    }
@@ -80,7 +78,6 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        this.setMessages(e.getMessages());
        this.numeroDeEncomendas=e.getNumEnc();
        this.encomendaAtual=e.getEncomendaAtual();
-       this.setHistorico(e.getHistorico());
        this.pedidos=e.getPedidos();
        this.setAEntregar(false);
    }
@@ -172,9 +169,6 @@ public class Transportadora extends Entregador implements InterfaceTransportador
             this.setAEntregar(false);
             alteraTodosPedidosIf("p","s");
         }
-        h = this.getHistorico();
-        h.addAll(r.stream().map(InterfaceEncomenda::clone).collect(Collectors.toSet()));
-        this.setHistorico(h);
         return r;
     }
 
@@ -190,8 +184,7 @@ public class Transportadora extends Entregador implements InterfaceTransportador
                "\nTransporta encomendas medicas: " + this.getMedical() +
                "\nVelocidade Normal(Km/h): " + this.getVelocidade() +
                "\nTransporta até " + this.numeroDeEncomendas + "encomendas" +
-               "\nCommon.Encomenda Atual: " + this.encomendaAtual.toString() +
-               "\nHistorico de Encomendas: " + this.getHistorico().toString();
+               "\nCommon.Encomenda Atual: " + this.encomendaAtual.toString();
        return s;
    }
    

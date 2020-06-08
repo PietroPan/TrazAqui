@@ -56,7 +56,7 @@ public class Printer implements Serializable
     }
 
     public void askEntregadorId() {
-        System.out.println("Insira o código do entregador que pretende: ");
+        System.out.println("Insira o código do entregador que pretende classificar: ");
     }
 
     public void askLojaID() {
@@ -128,6 +128,26 @@ public class Printer implements Serializable
         System.out.println("Diga quanto tempo deseja ficar em Cryosleep(no formato (Horas:Minutos))");
     }
 
+    public void askByData(){
+        System.out.println("Deseja procurar num certo espaço de tempo? (s/S) ou (n/N)");
+    }
+
+    public void askByEnt(){
+        System.out.println("Deseja procurar por um certo entregador? (s/S) ou (n/N)");
+    }
+
+    public void askEnt(){
+        System.out.println("Digite o código do entregador a procurar:");
+    }
+
+    public void askDataInicio(){
+        System.out.println("Digite a data inicial (no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23)):" );
+    }
+
+    public void askDataFim(){
+        System.out.println("Digite a data final((no formato Year:Month(1 a 12):Day(1 a 31):Hour(0 a 23))):" );
+    }
+
     /*Menu prints*/
 
     public void showMainMenu() {
@@ -149,7 +169,7 @@ public class Printer implements Serializable
         System.out.println("1.Fazer encomenda" +
                             "\n2.Verificar ofertas de transporte" +
                             "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
-                            "\n4.Classificar encomendas já recebidas" +
+                            "\n4.Classificar entregadores" +
                             "\n5.Mudar de Conta" +
                             "\n0.Sair" );
     }
@@ -158,7 +178,8 @@ public class Printer implements Serializable
         System.out.println("1.Ver pedidos de entrega" +
                             "\n2.Pedir Entrega"+
                             "\n3.Fazer Entrega"+
-                            "\n4.Mudar de Conta"+
+                            "\n4.Histórico de entregas efetuadas"+
+                            "\n5.Mudar de Conta"+
                             "\n0.Sair");
     }
 
@@ -168,7 +189,8 @@ public class Printer implements Serializable
                 "\n3.Propor Entrega"+
                 "\n4.Verificar Pedidos Propostos"+
                 "\n5.Fazer Entrega"+
-                "\n6.Mudar de Conta" +
+                "\n6.Histórico de entregas efetuadas" +
+                "\n7.Mudar de Conta" +
                 "\n0.Sair");
     }
 
@@ -291,6 +313,15 @@ public class Printer implements Serializable
         }
     }
 
+    public void printHist(List<TriploHist> l){
+        int i=0;
+        for (TriploHist h : l){
+            i++;
+            System.out.println("\n#######Entrega "+i +"#######");
+            System.out.println(h.toString());
+        }
+    }
+
     public String printStatus(String stat){
         switch (stat) {
             case "a": return "Aceite";
@@ -384,5 +415,11 @@ public class Printer implements Serializable
 
     public void existePedido(){
         System.out.println("Esse pedido já foi feito");
+    }
+
+    public void classificacao(int res){
+        if (res==0) System.out.println("Entregador classificado com sucesso!");
+        if (res==2) System.out.println("Entregador já foi classificado recentemente");
+        if (res==1) System.out.println("Entregador não encontrado");
     }
 }

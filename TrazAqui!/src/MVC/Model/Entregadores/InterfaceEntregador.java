@@ -17,8 +17,6 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
 
     void setClassificacao(float c);
 
-    void setHistorico(List<InterfaceEncomenda> lE);
-
     float getRaio();
 
     boolean getMedical();
@@ -26,8 +24,6 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
     float getVelocidade();
 
     float getClassificacao();
-
-    List<InterfaceEncomenda> getHistorico();
 
     int getVezesClassificado();
 
@@ -51,13 +47,9 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
 
     InterfaceEncomenda getEncomenda(String id);
 
-    InterfaceEncomenda getEncomendaPassado(String id);
-
     void classifica(float c);
 
     List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
 
     public void addMessage(String message);
-
-    void addToHistorico(InterfaceEncomenda enc);
 }
