@@ -307,20 +307,86 @@ public class Controller implements InterfaceController, Serializable {
                     List<Map.Entry<String,Double>> list=new ArrayList<>();
                     List<InterfaceLinhaEncomenda> lista = new ArrayList<>();
                     InterfaceEncomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,lista, this.info.getHoras(),this.info.getHoras());
-                    p.apresentaStock(stock);
-                    p.askLinhaEnc();
-                    opcao=read.nextLine().toUpperCase();
-                    while (opcao.equals("S")) {
-                        p.askCodProduto();
-                        String codProd=read.nextLine();
-                        p.askQuantidade();
-                        double qnt=Double.parseDouble(read.nextLine());
-                        AbstractMap.SimpleEntry<String,Double> l = new AbstractMap.SimpleEntry<>(codProd,qnt);
-                        peso+=rand.nextFloat()*5*qnt;
-                        list.add(l);
-                        p.askLinhaEnc();
-                        opcao=read.nextLine().toUpperCase();
+
+                    p.apresentaTotalProdutosStock(stock);
+
+                    int linhasTabela=4,colunasTabela=3;
+                    try{
+                        p.askLinhasTabela(); linhasTabela = Integer.parseInt(read.nextLine());
+                        p.askColunasTabela(); colunasTabela = Integer.parseInt(read.nextLine());
+                    } catch (NumberFormatException e)
+                    {
+                        p.exception(e.getLocalizedMessage()+"\nUsando valores default tabela 4*3\n");
                     }
+
+
+                    if(colunasTabela>stock.size()) colunasTabela = stock.size();
+                    if(colunasTabela<1||colunasTabela>5) colunasTabela = 3;
+                    if(linhasTabela<1) linhasTabela = 4;
+                    int npaginas = p.getNumeroPaginas(stock.size(),linhasTabela,colunasTabela);
+
+                    int pagina = 1;
+                    try
+                    {
+                        p.askPagina(npaginas); pagina = Integer.parseInt(read.nextLine());
+                    } catch(NumberFormatException e)
+                    {
+                        p.exception(e.getLocalizedMessage()+"\nSeguindo para pagina 1...\n");
+                    }
+
+
+                    if(pagina>npaginas) pagina = npaginas;
+                    if(pagina<1) pagina=1;
+
+                    String opcaoMenuTabela = "1";
+                    while(!opcaoMenuTabela.equals("q"))
+                    {
+                        p.apresentaStock(stock,pagina,linhasTabela,colunasTabela);
+                        p.apresentaMenuTabela(); opcaoMenuTabela = read.nextLine();
+
+                        switch(opcaoMenuTabela)
+                        {
+                            case "n": // proxima pagina
+                                pagina++;
+                                if(pagina>npaginas) pagina--;
+                                break;
+                            case "p": // pagina anterior
+                                pagina--;
+                                if(pagina<1) pagina++;
+                                break;
+                            case "s": // deseja adicionar produto
+                                p.askCodProduto();
+                                String codProd=read.nextLine();
+                                p.askQuantidade();
+                                double qnt = 0;
+                                try
+                                {
+                                    qnt=Double.parseDouble(read.nextLine());
+                                } catch (NumberFormatException e)
+                                {
+                                    p.exception(e.getLocalizedMessage()+"\nCancelando linha de encomenda!\n");
+                                    break;
+                                }
+                                AbstractMap.SimpleEntry<String,Double> l = new AbstractMap.SimpleEntry<>(codProd,qnt);
+                                peso+=rand.nextFloat()*5*qnt;
+                                list.add(l);
+                                break;
+                            case "q": break;
+                            default:
+                                try
+                                {
+                                    pagina = Integer.parseInt(opcaoMenuTabela);
+                                    if(pagina>npaginas) pagina = npaginas;
+                                    if(pagina<1) pagina=1;
+                                } catch (NumberFormatException e)
+                                {
+                                    p.exception(e.getLocalizedMessage());
+                                }
+                                break;
+                        }
+
+                    }
+                    //
                     if (list.isEmpty()) {
                         p.nadaAApresentar();
                         break;

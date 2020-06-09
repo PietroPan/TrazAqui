@@ -2,6 +2,7 @@ package MVC.View;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +17,102 @@ import Common.*;
 public class Printer implements Serializable
 {
     public Printer() {}
+
+    /*Paginacao*/
+
+    public void apresentaMenuTabela()
+    {
+        System.out.println("[s] Adicionar Produto | [n] Proxima Pagina | [p] Pagina Anterior | [(numero)] Ir para pagina | [q] Finalizar encomenda");
+    }
+
+    public void askLinhasTabela()
+    {
+        System.out.print("Quantas linhas na tabela(max:5)? ");
+    }
+
+    public void askColunasTabela()
+    {
+        System.out.print("Quantas colunas na tabela(max:5)? ");
+    }
+
+    public void askPagina(int nPaginas)
+    {
+        System.out.print("Que pagina deseja visualizar("+nPaginas+" paginas)? ");
+    }
+
+    public void apresentaTotalProdutosStock(List<InterfaceLinhaEncomenda> l)
+    {
+        System.out.println("Total " + l.size() + " produtos a listar");
+    }
+
+    public int getNumeroPaginas(int dataSize, int linhasPagina, int nProdutosLinha)
+    {
+        int npaginas;
+        int numProdsPagina = linhasPagina*nProdutosLinha;
+
+        if(dataSize<=numProdsPagina) npaginas=1;
+        else if(dataSize%numProdsPagina == 0) npaginas = dataSize / numProdsPagina;
+        else npaginas = dataSize/numProdsPagina + 1;
+
+        return npaginas;
+    }
+
+    public Map.Entry<Integer,Integer> getPagina(int dataSize, int pagina, int linhasPagina, int nProdutosLinha)
+    {
+        int npaginas;
+        int i,f;
+
+        i=(pagina-1)*linhasPagina*nProdutosLinha;
+        f = (i+linhasPagina*nProdutosLinha)>dataSize ? dataSize-1 : i+(linhasPagina*nProdutosLinha)-1;
+
+        return new AbstractMap.SimpleEntry<>(i,f);
+    }
+
+    public void printSeparadorTabela(int nProdutosLinha)
+    {
+        int sizeInsideBox = 30;
+
+        System.out.print('-');
+        for(int i = (sizeInsideBox+1)*nProdutosLinha ; i>0 ; i--)
+            System.out.print('-');
+        System.out.println("");
+    }
+
+    public void printCelulaDadosTabela(String data)
+    {
+        int sizeInsideBox = 30;
+
+        System.out.print(data);
+
+        for(int size=data.length()+1 ; size<sizeInsideBox ; size++)
+            System.out.print(' ');
+        System.out.print("| ");
+    }
+
+    public void printLinhaTabela(List<InterfaceLinhaEncomenda> l,Map.Entry<Integer,Integer> rangeLinha)
+    {
+        System.out.print("| ");
+        for(int i=rangeLinha.getKey() ; i<=rangeLinha.getValue() ; i++)
+            printCelulaDadosTabela(l.get(i).getDescricao());
+        System.out.println("");
+
+        System.out.print("| ");
+        for(int i=rangeLinha.getKey() ; i<=rangeLinha.getValue() ; i++)
+            printCelulaDadosTabela("Codigo: " + l.get(i).getcodProduto());
+        System.out.println("");
+
+        System.out.print("| ");
+        for(int i=rangeLinha.getKey() ; i<=rangeLinha.getValue() ; i++)
+            printCelulaDadosTabela("Preço: " + String.format("%.2f",l.get(i).getPreco()));
+        System.out.println("");
+
+        System.out.print("| ");
+        for(int i=rangeLinha.getKey() ; i<=rangeLinha.getValue() ; i++)
+            printCelulaDadosTabela("Quantidade: " + String.format("%.2f",l.get(i).getQuantidade()));
+        System.out.println("");
+
+        printSeparadorTabela(rangeLinha.getValue()-rangeLinha.getKey()+1);
+    }
 
     /*Informa de randomEvents*/
 
@@ -218,7 +315,7 @@ public class Printer implements Serializable
     /*Exceptions*/
 
     public void exception(String s) {
-        System.out.println(s);
+        System.out.println("EXCEPTION OCCURRED: " + s);
     }
 
     public void fileNotFound() {
@@ -287,14 +384,43 @@ public class Printer implements Serializable
         System.out.println("###########################");
     }
 
-    public void apresentaStock(List<InterfaceLinhaEncomenda> l) {
+    public void apresentaStock(List<InterfaceLinhaEncomenda> l,int pagina,int linhasPagina,int nProdutosLinha) {
         int i=0;
-        for (InterfaceLinhaEncomenda p : l) {
-            i++;
-            System.out.println("#######Produto "+i +"#######");
-            System.out.println(p.toString());
+        Map.Entry<Integer,Integer> rangePag = null;
+        int npaginas = 0;
 
+        if(l.size()==0)
+        {
+            System.out.println("Não existem produtos a exibir");
+            return;
         }
+
+        /* tamanho default tabela se exceder limites maximos 5*5 */
+        if(nProdutosLinha<1 || nProdutosLinha>5) nProdutosLinha = 3;
+        if(linhasPagina<1 || linhasPagina>5) linhasPagina = 4;
+
+        //if(nProdutosLinha>l.size()) nProdutosLinha = l.size();
+
+        npaginas = getNumeroPaginas(l.size(),linhasPagina,nProdutosLinha);
+
+        if(pagina>npaginas) pagina = npaginas;
+        else if(pagina<1) pagina = 1;
+
+        rangePag = getPagina(l.size(),pagina,linhasPagina,nProdutosLinha);
+
+        printSeparadorTabela(nProdutosLinha);
+
+        for(i=rangePag.getKey();;)
+        {
+            int j = i+nProdutosLinha-1>rangePag.getValue()? rangePag.getValue() : i+nProdutosLinha-1;
+            printLinhaTabela(l,new AbstractMap.SimpleEntry<>(i,j));
+
+            if(j==rangePag.getValue()) break;
+
+            i = i+nProdutosLinha>rangePag.getValue()? rangePag.getValue() : i+nProdutosLinha;
+        }
+
+        System.out.println("Pagina "+pagina+"/"+npaginas);
     }
 
     public void apresentaStockAll(List<InterfaceEncomenda> l){
