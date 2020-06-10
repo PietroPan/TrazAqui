@@ -1,11 +1,4 @@
 package MVC.Model.Entregadores;
-/**
- * Write a description of class Voluntário here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,60 +10,61 @@ import Common.*;
 public class Voluntario extends Entregador implements InterfaceVoluntario, Serializable {
     private InterfaceEncomenda encomendaAtual;
     private List<String> pedidos;
-    
+
+    /**
+     * Construtor vazio
+     */
     public Voluntario() {
-        this.setNome("InterfaceVoluntario Standard");
-        this.setCodigo("n/a");
-        this.setPosicao(new Point2D.Double(0,0));
-        this.setPassword("n/a");
-        this.setRaio(0);
-        this.setMedical(false);
-        this.setVelocidade(0);
-        this.setClassificacao(0);
-        this.setVezesClassificado(1);
-        this.setMessages(new ArrayList<>());
+        super();
         this.pedidos=new ArrayList<>();
         this.encomendaAtual=new Encomenda();
-        this.setAEntregar(false);
     }
-    
+
+    /**
+     * Construtor parametrizado
+     * @param nome nome
+     * @param codEntregador código de entregador
+     * @param pos posição de entregador
+     * @param password password
+     * @param raio raio de ação
+     * @param levaMedical boolean de trasnportes médicos
+     * @param velocidadeDeEntrega velocidadeDeEntrega
+     * @param c classificação
+     * @param vC vezesClassificado
+     * @param pedidos Lisat de pedidos
+     * @param e encomendaAtual
+     * @param lE histórico de pedidos realizados
+     */
     public Voluntario(String nome, String codEntregador, Point2D pos, String password, float raio, boolean levaMedical, float velocidadeDeEntrega, float c, int vC, ArrayList<String> pedidos, InterfaceEncomenda e, List<InterfaceEncomenda> lE) {
-        this.setNome(nome);
-        this.setCodigo(codEntregador);
-        this.setPosicao((Point2D)pos.clone());
-        this.setPassword(password);
-        this.setRaio(raio);
-        this.setMedical(levaMedical);
-        this.setVelocidade(velocidadeDeEntrega);
-        this.setClassificacao(c);
-        this.setVezesClassificado(vC);
-        this.setMessages(new ArrayList<>());
+        super(nome,codEntregador,pos,password,raio,levaMedical,velocidadeDeEntrega,c,vC);
         this.pedidos= new ArrayList<>(pedidos);
         this.encomendaAtual=e.clone();
-        this.setAEntregar(false);
    }
-    
+
+    /**
+     * Construtor cópia
+     * @param v Voluntário a copiar
+     */
    public Voluntario(Voluntario v) {
-       this.setNome(v.getNome());
-       this.setCodigo(v.getCodigo());
-       this.setPosicao((Point2D)v.getPosicao().clone());
-       this.setPassword(v.getPassword());
-       this.setRaio(v.getRaio());
-       this.setMedical(v.getMedical());
-       this.setVelocidade(v.getVelocidade());
-       this.setClassificacao(v.getClassificacao());
-       this.setVezesClassificado(v.getVezesClassificado());
-       this.setMessages(v.getMessages());
+       super(v);
        this.pedidos=v.getPedidos();
        this.encomendaAtual=v.getEncomenda();
-       this.setAEntregar(false);
    }
-   
+
+    /**
+     * Getter do parametro encomenda
+     * @return cópia de uma encomenda
+     */
    @Override
    public InterfaceEncomenda getEncomenda() {
        return this.encomendaAtual.clone();
    }
 
+    /**
+     * Getter de uma encomenda de código
+     * @param id código de encomenda
+     * @return encomenda que possui esse código
+     */
    @Override
    public InterfaceEncomenda getEncomenda(String id) {
         InterfaceEncomenda e = this.encomendaAtual;
@@ -80,55 +74,77 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
             return null;
    }
 
+    /**
+     * Getter para os pedidos
+     * @return cópia de pedidos
+     */
    @Override
    public List<String> getPedidos() {
         return new ArrayList<>(this.pedidos);
    }
-   
+
+    /**
+     * Método toString
+     * @return String com a informação relevante de voluntário
+     */
    @Override
    public String toString() {
-       StringBuilder s = new StringBuilder();
-       s.append("Nome da Empresa: ").append(this.getNome())
-       .append("\nCodigo do InterfaceVoluntario: ").append(this.getCodigo())
-       .append("\nPosiçao: (").append(this.getPosicao().getY()).append(",").append(this.getPosicao().getX()).append(")")
-       .append("\nRaio de açao: ").append(this.getRaio())
-       .append("\nTransporta encomendas Medicas: ").append(this.getMedical())
-       .append("\nVelocidade media(Km/h): ").append(this.getVelocidade())
-       .append("\nCommon.Encomenda Atual: ").append(this.encomendaAtual);
-       return s.toString();
-   }
-   
-   @Override
-   public InterfaceEntregador clone() {
-       return new Voluntario(this);
+       return "Nome da Empresa: " + this.getNome() +
+               "\nCodigo do InterfaceVoluntario: " + this.getCodigo() +
+               "\nPosiçao: (" + this.getPosicao().getY() + "," + this.getPosicao().getX() + ")" +
+               "\nRaio de açao: " + this.getRaio() +
+               "\nTransporta encomendas Medicas: " + this.getMedical() +
+               "\nVelocidade media(Km/h): " + this.getVelocidade() +
+               "\nCommon.Encomenda Atual: " + this.encomendaAtual;
    }
 
+    /**
+     * Método equals
+     * @param o objeto ao qual comparar
+     * @return true se forem iguais
+     */
     @Override
-    public boolean encomendaACaminho(String id, String s) {
-        InterfaceEncomenda e=this.encomendaAtual;
-        return e.getCodEncomenda().equals(s) && e.getDestino().equals(s);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Voluntario that = (Voluntario) o;
+        return Objects.equals(encomendaAtual, that.encomendaAtual) &&
+                Objects.equals(getPedidos(), that.getPedidos());
     }
 
+    /**
+     * Método clone
+     * @return cópia da entidade a qual clone foi chamado
+     */
     @Override
-   public boolean hasRoomAndMed(boolean med) {
-        return this.encomendaAtual.getCodEncomenda().equals("Common.Encomenda Standard") && (!med || this.getMedical());
-   }
+    public InterfaceEntregador clone() {
+        return new Voluntario(this);
+    }
 
+    /**
+     * Adicionar encomenda
+     * @param e adicionaEncomenda ao voluntário
+     */
    @Override
    public void addEncomenda(InterfaceEncomenda e) {
         this.encomendaAtual=e.clone();
     }
 
+    /**
+     * Adiciona um pedido
+     * @param enc código de encomenda a adicionar
+     */
    @Override
    public void addPedido(String enc) {
         this.pedidos.add(enc);
    }
 
-   @Override
-   public void denyAllRequests() {
-        this.pedidos=new ArrayList<>();
-   }
-
+    /**
+     * Método que atualiza o estado de um voluntário
+     * @param t data a qual comparar a sua encomenda
+     * @return Lista de encomendas que foram entregues
+     */
     @Override
     public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
         List<InterfaceEncomenda> r = new ArrayList<>();
@@ -142,16 +158,25 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
         return r;
     }
 
+    /**
+     * Método que atualiza a encomenda atual
+     * @param enc encomenda a colocar no lugar
+     */
     @Override
     public void atualizaAtual(InterfaceEncomenda enc){
         this.encomendaAtual=enc.clone();
     }
 
+    /**
+     * Método que está responsável pelos vários randomEvents
+     * @param t hora a comparar
+     * @return Entry que a utilizador faz corresponder uma mensagem
+     */
     @Override
     public Map.Entry<String,String> checkEvent(LocalDateTime t){
         String[] goodEvents = new String[]{
                 " encontrou uma estrela colorida, parece que a sua encomenda já chegou",
-                "Uma encomenda foi cancelada,",
+                "Parece que está com sorte,",
                 "O tempo melhorou,",
 
         };

@@ -3,10 +3,11 @@ package MVC.Model;
 import Common.InterfaceEncomenda;
 import Common.TriploHist;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Historico implements InterfaceHistorico {
+public class Historico implements InterfaceHistorico, Serializable {
     private List<TriploHist> historico;
 
     public Historico(){

@@ -15,13 +15,9 @@ public interface InterfaceVoluntario extends InterfaceBasicInfo, InterfaceEntreg
 
     InterfaceEntregador clone();
 
-    boolean hasRoomAndMed(boolean med);
-
     void addEncomenda(InterfaceEncomenda e);
 
     void addPedido(String enc);
-
-    void denyAllRequests();
 
     void atualizaAtual(InterfaceEncomenda enc);
 

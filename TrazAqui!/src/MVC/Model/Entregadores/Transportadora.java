@@ -21,123 +21,166 @@ public class Transportadora extends Entregador implements InterfaceTransportador
    private int numeroDeEncomendas;
    private List<InterfaceEncomenda> encomendaAtual;
    private List<Map.Entry<InterfaceEncomenda,String>> pedidos;
-   
+
+    /**
+     * Construtor vazio
+     */
    public Transportadora() {
-       this.setNome("Empresa Standard");
-       this.setCodigo("n/a");
-       this.setPosicao(new Point2D.Double(0,0));
-       this.setPassword("n/a");
-       this.setRaio(0);
-       this.setMessages(new ArrayList<>());
+       super();
        this.NIF="n/a";
        this.custoKm=0;
        this.custoKg=0;
-       this.setMedical(false);
-       this.setVelocidade(0);
-       this.setClassificacao(0);
-       this.setVezesClassificado(1);
-       this.setMessages(new ArrayList<>());
        this.numeroDeEncomendas=0;
        this.encomendaAtual=new ArrayList<>();
        this.pedidos=new ArrayList<>();
-       this.setAEntregar(false);
    }
-   
+
+    /**
+     * Construtor parametrizado
+     * @param nome nome
+     * @param codEmpresa código de transportadora
+     * @param pos posição
+     * @param password password
+     * @param raio raio
+     * @param NIF NIF
+     * @param custoKm custoKm
+     * @param custoKg custoKg
+     * @param levaMedical levaMedical
+     * @param velocidadeDeEntrega velocidadeEntrega
+     * @param c classificação
+     * @param vC vezes que foi classificado
+     * @param numeroDeEncomendas número de Encomendas
+     * @param encomendaAtual encomenda atual
+     * @param historicoEncomendas histórico de encomendas
+     */
    public Transportadora(String nome, String codEmpresa, Point2D pos, String password, float raio, String NIF, double custoKm, double custoKg, boolean levaMedical, float velocidadeDeEntrega, float c, int vC, int numeroDeEncomendas, List<InterfaceEncomenda> encomendaAtual, List<InterfaceEncomenda> historicoEncomendas) {
-       this.setNome(nome);
-       this.setCodigo(codEmpresa);
-       this.setPosicao((Point2D)pos.clone());
-       this.setPassword(password);
-       this.setRaio(raio);
+       super(nome,codEmpresa,pos,password,raio,levaMedical,velocidadeDeEntrega,c,vC);
        this.NIF=NIF;
        this.custoKm=custoKm;
        this.custoKg=custoKg;
-       this.setMedical(levaMedical);
-       this.setVelocidade(velocidadeDeEntrega);
-       this.setClassificacao(c);
-       this.setVezesClassificado(vC);
-       this.setMessages(new ArrayList<>());
        this.numeroDeEncomendas=numeroDeEncomendas;
        this.encomendaAtual=encomendaAtual.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
        this.pedidos=new ArrayList<>();
-       this.setAEntregar(false);
    }
-   
+
+    /**
+     * Construtor cópia
+     * @param e Transportadora a copiar
+     */
    public Transportadora(Transportadora e) {
-       this.setNome(e.getNome());
-       this.setCodigo(e.getCodigo());
-       this.setPosicao((Point2D)e.getPosicao().clone());
-       this.setPassword(e.getPassword());
-       this.setRaio(e.getRaio());
+       super(e);
        this.NIF=e.NIF;
        this.custoKm=e.getCustoKm();
        this.custoKg=e.getCustoKg();
-       this.setMedical(e.getMedical());
-       this.setVelocidade(e.getVelocidade());
-       this.setClassificacao(e.getClassificacao());
-       this.setVezesClassificado(e.getVezesClassificado());
-       this.setMessages(e.getMessages());
        this.numeroDeEncomendas=e.getNumEnc();
        this.encomendaAtual=e.getEncomendaAtual();
        this.pedidos=e.getPedidos();
-       this.setAEntregar(false);
    }
-   
+
+    /**
+     * Setter para NIF
+     * @param NIF NIF
+     */
    @Override
    public void setNIF(String NIF) {
        this.NIF=NIF;
    }
-   
+
+    /**
+     * Setter para custoKm
+     * @param custoKm custo por Km
+     */
    @Override
    public void setCustoKm(double custoKm) {
        this.custoKm=custoKm;
    }
-   
+
+    /**
+     * Setter para custoKg
+     * @param custoKg custo por Kg
+     */
    @Override
    public void setCustoKg(double custoKg) {
        this.custoKg=custoKg;
    }
-   
+
+    /**
+     * Setter número de enc
+     * @param n número de encomendas
+     */
    @Override
    public void setNumeroEnc(int n) {
        this.numeroDeEncomendas=n;
    }
-    
+
+    /**
+     * Setter para a lista de encomendas
+     * @param lE lista de encomendas
+     */
    @Override
    public void setEncomendas(List<InterfaceEncomenda> lE) {
        this.encomendaAtual=lE.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
    }
 
+    /**
+     * Adição de uma encomenda
+     * @param e encomenda a adicionar
+     */
    @Override
    public void addEncomenda(InterfaceEncomenda e) {
        this.encomendaAtual.add(e.clone());
    }
 
+    /**
+     * Getter para o NIF
+     * @return NIF
+     */
    @Override
    public String getNIF() {
        return this.NIF;
    }
-   
+
+    /**
+     * Getter para custoKg
+     * @return custo por Kg
+     */
    @Override
    public double getCustoKg() {
        return this.custoKg;
    }
-   
+
+    /**
+     * Getter para custoKm
+     * @return custo por Km
+     */
    @Override
    public double getCustoKm() {
        return this.custoKm;
    }
-   
+
+    /**
+     * Getter para numEnc
+     * @return número de Encomendas
+     */
    @Override
    public int getNumEnc() {
        return this.numeroDeEncomendas;
    }
-   
+
+    /**
+     * Getter para a encomenda atual
+     * @return lista de encomendas a serem transportadas atualmente
+     */
    @Override
    public List<InterfaceEncomenda> getEncomendaAtual() {
        return this.encomendaAtual.stream().map(InterfaceEncomenda::clone).collect(Collectors.toList());
    }
 
+    /**
+     * Getter para uma encomenda especifica no carregamento atual
+     * @param id código da encomenda
+     * @return encomenda
+     */
     @Override
     public InterfaceEncomenda getEncomenda(String id) {
        for (InterfaceEncomenda e : this.encomendaAtual) {
@@ -147,11 +190,20 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        return null;
     }
 
+    /**
+     * Getter para os pedidos
+     * @return Lista de pedidos
+     */
     @Override
     public List<Map.Entry<InterfaceEncomenda,String>> getPedidos(){
        return new ArrayList<>(this.pedidos);
     }
 
+    /**
+     * Método de atualização de estado
+     * @param t data a comparar
+     * @return Lista de encomendas que foram entregues
+     */
     @Override
     public List<InterfaceEncomenda> atualizaEstado(LocalDateTime t) {
         List<InterfaceEncomenda> r = new ArrayList<>();
@@ -172,25 +224,30 @@ public class Transportadora extends Entregador implements InterfaceTransportador
         return r;
     }
 
+    /**
+     * Método que verifica randomEvents
+     * @param t data a comparar
+     * @return Dicionario entre código de utilizador e as mensagens de eventos aleatorios que se destinam a ele
+     */
     @Override
     public Map<String,String> checkEvent(LocalDateTime t){
        Map<String,String> m = new HashMap<>();
        String[] goodEvents = new String[]{
                " encontrou uma estrela colorida, parece que a sua encomenda já chegou",
-               "Uma encomenda foi cancelada,",
+               "Parece que está com sorte,",
                "O tempo melhorou,",
 
        };
         String[] badEvents = new String[]{
                 " protestantes roubaram a sua encomenda, lamentamos a inconveniência",
                 "Começou a chover torrencialmente,",
-                "Ocorreu uma acidente,",
+                "Ocorreu um acidente,",
                 "A sua encomenda ficou presa na Alfândega,",
                 "Começou uma tempestade de neve,"
         };
        Random rand = new Random();
        String usr,msg;
-       int r1=rand.nextInt(100);//u677 e1836 t480
+       int r1=rand.nextInt(100);
        if (r1<10||r1==100){
            if (r1<this.getClassificacao()){
                 for (InterfaceEncomenda i : this.encomendaAtual){
@@ -227,59 +284,84 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        return m;
     }
 
+    /**
+     * Método toString
+     * @return String com informação relevante sobre uma transportadora
+     */
     @Override
    public String toString() {
-       String s = "Nome de Empresa de Entregas: " + this.getNome() +
-               "Codigo da Empresa: " + this.getCodigo() +
-               "\nPosiçao: (" + this.getPosicao().getX() + "," + this.getPosicao().getY() + ")" +
-               "\nRaio: " + this.getRaio() +
-               "\nNIF: " + this.NIF +
-               "\nCusto/Kg: " + this.custoKg +
-               "\nCusto/Km: " + this.custoKm +
-               "\nTransporta encomendas medicas: " + this.getMedical() +
-               "\nVelocidade Normal(Km/h): " + this.getVelocidade() +
-               "\nTransporta até " + this.numeroDeEncomendas + "encomendas" +
-               "\nCommon.Encomenda Atual: " + this.encomendaAtual.toString();
-       return s;
+        return "Nome de Empresa de Entregas: " + this.getNome() +
+                "Codigo da Empresa: " + this.getCodigo() +
+                "\nPosiçao: (" + this.getPosicao().getX() + "," + this.getPosicao().getY() + ")" +
+                "\nRaio: " + this.getRaio() +
+                "\nNIF: " + this.NIF +
+                "\nCusto/Kg: " + this.custoKg +
+                "\nCusto/Km: " + this.custoKm +
+                "\nTransporta encomendas medicas: " + this.getMedical() +
+                "\nVelocidade Normal(Km/h): " + this.getVelocidade() +
+                "\nTransporta até " + this.numeroDeEncomendas + "encomendas" +
+                "\nCommon.Encomenda Atual: " + this.encomendaAtual.toString();
    }
-   
-   @Override
+
+    /**
+     * Método equals
+     * @param o objeto ao qual comparar
+     * @return true se as suas variaveis tiverem todas o mesmo valor
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Transportadora that = (Transportadora) o;
+        return Double.compare(that.getCustoKm(), getCustoKm()) == 0 &&
+                Double.compare(that.getCustoKg(), getCustoKg()) == 0 &&
+                numeroDeEncomendas == that.numeroDeEncomendas &&
+                Objects.equals(getNIF(), that.getNIF()) &&
+                Objects.equals(getEncomendaAtual(), that.getEncomendaAtual()) &&
+                Objects.equals(getPedidos(), that.getPedidos());
+    }
+
+    /**
+     * Método de clone
+     * @return cópia de entregador ao qual clone foi chamado
+     */
+    @Override
    public InterfaceEntregador clone() {
        return new Transportadora(this);
    }
 
-    @Override
-    public boolean encomendaACaminho(String id, String s) {
-        for (InterfaceEncomenda e : this.encomendaAtual) {
-            if (e.getCodEncomenda().equals(s))
-                return e.getDestino().equals(s);
-        }
-        return false;
-    }
-
-    @Override
-   public boolean hasRoomAndMed(boolean med) {
-       return (this.numeroDeEncomendas-this.encomendaAtual.size())>0 && (!med || this.getMedical());
-   }
-
+    /**
+     * Método que verifica se existe espaço numa transportadora
+     * @return true se existir, false otherwise
+     */
    @Override
    public boolean hasRoom(){
        return (this.encomendaAtual.size()<this.numeroDeEncomendas);
    }
 
-   @Override
-    public double calculaCusto(double dist,double peso){
-       return (dist*custoKm)+(peso*custoKg);
-   }
-
+    /**
+     * Método que adiciona pedido
+     * @param enc encomenda a adicionar
+     */
    @Override
     public void addPedido(InterfaceEncomenda enc){
        this.pedidos.add(new AbstractMap.SimpleEntry<>(enc,"p"));
    }
 
+    /**
+     * Método que adiciona pedido com estado
+     * @param enc encomenda a adicionar
+     * @param stat estado correspondente
+     */
     @Override
     public void addPedido(InterfaceEncomenda enc,String stat){ this.pedidos.add(new AbstractMap.SimpleEntry<>(enc,stat));    }
 
+    /**
+     * Método que adiciona pedidos
+     * @param encs encomendas a adicionar
+     * @param stat estado relacionado a todas elas
+     */
     @Override
     public void addPedidos(List<InterfaceEncomenda> encs,String stat){
        for (InterfaceEncomenda i : encs){
@@ -287,13 +369,22 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        }
    }
 
-
+    /**
+     * Método que altera o estado de um pedido
+     * @param enc encomenda a alterar o estado
+     * @param stat estado a colocar nesta
+     */
     @Override
     public void alteraPedido(InterfaceEncomenda enc,String stat){
        this.pedidos=this.getPedidos().stream().filter(i->!(i.getKey().getCodEncomenda().equals(enc.getCodEncomenda()))).collect(Collectors.toList());
        this.addPedido(enc,stat);
    }
 
+    /**
+     * Método que altera todos os pedidos que satisfizerem uma certa condição
+     * @param stat estado a verificar
+     * @param statIf estado a colocar se for igual ao stat
+     */
    @Override
    public void alteraTodosPedidosIf(String stat,String statIf){
        List<InterfaceEncomenda> aux = new ArrayList<>();
@@ -304,17 +395,21 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        addPedidos(aux,stat);
    }
 
-   @Override
-    public void clearAtual(){
-       this.encomendaAtual= new ArrayList<>();
-   }
-
+    /**
+     * Método que atualiza encomenda
+     * @param enc encomenda a atualizar
+     */
    @Override
     public void atualizaAtual (InterfaceEncomenda enc){
        this.encomendaAtual.removeIf(i->i.getCodEncomenda().equals(enc.getCodEncomenda()));
        this.encomendaAtual.add(enc);
    }
 
+    /**
+     * Método que verifica a existência de um pedido
+     * @param enc código da encomenda
+     * @return true caso exsita
+     */
    @Override
     public boolean existePedido (String enc){
        for (Map.Entry<InterfaceEncomenda,String> i : this.pedidos){

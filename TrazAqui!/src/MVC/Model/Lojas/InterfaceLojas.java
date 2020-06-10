@@ -28,8 +28,6 @@ public interface InterfaceLojas {
 
     void addToStock(String idLoja, List<InterfaceLinhaEncomenda> l);
 
-    boolean encomendaACaminho(String id, String loja);
-
     boolean encomendaNotReady(String id, String loja);
 
     List<InterfaceLinhaEncomenda> formaListadeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException;

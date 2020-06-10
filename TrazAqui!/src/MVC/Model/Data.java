@@ -75,14 +75,13 @@ public class Data implements InterfaceData, Serializable
         String buffer;
         Random r = new Random();
         Point2D pos;
-        //u962 e7433 e7902 e2277 t606
         while((buffer=bufferAll.readLine())!=null) {
            String [] idAndInfo = buffer.split(":",2);
            String[] tokens=idAndInfo[1].split(",",0);
            switch (idAndInfo[0]) {
                case ("Utilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
-                    InterfaceUtilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble()*10000,pos,new HashSet<>(),new ArrayList<>());
+                    InterfaceUtilizador u = new Utilizador(tokens[0],"Password",tokens[1],r.nextDouble()*10000,pos,new HashSet<>());
                     this.users.addUser(u);
                break;
                case ("Voluntario") :
@@ -125,36 +124,10 @@ public class Data implements InterfaceData, Serializable
        }
    }
 
-    @Override public boolean encomendaACaminho(String id,String user) {
-        return this.entregadores.encomendaACaminho(id,user);
-   }
-
    @Override
    public boolean encomendaNotReady(String id,String user) {
         InterfaceEncomenda a = getEncomenda(id);
         return this.lojas.encomendaNotReady(id,a.getOrigem()) && a.getDestino().equals(user);
-   }
-
-   @Override public String voluntarioAvailable(String enc) throws UtilizadorInexistenteException, LojaInexistenteException {
-        String r="n/a";
-        InterfaceVoluntario v = new Voluntario();
-        InterfaceEncomenda encomenda=getEncomenda(enc);
-        InterfaceLoja l=lojas.getLoja(encomenda.getOrigem());
-        double tempoMin=-1,tempoAux;
-        for (InterfaceEntregador e : this.entregadores.getEntregadores().values()) {
-            if (e.getClass().equals(v.getClass()) && e.hasRoomAndMed(getEncomenda(enc).getMedical())) {
-                tempoAux = e.getVelocidade() * calculaDistTotal(e.getPosicao(), l.getPosicao(), users.getUser(encomenda.getDestino()).getPosicao())+l.getTamFila()*l.getTempoAtendimento();
-                if (tempoMin == -1 || tempoAux < tempoMin) {
-                    tempoMin = tempoAux;
-                    r = e.getCodigo();
-                }
-            }
-        }
-        return r;
-   }
-
-   @Override public void askVoluntario(String idVoluntario,String idEnc) {
-        this.entregadores.addPedidoVoluntario(idVoluntario,idEnc);
    }
 
    @Override
@@ -170,15 +143,6 @@ public class Data implements InterfaceData, Serializable
         e.setDataEntrega(this.getHoras().plusMinutes((long)(tam*l.getTempoAtendimento())));
        this.lojas.addEncomenda(e.getOrigem(),e);
        this.users.pay(e.getDestino(),preco);
-   }
-
-
-
-   @Override public void aceitar(String entrega,String enc,double time) {
-        InterfaceEncomenda e =getEncomenda(enc);
-        this.entregadores.addEncomenda(entrega,e);
-        this.lojas.removeReady(e.getOrigem(),enc);
-        this.users.addMessageToUser(e.getDestino(),"O entregador "+entrega+" aceitou o seu pedido");
    }
 
    @Override
@@ -213,33 +177,6 @@ public class Data implements InterfaceData, Serializable
        return d;
    }
 
-   @Override public Set<String[]> getEntregadoresDisp(String id) throws UtilizadorInexistenteException, LojaInexistenteException {
-       Set<String[]> setOpcoes=new HashSet<>();
-       int r;
-       double preco;
-       double tempoEst;
-       double timeWaiting;
-       InterfaceEncomenda en =getEncomenda(id);
-       InterfaceLoja l =this.lojas.getLoja(en.getOrigem());
-       r=l.getTamFila();
-       timeWaiting=r*l.getTempoAtendimento();
-       for (InterfaceEntregador e : this.entregadores.getEntregadores().values()) {
-           if (e.hasRoomAndMed(en.getMedical())) {
-               double d=calculaDistTotal(e.getPosicao(),l.getPosicao(),users.getUser(en.getDestino()).getPosicao());
-               String[] info = new String[5];
-               preco=d*((InterfaceTransportadora)e).getCustoKm()+en.getPeso()*((InterfaceTransportadora)e).getCustoKg();
-               tempoEst=d/e.getVelocidade()+timeWaiting;
-               info[0]=e.getCodigo();
-               info[1]=e.getNome();
-               info[2]=Float.toString(e.getClassificacao());
-               info[3]=Double.toString(Math.round(preco*100)/100.0);
-               info[4]=Double.toString(Math.round(tempoEst*100)/100.0);
-               setOpcoes.add(info);
-           }
-       }
-       return setOpcoes;
-    }
-
     @Override
     public List<InterfaceEncomenda> getEncomendasDisp(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException {
         List<InterfaceEncomenda> r = new ArrayList<>();
@@ -269,37 +206,11 @@ public class Data implements InterfaceData, Serializable
         return i;
     }
 
-    @Override public List<String> getVoluntarioRequests(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
-        List<String> ls = new ArrayList<>();
-        InterfaceVoluntario v =(InterfaceVoluntario) this.entregadores.getEntregador(cod);
-        List<String> pedidoIDs =v.getPedidos();
-        for (String s : pedidoIDs) {
-            InterfaceEncomenda e = getEncomenda(s);
-            ls.add("ID de Common.Encomenda: " + e.getCodEncomenda() + "  Peso: " + e.getPeso() + "  Distância a percorrer: " + calculaDistTotal(this.lojas.getLoja(e.getOrigem()).getPosicao(),v.getPosicao(),this.getUser(e.getDestino()).getPosicao()) +"\n");
-        }
-        return ls;
-    }
-
-    @Override public double getTempoEsperado(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
-        InterfaceEntregador e = getEntregador(idEntregador);
-        InterfaceEncomenda enc = getEncomenda(idEnc);
-        if (enc==null) System.out.println("olaaa");
-        return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),users.getUser(enc.getDestino()).getPosicao()) / e.getVelocidade();
-    }
-
     @Override public double getDistTotal(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         InterfaceEntregador e = getEntregador(idEntregador);
         InterfaceEncomenda enc = getEncomenda(idEnc);
         if (enc==null) System.out.println("olaaa");
         return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),users.getUser(enc.getDestino()).getPosicao());
-    }
-
-    @Override public void denyAll(String cod) throws EntregadorInexistenteException {
-        for (String s : ((InterfaceVoluntario)this.entregadores.getEntregador(cod)).getPedidos()) {
-            InterfaceEncomenda e = getEncomenda(s);
-            this.users.addMessageToUser(e.getDestino(),"Common.Encomenda "+s+" não foi aceite pelo InterfaceVoluntario "+cod);
-        }
-        this.entregadores.denyAll(cod);
     }
 
     @Override public void resetMessages(String cod) {

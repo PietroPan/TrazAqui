@@ -33,10 +33,6 @@ public interface InterfaceTransportadora extends InterfaceBasicInfo, InterfaceEn
 
     InterfaceEntregador clone();
 
-    boolean hasRoomAndMed(boolean med);
-
-    double calculaCusto(double dist,double peso);
-
     List<Map.Entry<InterfaceEncomenda,String>> getPedidos();
 
     void addPedido(InterfaceEncomenda enc);
@@ -44,8 +40,6 @@ public interface InterfaceTransportadora extends InterfaceBasicInfo, InterfaceEn
     void addPedido(InterfaceEncomenda enc,String stat);
 
     void alteraPedido(InterfaceEncomenda enc,String stat);
-
-    void clearAtual();
 
     void atualizaAtual (InterfaceEncomenda enc);
 

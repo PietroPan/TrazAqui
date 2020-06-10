@@ -19,72 +19,103 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
     private Set<Map.Entry<Boolean,String>> pedidosEntregues;
     private List<TriploPedido> pedidos;
 
+    /**
+     * Construtor vazio
+     */
     public Utilizador() {
-        this.setNome("NoName");
-        this.setCodigo("n/a");
-        this.setPassword("n/a");
-        this.setPosicao(new Point2D.Double(0, 0));
-        this.setPedidosEntregues(new HashSet<>());
+        super();
+        this.pedidosEntregues=new HashSet<>();
         this.balance = 0.00;
         this.pedidosEntregues=new HashSet<>();
-        this.setMessages(new ArrayList<>());
         this.pedidos= new ArrayList<>();
     }
 
-    public Utilizador(String codUtilizador, String password, String nome, double balance, Point2D pos, Set<Map.Entry<Boolean,String>> pedidosEntregues, List<String> messages) {
-        this.setNome(nome);
-        this.setCodigo(codUtilizador);
-        this.setPassword(password);
-        this.setPosicao(pos);
+    /**
+     * Construtor parametrizado
+     * @param codUtilizador código
+     * @param password password
+     * @param nome nome
+     * @param balance balanço da conta
+     * @param pos posição
+     * @param pedidosEntregues pedidosEntregues
+     */
+    public Utilizador(String codUtilizador, String password, String nome, double balance, Point2D pos, Set<Map.Entry<Boolean,String>> pedidosEntregues) {
+        super(nome,codUtilizador,pos,password);
         this.setPedidosEntregues(pedidosEntregues);
         this.balance = balance;
-        this.setMessages(new ArrayList<>(messages));
         this.pedidos = new ArrayList<>();
     }
 
+    /**
+     * Construtor cópia
+     * @param u Utilizador a copiar
+     */
     public Utilizador(InterfaceUtilizador u) {
-        this.setNome(u.getNome());
-        this.setCodigo(u.getCodigo());
-        this.setPassword(u.getPassword());
-        this.setPosicao((Point2D)u.getPosicao().clone());
+        super((BasicInfo) u);
         this.balance = u.getBalance();
         this.pedidosEntregues = u.getPedidosEntregues();
-        this.setMessages(u.getMessages());
         this.pedidos=u.getPedidos();
     }
 
+    /**
+     * Setter para o balanço de uma conta
+     * @param balance balanço a colocar
+     */
     @Override
     public void setBalance(double balance) {
         this.balance = balance;
     }
 
+    /**
+     * Getter para o balanço de uma conta
+     * @return balanço
+     */
     @Override
     public double getBalance() {
         return this.balance;
     }
 
+    /**
+     * Setter de pedidos entregues
+     * @param s pedidos entregues
+     */
     @Override
     public void setPedidosEntregues(Set<Map.Entry<Boolean, String>> s) {
         this.pedidosEntregues = new HashSet<>(s);
     }
 
+    /**
+     * Getter de pedidos entregues
+     * @return pedidos entregues
+     */
     @Override
     public Set<Map.Entry<Boolean,String>> getPedidosEntregues() {
         return new HashSet<>(pedidosEntregues);
     }
 
+    /**
+     * Getter de pedidos prontos
+     * @return pedidos prontos cópia
+     */
     @Override
     public List<TriploPedido> getPedidos(){
         return new ArrayList<>(pedidos);
     }
 
+    /**
+     * Método toString
+     * @return informação de um utilizador em forma de string
+     */
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append("Nome: ").append(this.getNome()).append("\nCodigo do InterfaceUtilizador: ").append(this.getCodigo()).append("\nBalance:").append(this.balance).append("\nPosição: (").append(this.getPosicao().getX()).append(",").append(this.getPosicao().getY()).append(")").append("\nID's de Encomendas Entregues: ").append(this.pedidosEntregues);
-        return s.toString();
+        return "Nome: " + this.getNome() + "\nCodigo do InterfaceUtilizador: " + this.getCodigo() + "\nBalance:" + this.balance + "\nPosição: (" + this.getPosicao().getX() + "," + this.getPosicao().getY() + ")" + "\nID's de Encomendas Entregues: " + this.pedidosEntregues;
     }
 
+    /**
+     * Método equals
+     * @param user objeto ao qual comparar
+     * @return true se password e código forem iguais
+     */
     @Override
     public boolean equals(Object user) {
         InterfaceUtilizador u;
@@ -93,32 +124,61 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         return this.getCodigo().equals(u.getCodigo()) && this.getPassword().equals(u.getPassword());
     }
 
+    /**
+     * Método clone
+     * @return utilizador cópia
+     */
     @Override
     public InterfaceUtilizador clone() {
         return new Utilizador(this);
     }
 
+    /**
+     * Método que adiciona um código de encomenda as encomendas entregues ao user
+     * @param cod código a adicionar
+     */
     @Override
     public void addEntregue(String cod) {
         this.pedidosEntregues.add(new AbstractMap.SimpleEntry<>(false, cod));
     }
 
+    /**
+     * Método que atualiza o estado de utilizador
+     * @param e encomenda entregue
+     */
     @Override
     public void atualizaEstado(InterfaceEncomenda e) {
         this.addMessage("A sua Encomenda de id "+e.getCodEncomenda()+" foi entregue");
         this.pedidosEntregues.add(new AbstractMap.SimpleEntry<>(false,e.getCodEncomenda()));
     }
 
+    /**
+     * Método que adiciona um pedido
+     * @param enc código de encomenda
+     * @param trans transportadora
+     */
     @Override
     public void addPedido(InterfaceEncomenda enc, String trans) {
         this.pedidos.add(new TriploPedido(enc,trans,"p"));
     }
 
+    /**
+     * Adiconar um pedido com estado
+     * @param enc código de encomenda
+     * @param trans transportadora
+     * @param stat estado
+     */
     @Override
     public void addPedido(InterfaceEncomenda enc, String trans, String stat) {
         this.pedidos.add(new TriploPedido(enc,trans,stat));
     }
 
+    /**
+     * Método que adiciona vários pedidos
+     * @param encs lista de encomendas a adicionar
+     * @param trans transportadora que as realizou
+     * @param stat estado da encomenda
+     */
     @Override
     public void addPedidos(List<InterfaceEncomenda> encs,String trans,String stat){
         for (InterfaceEncomenda i : encs){
@@ -126,12 +186,25 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         }
     }
 
+    /**
+     * Alterar um pedido
+     * @param enc encomenda
+     * @param trans código de entregador
+     * @param stat estado da encomenda
+     */
     @Override
     public void alteraPedido(InterfaceEncomenda enc, String trans, String stat) {
         this.pedidos=this.getPedidos().stream().filter(i->!(i.getEnc().getCodEncomenda().equals(enc.getCodEncomenda())&&i.getTrans().equals(trans))).collect(Collectors.toList());
         this.addPedido(enc,trans,stat);
     }
 
+    /**
+     * alterar todos os pedidos que satisfazem uma condição
+     * @param trans tranportadora onde alterar
+     * @param stat estado a verificar
+     * @param statif estado a colocar se se verificar a condição
+     * @return utilizador com os pedidos alterados
+     */
     @Override
     public InterfaceUtilizador alteraTodosPedidosIf(String trans,String stat,String statif){
         List<InterfaceEncomenda> aux = new ArrayList<>();
@@ -149,6 +222,12 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         return this.clone();
     }
 
+    /**
+     * Verificar o estado de um pedido
+     * @param enc código de encomenda
+     * @param trans transportadora
+     * @return x caso não exista a encomenda
+     */
     @Override
     public String checkStatPedido(String enc,String trans){
         for (TriploPedido i : this.getPedidos()){

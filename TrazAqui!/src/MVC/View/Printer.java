@@ -337,8 +337,12 @@ public class Printer implements Serializable
     public void showBye() {
         System.out.println("Obrigado por escolher TrazAqui!" +
                             "\nEsperamos que tenha gostado" +
-                            "\nDeseja fornecer algum feedback? (S/s)" +
-                            "\n(Ctrl+D para terminar review)\n");
+                            "\nDeseja fornecer algum feedback? (S/s)");
+    }
+
+    public void showFeed() {
+        System.out.println(
+                "(Ctrl+D para terminar review)");
     }
 
     public void showObrigado() {

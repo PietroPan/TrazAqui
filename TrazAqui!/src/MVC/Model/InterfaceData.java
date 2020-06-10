@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import Common.*;
 import Exceptions.*;
 import MVC.Model.Utilizadores.*;
@@ -32,31 +31,15 @@ public interface InterfaceData {
 
     void readFile() throws java.io.IOException;
 
-    boolean encomendaACaminho(String id, String user);
-
     boolean encomendaNotReady(String id, String user);
-
-    String voluntarioAvailable(String enc) throws UtilizadorInexistenteException, LojaInexistenteException;
-
-    void askVoluntario(String idVoluntario, String idEnc);
 
     List<InterfaceLinhaEncomenda> formaListaDeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException;
 
     void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException, LojaInexistenteException;
 
-    void aceitar(String entrega, String enc, double time);
-
     InterfaceEncomenda getEncomenda(String id);
 
     double calculaDistTotal(Point2D p1, Point2D p2, Point2D p3);
-
-    Set<String[]> getEntregadoresDisp(String id) throws UtilizadorInexistenteException, LojaInexistenteException;
-
-    List<String> getVoluntarioRequests(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException;
-
-    double getTempoEsperado(String idEntregador, String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
-
-    void denyAll(String cod) throws EntregadorInexistenteException;
 
     void resetMessages(String cod);
 

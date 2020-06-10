@@ -33,17 +33,13 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
 
     void setMessages(List<String> messages);
 
-    boolean hasRoomAndMed(boolean med);
-
     void addEncomenda(InterfaceEncomenda enc);
 
     String toString();
 
-    boolean equals(InterfaceEntregador v);
+    boolean equals(Object v);
 
     InterfaceEntregador clone();
-
-    boolean encomendaACaminho(String id, String s);
 
     InterfaceEncomenda getEncomenda(String id);
 
@@ -51,5 +47,5 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
 
     List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
 
-    public void addMessage(String message);
+    void addMessage(String message);
 }

@@ -18,21 +18,13 @@ public interface InterfaceEntregadores {
     @Override
     String toString();
 
-    void addPedidoVoluntario(String idV, String enc);
-
     void addEncomenda(String s, InterfaceEncomenda e);
-
-    boolean encomendaACaminho(String s, String id);
-
-    void denyAll(String cod);
 
     Map<String,List<InterfaceEncomenda>> atualizaEstado(LocalDateTime t);
 
     void addPedido(InterfaceEncomenda enc,String trans);
 
     void alteraPedido(InterfaceEncomenda enc,String trans,String stat);
-
-    void clearAtual(String trans);
 
     void addMessage(String cod, String message);
 

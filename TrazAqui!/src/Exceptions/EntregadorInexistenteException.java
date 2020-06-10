@@ -1,7 +1,11 @@
 package Exceptions;
 
 public class EntregadorInexistenteException extends Exception {
-        public EntregadorInexistenteException(String s){
-            super(s);
-        }
+    /**
+     * Construtor parametrizado
+     * @param s String a chamar
+     */
+    public EntregadorInexistenteException(String s){
+        super(s);
+    }
 }

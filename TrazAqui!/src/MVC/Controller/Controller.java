@@ -27,12 +27,22 @@ public class Controller implements InterfaceController, Serializable {
     private String codUser;
     private Printer p;
 
+    /**
+     * Construtor parametrizado
+     * @param model Modelo
+     * @param p View
+     */
     public Controller(InterfaceData model, Printer p) {
         this.info=model;
         this.codUser="";
         this.p=p;
     }
 
+    /**
+     * Método que transforma informação presente em String em LocalDateTime
+     * @param s String a utilzar
+     * @return LocalDateTime com a informação de s
+     */
     @Override
     public LocalDateTime StringToLocalDateTime(String s) {
         String[] a=s.split(":",0);
@@ -50,6 +60,10 @@ public class Controller implements InterfaceController, Serializable {
         }
     }
 
+    /**
+     * Método responsável pelo sign in de uma entidade
+     * @return
+     */
     @Override
     public String signIn() {
         Scanner read = new Scanner(System.in);
@@ -85,6 +99,13 @@ public class Controller implements InterfaceController, Serializable {
         return cod;
     }
 
+    /**
+     *
+     * Método responsável pelo login de uma entidade
+     * @param cod código de login
+     * @param password password da entidade
+     * @return true se essa entidade existir false otherwise
+     */
     @Override
     public boolean login(String cod, String password) {
         boolean r;
@@ -112,15 +133,6 @@ public class Controller implements InterfaceController, Serializable {
                 }
                 break;
             case ('v'):
-                try {
-                    InterfaceEntregador e = this.info.getEntregador(cod);
-                    r= e!=null && password.equals(e.getPassword());
-                }
-                catch (EntregadorInexistenteException d) {
-                    p.naoRegistado("InterfaceEntregador");
-                    r=false;
-                }
-                break;
             case ('t'):
                 try {
                     InterfaceEntregador e = this.info.getEntregador(cod);
@@ -139,6 +151,10 @@ public class Controller implements InterfaceController, Serializable {
         return r;
     }
 
+    /**
+     * Método de sign-in de um utilizador
+     * @return código deste
+     */
     @Override
     public String initUser() {
         Scanner read= new Scanner(System.in);
@@ -154,12 +170,17 @@ public class Controller implements InterfaceController, Serializable {
         float x = Float.parseFloat(read.nextLine());
         p.askLocalizacao("y");
         float y = Float.parseFloat(read.nextLine());
-        user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y),new HashSet<>(),new ArrayList<>());
+        user = new Utilizador(userCod,password,name,balance,new Point2D.Double(x,y),new HashSet<>());
         user.addMessage("User cridado com sucesso\nCódigo: "+userCod+"\nBem Vindo!");
         info.addUser(user);
         return userCod;
     }
 
+    /**
+     * Método de sign-in de um entregador
+     * @param i 1 se for voluntario,otherwise é transportadora
+     * @return código da entidade de retorno
+     */
     @Override
     public String initEntregador(int i) {
         Scanner read= new Scanner(System.in);
@@ -202,6 +223,10 @@ public class Controller implements InterfaceController, Serializable {
         return cod;
     }
 
+    /**
+     * método de sign-in de uma Loja
+     * @return Código de uma loja
+     */
     @Override
     public String initLoja() {
         Scanner read= new Scanner(System.in);
@@ -222,6 +247,10 @@ public class Controller implements InterfaceController, Serializable {
         return cod;
     }
 
+    /**
+     * Método responsável por entrar no sistema atravês de uma entidade
+     * @return String do código de entidade registado atualmente
+     */
     @Override
     public String init() {
         Scanner read = new Scanner(System.in);
@@ -247,6 +276,10 @@ public class Controller implements InterfaceController, Serializable {
         return cod;
     }
 
+    /**
+     * Método que escolhe o menu a apresentar dependendo da entidade registada no momento
+     * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
+     */
     @Override
     public int escolheMenu() {
         int r=1;
@@ -286,6 +319,13 @@ public class Controller implements InterfaceController, Serializable {
         return r;
     }
 
+    /**
+     * Método responsável pela interação com o utilizador
+     * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
+     * @throws UtilizadorInexistenteException caso em algum momento um utilizadpr não esteja registado no sistema
+     * @throws LojaInexistenteException caso alguma loja não esteja registada no sistema
+     * @throws EntregadorInexistenteException caso algum entregador não esteja registado no sistema
+     */
     @Override
     public int menuUser() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException {
         Random rand = new Random();
@@ -489,6 +529,13 @@ public class Controller implements InterfaceController, Serializable {
     }
 
 
+    /**
+     * Método responsável por toda a interação com o voluntário
+     * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
+     * @throws EntregadorInexistenteException Caso em algum momento um entregador não exista
+     * @throws UtilizadorInexistenteException Case em algum momento um utilziador não exista
+     * @throws LojaInexistenteException Caso em algum momento uma loja não exista
+     */
     public int menuVoluntario() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
@@ -551,46 +598,13 @@ public class Controller implements InterfaceController, Serializable {
         return 0;
     }
 
-    @Override
-    public int menuSystem() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException {
-        String opcao;
-        Scanner read = new Scanner(System.in);
-        p.showSystemMenu();
-        while (!(opcao=read.nextLine()).equals("0")){
-            switch (opcao){
-                case ("1"):
-                    p.showTop10Users(this.info.top10Users());
-                    break;
-                case ("2"):
-                    p.showTop10Trans(this.info.top10Trans());
-                    break;
-                case ("3"):
-                    p.askFileName();
-                    String r = "resources/"+read.nextLine();
-                    try{
-                        saveState(r,this.info);
-                    }
-                    catch (IOException e) {
-                        p.exception(e.getLocalizedMessage());
-                    }
-                    break;
-                case ("4"):
-                    p.askFileName();
-                    r = "resources/"+read.nextLine();
-                    try{
-                        this.info=loadState(r);
-                    } catch (IOException | ClassNotFoundException e) {
-                        p.exception(e.getLocalizedMessage());
-                    }
-                    break;
-                case ("5"):
-                    return 1;
-            }
-            p.showSystemMenu();
-        }
-        return 0;
-    }
-
+    /**
+     * Método responsável pela interação com a transportadora no seu menu
+     * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
+     * @throws EntregadorInexistenteException Entregador não registado
+     * @throws UtilizadorInexistenteException Utilizador não registado
+     * @throws LojaInexistenteException Loja não registada
+     */
     @Override
     public int menuTransportadora() throws EntregadorInexistenteException, UtilizadorInexistenteException, LojaInexistenteException {
         String opcao;
@@ -684,6 +698,11 @@ public class Controller implements InterfaceController, Serializable {
         return 0;
     }
 
+    /**
+     * Método responsável pela interação com a loja no seu menu
+     * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
+     * @throws LojaInexistenteException Loja não registada
+     */
     @Override
     public int menuLoja() throws LojaInexistenteException {
         String opcao;
@@ -800,6 +819,56 @@ public class Controller implements InterfaceController, Serializable {
         return 0;
     }
 
+    /**
+     * Método responsável pela interação com o utilizador no Menu de queries e outras informações sobre o sistema
+     * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
+     * @throws UtilizadorInexistenteException Utilizador não registado
+     * @throws LojaInexistenteException Loja não registada
+     * @throws EntregadorInexistenteException Entregador não registado
+     */
+    @Override
+    public int menuSystem() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException {
+        String opcao;
+        Scanner read = new Scanner(System.in);
+        p.showSystemMenu();
+        while (!(opcao=read.nextLine()).equals("0")){
+            switch (opcao){
+                case ("1"):
+                    p.showTop10Users(this.info.top10Users());
+                    break;
+                case ("2"):
+                    p.showTop10Trans(this.info.top10Trans());
+                    break;
+                case ("3"):
+                    p.askFileName();
+                    String r = "resources/"+read.nextLine();
+                    try{
+                        saveState(r,this.info);
+                    }
+                    catch (IOException e) {
+                        p.exception(e.getLocalizedMessage());
+                    }
+                    break;
+                case ("4"):
+                    p.askFileName();
+                    r = "resources/"+read.nextLine();
+                    try{
+                        this.info=loadState(r);
+                    } catch (IOException | ClassNotFoundException e) {
+                        p.exception(e.getLocalizedMessage());
+                    }
+                    break;
+                case ("5"):
+                    return 1;
+            }
+            p.showSystemMenu();
+        }
+        return 0;
+    }
+
+    /**
+     * Método responsável por interagir com todas as entidades no menu principal e daí decidir qual menu apresentar a seguir
+     */
     @Override
     public void menu() {
         Scanner read = new Scanner(System.in);
@@ -848,6 +917,7 @@ public class Controller implements InterfaceController, Serializable {
         if (s.toUpperCase().equals("S")){
             FileWriter bufferAll;
             try{
+                p.showFeed();
                 bufferAll = new FileWriter(Const.fileFeedback);
                 while(read.hasNext()) {
                     s=read.nextLine()+"\n";
@@ -860,6 +930,12 @@ public class Controller implements InterfaceController, Serializable {
         }
     }
 
+    /**
+     * Método responsável por salvar o estado atual através de objectStreams
+     * @param ficheiro Nome do ficheiro onde salvar
+     * @param model Modelo a salvar
+     * @throws IOException Caso o ficheiro não exista
+     */
     public void saveState(String ficheiro, InterfaceData model) throws IOException {
         FileOutputStream fos = new FileOutputStream(ficheiro);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -868,6 +944,13 @@ public class Controller implements InterfaceController, Serializable {
         fos.close();
     }
 
+    /**
+     * Método responsável por carregar o estado de um ficheiro através de objectStreams
+     * @param ficheiro Nome do ficheiro onde procurar a informação salva
+     * @return Nova Data com a informação lida do ficheiro
+     * @throws IOException Caso o ficheiro não exista
+     * @throws ClassNotFoundException Caso a classe guardada tenha um formato diferente daquela a que tentamos ler
+     */
     public InterfaceData loadState(String ficheiro) throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(ficheiro);
         ObjectInputStream ois = new ObjectInputStream(fis);
