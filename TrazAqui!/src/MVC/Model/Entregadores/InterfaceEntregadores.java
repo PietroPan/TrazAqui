@@ -53,4 +53,6 @@ public interface InterfaceEntregadores {
     boolean existePedido(String trans,String enc);
 
     void classificaUser(String cod,float clas);
+
+    Map<String,List<String>> checkEvent (LocalDateTime t);
 }

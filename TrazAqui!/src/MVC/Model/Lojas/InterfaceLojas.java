@@ -37,4 +37,12 @@ public interface InterfaceLojas {
     Map<String, List<String>> atualizaEstado(LocalDateTime t);
 
     List<InterfaceLinhaEncomenda> getStock(String l);
+
+    void mudarPreco(String loja, String cod, double preco);
+
+    void mudarQuantidade(String loja, String cod, double quant);
+
+    void addSToStock(String loja, InterfaceLinhaEncomenda l);
+
+    void removeFromStock(String loja, String cod);
 }

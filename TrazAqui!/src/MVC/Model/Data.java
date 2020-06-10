@@ -163,7 +163,11 @@ public class Data implements InterfaceData, Serializable
    }
 
    @Override
-   public void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException {
+   public void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException, LojaInexistenteException {
+        InterfaceLoja l = this.lojas.getLoja(e.getOrigem());
+        int tam = l.getTamFila();
+        if (tam==-1) tam= new Random().nextInt(9)+1;
+        e.setDataEntrega(this.getHoras().plusMinutes((long)(tam*l.getTempoAtendimento())));
        this.lojas.addEncomenda(e.getOrigem(),e);
        this.users.pay(e.getDestino(),preco);
    }
@@ -318,6 +322,7 @@ public class Data implements InterfaceData, Serializable
         this.users.atualizaEstado(this.lojas.atualizaEstado(getHoras()));
         this.atualizaHistorico(this.entregadores.atualizaEstado(getHoras()));
         atualizaPedidos(this.entregadores.getAllFree());
+        this.users.atualizaEstado(this.entregadores.checkEvent(getHoras()));
     }
 
     @Override
@@ -555,5 +560,25 @@ public class Data implements InterfaceData, Serializable
             n++;
         }
         return rList;
+    }
+
+    @Override
+    public void mudarPreco(String loja, String cod, double preco){
+        this.lojas.mudarPreco(loja,cod,preco);
+    }
+
+    @Override
+    public void mudarQuantidade(String loja, String cod, double qnt){
+        this.lojas.mudarQuantidade(loja,cod,qnt);
+    }
+
+    @Override
+    public void addToStock(String loja,InterfaceLinhaEncomenda l){
+        this.lojas.addSToStock(loja,l);
+    }
+
+    @Override
+    public void removeFromStock(String loja, String cod){
+        this.lojas.removeFromStock(loja,cod);
     }
 }

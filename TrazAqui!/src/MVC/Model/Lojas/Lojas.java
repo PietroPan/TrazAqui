@@ -113,4 +113,24 @@ public class Lojas implements InterfaceLojas, Serializable {
     public List<InterfaceLinhaEncomenda> getStock(String l) throws NullPointerException {
         return new ArrayList<>(this.lojas.get(l).getStock().values());
     }
+
+    @Override
+    public void mudarPreco(String loja, String cod, double preco){
+        this.lojas.get(loja).mudarPreco(cod,preco);
+    }
+
+    @Override
+    public void mudarQuantidade(String loja, String cod, double quant){
+        this.lojas.get(loja).mudarQuantidade(cod,quant);
+    }
+
+    @Override
+    public void addSToStock(String loja, InterfaceLinhaEncomenda l){
+        this.lojas.get(loja).addSToStock(l);
+    }
+
+    @Override
+    public void removeFromStock(String loja, String cod){
+        this.lojas.get(loja).removeFromStock(cod);
+    }
 }

@@ -7,7 +7,7 @@ package MVC.Controller;
  */
 
 import java.awt.geom.Point2D;
-import java.io.Serializable;
+import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -275,7 +275,12 @@ public class Controller implements InterfaceController, Serializable {
                 }
                 break;
             case ('l'):
-                r = menuLoja();
+                try {
+                    r = menuLoja();
+                }
+                catch (LojaInexistenteException e){
+                    p.exception(e.getLocalizedMessage()+"op4");
+                }
                 break;
         }
         return r;
@@ -354,7 +359,7 @@ public class Controller implements InterfaceController, Serializable {
                                 pagina--;
                                 if(pagina<1) pagina++;
                                 break;
-                            case "s": // deseja adicionar produto
+                            case "a": // deseja adicionar produto
                                 p.askCodProduto();
                                 String codProd=read.nextLine();
                                 p.askQuantidade();
@@ -371,6 +376,16 @@ public class Controller implements InterfaceController, Serializable {
                                 peso+=rand.nextFloat()*5*qnt;
                                 list.add(l);
                                 break;
+                            case "r": // remover produto
+                                p.askCodProdutoRm();
+                                List<Map.Entry<String,Double>> aux = new ArrayList<>();
+                                codProd=read.nextLine();
+                                for (Map.Entry<String,Double> i : list){
+                                    if (i.getKey().equals(codProd)){
+                                        aux.add(i);
+                                    }
+                                    list.removeAll(aux);
+                                }
                             case "q": break;
                             default:
                                 try
@@ -537,10 +552,10 @@ public class Controller implements InterfaceController, Serializable {
     }
 
     @Override
-    public int menuQueries() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException {
+    public int menuSystem() throws UtilizadorInexistenteException, LojaInexistenteException, EntregadorInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
-        p.showQueriesMenu();
+        p.showSystemMenu();
         while (!(opcao=read.nextLine()).equals("0")){
             switch (opcao){
                 case ("1"):
@@ -550,9 +565,28 @@ public class Controller implements InterfaceController, Serializable {
                     p.showTop10Trans(this.info.top10Trans());
                     break;
                 case ("3"):
+                    p.askFileName();
+                    String r = "resources/"+read.nextLine();
+                    try{
+                        saveState(r,this.info);
+                    }
+                    catch (IOException e) {
+                        p.exception(e.getLocalizedMessage());
+                    }
+                    break;
+                case ("4"):
+                    p.askFileName();
+                    r = "resources/"+read.nextLine();
+                    try{
+                        this.info=loadState(r);
+                    } catch (IOException | ClassNotFoundException e) {
+                        p.exception(e.getLocalizedMessage());
+                    }
+                    break;
+                case ("5"):
                     return 1;
             }
-            p.showQueriesMenu();
+            p.showSystemMenu();
         }
         return 0;
     }
@@ -651,7 +685,118 @@ public class Controller implements InterfaceController, Serializable {
     }
 
     @Override
-    public int menuLoja() {
+    public int menuLoja() throws LojaInexistenteException {
+        String opcao;
+        Scanner read = new Scanner(System.in);
+        p.showLojaOptions();
+        InterfaceLoja loja = this.info.getLoja(codUser);
+        while(!(opcao=read.nextLine()).equals("0")){
+            switch (opcao){
+                case "1":
+                    List<InterfaceLinhaEncomenda> stock = this.info.getStock(codUser);
+                    p.apresentaTotalProdutosStock(stock);
+
+                    int linhasTabela=4,colunasTabela=3;
+                    try{
+                        p.askLinhasTabela(); linhasTabela = Integer.parseInt(read.nextLine());
+                        p.askColunasTabela(); colunasTabela = Integer.parseInt(read.nextLine());
+                    } catch (NumberFormatException e)
+                    {
+                        p.exception(e.getLocalizedMessage()+"\nUsando valores default tabela 4*3\n");
+                    }
+
+
+                    if(colunasTabela>stock.size()) colunasTabela = stock.size();
+                    if(colunasTabela<1||colunasTabela>5) colunasTabela = 3;
+                    if(linhasTabela<1) linhasTabela = 4;
+                    int npaginas = p.getNumeroPaginas(stock.size(),linhasTabela,colunasTabela);
+
+                    int pagina = 1;
+                    try
+                    {
+                        p.askPagina(npaginas); pagina = Integer.parseInt(read.nextLine());
+                    } catch(NumberFormatException e)
+                    {
+                        p.exception(e.getLocalizedMessage()+"\nSeguindo para pagina 1...\n");
+                    }
+
+
+                    if(pagina>npaginas) pagina = npaginas;
+                    if(pagina<1) pagina=1;
+
+                    String opcaoMenuTabela = "1";
+                    while(!opcaoMenuTabela.equals("q"))
+                    {
+                        p.apresentaStock(stock,pagina,linhasTabela,colunasTabela);
+                        p.apresentaMenuTabelaLoja(); opcaoMenuTabela = read.nextLine();
+
+                        switch(opcaoMenuTabela)
+                        {
+                            case "n": // proxima pagina
+                                pagina++;
+                                if(pagina>npaginas) pagina--;
+                                break;
+                            case "p": // pagina anterior
+                                pagina--;
+                                if(pagina<1) pagina++;
+                                break;
+                            case "a": // deseja adicionar produto
+                                p.askDescricao();
+                                String des =read.nextLine();
+                                p.askPrecoProd();
+                                double preco = Double.parseDouble(read.nextLine());
+                                p.askQuantidadeProd();
+                                double qnt = Double.parseDouble(read.nextLine());
+                                InterfaceLinhaEncomenda l = new LinhaEncomenda("",des,preco,qnt);
+                                this.info.addToStock(codUser,l);
+                                stock = this.info.getStock(codUser);
+                                break;
+                            case "r": // remover produto
+                                p.askCodProdutoRm();
+                                String cod = read.nextLine();
+                                this.info.removeFromStock(codUser,cod);
+                                stock = this.info.getStock(codUser);
+                                break;
+                            case "s": // Mudar Quantidade
+                                p.askCodProdutoAlt();
+                                String codP = read.nextLine();
+                                p.askQuantidadeProd();
+                                qnt = Double.parseDouble(read.nextLine());
+                                this.info.mudarQuantidade(codUser,codP,qnt);
+                                stock=this.info.getStock(codUser);
+                                break;
+                            case "c": // Mudar Preco
+                                p.askCodProdutoAlt();
+                                codP = read.nextLine();
+                                p.askPrecoProd();
+                                preco = Double.parseDouble(read.nextLine());
+                                this.info.mudarPreco(codUser,codP,preco);
+                                stock=this.info.getStock(codUser);
+                                break;
+                            case "q": break;
+                            default:
+                                try
+                                {
+                                    pagina = Integer.parseInt(opcaoMenuTabela);
+                                    if(pagina>npaginas) pagina = npaginas;
+                                    if(pagina<1) pagina=1;
+                                } catch (NumberFormatException e)
+                                {
+                                    p.exception(e.getLocalizedMessage());
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case("2"):
+                    break;
+                case("3"):
+                    return 1;
+                default:
+                    p.invalid(opcao);
+                    break;
+            }
+        }
         return 0;
     }
 
@@ -684,7 +829,7 @@ public class Controller implements InterfaceController, Serializable {
                     break;
                 case("4"):
                     try {
-                        r=menuQueries();
+                        r=menuSystem();
                     }
                     catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
                         p.LOL();
@@ -698,7 +843,37 @@ public class Controller implements InterfaceController, Serializable {
                     break;
             }
         }
-
         p.showBye();
+        String s = read.nextLine();
+        if (s.toUpperCase().equals("S")){
+            FileWriter bufferAll;
+            try{
+                bufferAll = new FileWriter(Const.fileFeedback);
+                while(read.hasNext()) {
+                    s=read.nextLine()+"\n";
+                    bufferAll.write(s);
+                }
+                bufferAll.close();
+            } catch (IOException e) {
+                p.exception(e.getLocalizedMessage());
+            }
+        }
+    }
+
+    public void saveState(String ficheiro, InterfaceData model) throws IOException {
+        FileOutputStream fos = new FileOutputStream(ficheiro);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(model);
+        oos.close();
+        fos.close();
+    }
+
+    public InterfaceData loadState(String ficheiro) throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(ficheiro);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        InterfaceData g = (Data) ois.readObject();
+        ois.close();
+        fis.close();
+        return g;
     }
 }

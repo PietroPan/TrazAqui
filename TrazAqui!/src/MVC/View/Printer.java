@@ -22,7 +22,12 @@ public class Printer implements Serializable
 
     public void apresentaMenuTabela()
     {
-        System.out.println("[s] Adicionar Produto | [n] Proxima Pagina | [p] Pagina Anterior | [(numero)] Ir para pagina | [q] Finalizar encomenda");
+        System.out.println("[a] Adicionar Produto | [r] Remover Produto [n] Proxima Pagina | [p] Pagina Anterior | [(numero)] Ir para pagina | [q] Finalizar encomenda");
+    }
+
+    public void apresentaMenuTabelaLoja()
+    {
+        System.out.println("[a] Adicionar Produto | [s] Mudar Quantidade | [c] Mudar Preco | [r] Remover Produto [n] Proxima Pagina | [p] Pagina Anterior | [(numero)] Ir para pagina | [q] Terminar Alterações");
     }
 
     public void askLinhasTabela()
@@ -172,12 +177,28 @@ public class Printer implements Serializable
         System.out.println("Insira o código do produto a encomendar: ");
     }
 
+    public void askCodProdutoAlt() {
+        System.out.println("Insira o código do produto a alterar: ");
+    }
+
+    public void askCodProdutoRm() {
+        System.out.println("Insira o código do produto a remover: ");
+    }
+
     public void askDescricao() {
         System.out.println("Insira a descrição do produto");
     }
 
     public void askQuantidade() {
         System.out.println("Insira a quantidade que deseja encomendar: ");
+    }
+
+    public void askQuantidadeProd() {
+        System.out.println("Insira a quantidade do produto: ");
+    }
+
+    public void askPrecoProd() {
+        System.out.println("Insira o preco do produto: ");
     }
 
     public void askConfirmacao() {
@@ -255,7 +276,7 @@ public class Printer implements Serializable
         System.out.println("1.Login" +
                             "\n2.Criar conta" +
                             "\n3.Avançar tempo" +
-                            "\n4.Queries do Sistema" +
+                            "\n4.Opções do Sistema" +
                             "\n5.Sair");
     }
 
@@ -272,7 +293,7 @@ public class Printer implements Serializable
                             "\n2.Verificar ofertas de transporte" +
                             "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
                             "\n4.Classificar entregadores" +
-                            "\n5.Mudar de Conta" +
+                            "\n5.Logout" +
                             "\n0.Sair" );
     }
 
@@ -281,7 +302,7 @@ public class Printer implements Serializable
                             "\n2.Pedir Entrega"+
                             "\n3.Fazer Entrega"+
                             "\n4.Histórico de entregas efetuadas"+
-                            "\n5.Mudar de Conta"+
+                            "\n5.Logout"+
                             "\n0.Sair");
     }
 
@@ -293,20 +314,31 @@ public class Printer implements Serializable
                 "\n5.Fazer Entrega"+
                 "\n6.Histórico de entregas efetuadas" +
                 "\n7.Total Faturado"+
-                "\n8.Mudar de Conta" +
+                "\n8.Logout" +
                 "\n0.Sair");
     }
 
-    public void showQueriesMenu(){
+    public void showLojaOptions(){
+        System.out.println("1.Atualizar Stock" +
+                "\n2.Trabalhar numa Encomenda" +
+                "\n3.Logout" +
+                "\n4.Sair");
+    }
+
+    public void showSystemMenu(){
         System.out.println("1.Top 10 Utilizadores" +
                 "\n2.Top 10 Transportadoras"+
-                "\n3.Voltar Para Menu" +
+                "\n3.Guardar estado" +
+                "\n4.Carregar estado" +
+                "\n5.Voltar Para Menu" +
                 "\n0.Sair");
     }
 
     public void showBye() {
         System.out.println("Obrigado por escolher TrazAqui!" +
-                            "\nEsperamos que tenha gostado");
+                            "\nEsperamos que tenha gostado" +
+                            "\nDeseja fornecer algum feedback? (S/s)" +
+                            "\n(Ctrl+D para terminar review)\n");
     }
 
     public void showObrigado() {
@@ -491,6 +523,11 @@ public class Printer implements Serializable
             default: return "Error";
         }
     }
+
+    public void askFileName(){
+        System.out.println("Nome do ficheiro onde guardar");
+    }
+
     public void askOferta(){
         System.out.println("Deseja aceitar alguma oferta? (s/S) ou (n/N)");
     }

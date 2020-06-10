@@ -167,4 +167,44 @@ public class Entregadores implements InterfaceEntregadores, Serializable {
         InterfaceTransportadora t = (InterfaceTransportadora)this.entregadores.get(trans);
         return t.existePedido(enc);
     }
+
+    @Override
+    public Map<String,List<String>> checkEvent (LocalDateTime t){
+        Map<String,List<String>> r=new HashMap<>();
+        for (Map.Entry<String,InterfaceEntregador> i : this.entregadores.entrySet()){
+            if (i.getKey().contains("v")){
+                InterfaceVoluntario vol = (InterfaceVoluntario)this.entregadores.get(i.getKey());
+                Map.Entry<String,String> ret =vol.checkEvent(t);
+                String key = ret.getKey();
+                if (!key.equals("X")){
+                    if(r.containsKey(key)){
+                        List<String> aux=r.get(key);
+                        aux.add(ret.getValue());
+                        r.put(key,aux);
+                    } else {
+                        List<String>aux= new ArrayList<>();
+                        aux.add(ret.getValue());
+                        r.put(key,aux);
+                    }
+                }
+            } else {
+                InterfaceTransportadora trans = (InterfaceTransportadora)this.entregadores.get(i.getKey());
+                Map<String,String> ret = trans.checkEvent(t);
+                String key;
+                for (Map.Entry<String,String> j : ret.entrySet()){
+                    key=j.getKey();
+                    if(r.containsKey(key)){
+                        List<String> aux=r.get(key);
+                        aux.add(j.getValue());
+                        r.put(key,aux);
+                    } else {
+                        List<String> aux=new ArrayList<>();
+                        aux.add(j.getValue());
+                        r.put(key,aux);
+                    }
+                }
+            }
+        }
+        return r;
+    }
 }

@@ -9,8 +9,8 @@ package MVC.Model.Entregadores;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 import Common.*;
 
@@ -145,5 +145,52 @@ public class Voluntario extends Entregador implements InterfaceVoluntario, Seria
     @Override
     public void atualizaAtual(InterfaceEncomenda enc){
         this.encomendaAtual=enc.clone();
+    }
+
+    @Override
+    public Map.Entry<String,String> checkEvent(LocalDateTime t){
+        String[] goodEvents = new String[]{
+                " encontrou uma estrela colorida, parece que a sua encomenda já chegou",
+                "Uma encomenda foi cancelada,",
+                "O tempo melhorou,",
+
+        };
+        String[] badEvents = new String[]{
+                " protestantes roubaram a sua encomenda, lamentamos a inconveniência",
+                "Começou a chover torrencialmente,",
+                "Ocorreu uma acidente,",
+                "A sua encomenda ficou presa na Alfândega,",
+                "Começou uma tempestade de neve,"
+        };
+        Random rand = new Random();
+        String usr="X",msg="";
+        int r1=rand.nextInt(100);
+        if (this.encomendaAtual.getDestino().contains("v")){
+            if (r1<10||r1==100){
+                usr=this.encomendaAtual.getDestino();
+                if (r1<this.getClassificacao()){
+                    if (r1==100){
+                        msg = "O transportador "+this.getCodigo()+goodEvents[0];
+                        this.encomendaAtual.setDataEntrega(t);
+                    }
+                    else {
+                        msg = goodEvents[(rand.nextInt(2)+1)]+" o transportador "+this.getCodigo()+" vai chegar mais cedo";
+                        long time = ChronoUnit.MINUTES.between(t,this.encomendaAtual.getDataEntrega());
+                        this.encomendaAtual.setDataEntrega(this.encomendaAtual.getDataEntrega().minusMinutes(time/2));
+                    }
+                } else {
+                    if (r1==100){
+                        msg = "O transportador "+this.getCodigo()+"informa que"+badEvents[0];
+                        this.encomendaAtual=new Encomenda();
+                    }
+                    else {
+                        msg = badEvents[(rand.nextInt(4)+1)]+" o transportador "+this.getCodigo()+" vai chegar mais tarde";
+                        long time = ChronoUnit.MINUTES.between(t,this.encomendaAtual.getDataEntrega());
+                        this.encomendaAtual.setDataEntrega(this.encomendaAtual.getDataEntrega().plusMinutes(time/2));
+                    }
+                }
+            }
+        }
+        return new AbstractMap.SimpleEntry<>(usr,msg);
     }
 }

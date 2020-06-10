@@ -173,4 +173,13 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
         Duration duration = Duration.between(this.getDataEntrega(),this.getDataInicio());
         return (double)duration.getSeconds();
     }
+
+    @Override
+    public void removeProduto(String cod){
+        List<InterfaceLinhaEncomenda> rm=new ArrayList<>();
+        for (InterfaceLinhaEncomenda i : this.pedido){
+            if (i.getcodProduto().equals(cod)) rm.add(i);
+        }
+        this.pedido.removeAll(rm);
+    }
 }

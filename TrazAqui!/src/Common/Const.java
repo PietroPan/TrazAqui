@@ -6,6 +6,7 @@ import java.util.Properties;
 public class Const {
     Properties configFile;
     public static String fileToRead;
+    public static String fileFeedback;
 
     public Const() throws IOException {
         configFile = new Properties();
@@ -18,5 +19,6 @@ public class Const {
 
     public void initConsts() {
         fileToRead=getConst("fileLogs");
+        fileFeedback=getConst("fileFeedback");
     }
 }

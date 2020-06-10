@@ -157,6 +157,32 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
    }
 
    @Override
+   public void addSToStock(InterfaceLinhaEncomenda l){
+       String cod = gerarCodProd();
+       l.setcodProduto(cod);
+       this.stock.put(cod,l);
+   }
+
+   @Override
+   public void removeFromStock(String cod){
+       this.stock.remove(cod);
+   }
+
+   @Override
+   public void mudarPreco(String cod, double preco){
+       InterfaceLinhaEncomenda prod = this.stock.get(cod);
+       prod.setPreco(preco);
+       this.stock.put(cod,prod);
+   }
+
+    @Override
+    public void mudarQuantidade(String cod, double quant){
+        InterfaceLinhaEncomenda prod = this.stock.get(cod);
+        prod.setQuantidade(quant);
+        this.stock.put(cod,prod);
+    }
+
+   @Override
    public String toString() {
        StringBuilder s = new StringBuilder();
        s.append("Codigo de InterfaceLoja: ").append(this.getCodigo())
@@ -254,7 +280,7 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
        int i=5;
        if (this.tamanhoFila>0) i=this.tamanhoFila;
        for (InterfaceEncomenda e : this.pedidosEmEspera.values()) {
-           if (e.getDataInicio().plusMinutes((long)this.tempoAtendimento*i).isBefore(t)) {
+           if (e.getDataEntrega().isBefore(t)) {
                aux.put(e.getCodEncomenda(),e.clone());
                if (messages.containsKey(e.getDestino())) {
                    lista = messages.get(e.getDestino());
@@ -269,4 +295,17 @@ public class Loja extends BasicInfo implements InterfaceLoja, Serializable {
        this.pedidosProntos.putAll(aux);
        return messages;
    }
+
+    @Override
+    public String gerarCodProd() {
+        Random rand = new Random();
+        String cod = "p";
+        boolean b=true;
+        while (b){
+            int num = rand.nextInt(999);
+            cod=cod.concat(String.valueOf(num));
+            b=stock.containsKey(cod);
+        }
+        return cod;
+    }
 }

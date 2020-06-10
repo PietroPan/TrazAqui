@@ -1,5 +1,6 @@
 package MVC.Model.Entregadores;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -55,4 +56,6 @@ public interface InterfaceTransportadora extends InterfaceBasicInfo, InterfaceEn
     boolean hasRoom();
 
     boolean existePedido (String enc);
+
+    Map<String,String> checkEvent(LocalDateTime t);
 }

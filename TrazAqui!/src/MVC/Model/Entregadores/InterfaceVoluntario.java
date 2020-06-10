@@ -1,6 +1,9 @@
 package MVC.Model.Entregadores;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+
 import Common.*;
 
 public interface InterfaceVoluntario extends InterfaceBasicInfo, InterfaceEntregador {
@@ -21,5 +24,6 @@ public interface InterfaceVoluntario extends InterfaceBasicInfo, InterfaceEntreg
     void denyAllRequests();
 
     void atualizaAtual(InterfaceEncomenda enc);
+
+    Map.Entry<String,String> checkEvent(LocalDateTime t);
 }
-// u898 e288 v244

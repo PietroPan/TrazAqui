@@ -42,7 +42,7 @@ public interface InterfaceData {
 
     List<InterfaceLinhaEncomenda> formaListaDeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException;
 
-    void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException;
+    void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException, LojaInexistenteException;
 
     void aceitar(String entrega, String enc, double time);
 
@@ -113,4 +113,12 @@ public interface InterfaceData {
     List<Map.Entry<String,Integer>> top10Users();
 
     List<Map.Entry<String,Double>> top10Trans() throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException;
+
+    void mudarPreco(String loja, String cod, double preco);
+
+    void mudarQuantidade(String loja, String cod, double qnt);
+
+    void addToStock(String loja,InterfaceLinhaEncomenda l);
+
+    void removeFromStock(String loja, String cod);
 }

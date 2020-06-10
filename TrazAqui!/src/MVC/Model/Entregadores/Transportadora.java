@@ -9,6 +9,7 @@ package MVC.Model.Entregadores;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 import Common.*;
@@ -169,6 +170,61 @@ public class Transportadora extends Entregador implements InterfaceTransportador
             alteraTodosPedidosIf("p","s");
         }
         return r;
+    }
+
+    @Override
+    public Map<String,String> checkEvent(LocalDateTime t){
+       Map<String,String> m = new HashMap<>();
+       String[] goodEvents = new String[]{
+               " encontrou uma estrela colorida, parece que a sua encomenda já chegou",
+               "Uma encomenda foi cancelada,",
+               "O tempo melhorou,",
+
+       };
+        String[] badEvents = new String[]{
+                " protestantes roubaram a sua encomenda, lamentamos a inconveniência",
+                "Começou a chover torrencialmente,",
+                "Ocorreu uma acidente,",
+                "A sua encomenda ficou presa na Alfândega,",
+                "Começou uma tempestade de neve,"
+        };
+       Random rand = new Random();
+       String usr,msg;
+       int r1=rand.nextInt(100);//u677 e1836 t480
+       if (r1<10||r1==100){
+           if (r1<this.getClassificacao()){
+                for (InterfaceEncomenda i : this.encomendaAtual){
+                    usr = i.getDestino();
+                    if (r1==100){
+                        msg = "O transportador "+this.getCodigo()+goodEvents[0];
+                        i.setDataEntrega(t);
+                        m.put(usr,msg);
+                    }
+                    else {
+                        msg = goodEvents[(rand.nextInt(2)+1)]+" o transportador "+this.getCodigo()+" vai chegar mais cedo";
+                        long time = ChronoUnit.MINUTES.between(t,i.getDataEntrega());
+                        i.setDataEntrega(i.getDataEntrega().minusMinutes(time/2));
+                        m.put(usr,msg);
+                    }
+                }
+           } else {
+               for (InterfaceEncomenda i : this.encomendaAtual){
+                   usr = i.getDestino();
+                   if (r1==100){
+                       msg = "O transportador "+this.getCodigo()+"informa que"+badEvents[0];
+                       m.put(usr,msg);
+                   }
+                   else {
+                       msg = badEvents[(rand.nextInt(4)+1)]+" o transportador "+this.getCodigo()+" vai chegar mais tarde";
+                       long time = ChronoUnit.MINUTES.between(t,i.getDataEntrega());
+                       i.setDataEntrega(i.getDataEntrega().plusMinutes(time/2));
+                       m.put(usr,msg);
+                   }
+               }
+               if (r1==100) this.encomendaAtual=new ArrayList<>();
+           }
+       }
+       return m;
     }
 
     @Override
