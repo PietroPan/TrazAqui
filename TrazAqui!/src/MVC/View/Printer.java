@@ -28,7 +28,7 @@ public class Printer implements InterfacePrinter, Serializable {
     @Override
     public void apresentaMenuTabelaLoja()
     {
-        System.out.println("[a] Adicionar Produto | [s] Mudar Quantidade | [c] Mudar Preco | [r] Remover Produto [n] Proxima Pagina | [p] Pagina Anterior | [(numero)] Ir para pagina | [q] Terminar Alterações");
+        System.out.println("[a] Adicionar Produto | [s] Mudar Quantidade | [c] Mudar Preco | [r] Remover Produto | [n] Proxima Pagina | [p] Pagina Anterior | [(numero)] Ir para pagina | [q] Terminar Alterações");
     }
 
     @Override

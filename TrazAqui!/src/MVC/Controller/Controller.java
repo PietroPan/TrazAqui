@@ -133,21 +133,12 @@ public class Controller implements InterfaceController, Serializable {
                 }
                 break;
             case ('v'):
-                try {
-                    InterfaceEntregador e = this.info.getEntregador(cod);
-                    r= e!=null && password.equals(e.getPassword());
-                }
-                catch (EntregadorInexistenteException d){
-                    p.naoRegistado("Entregador");
-                    r=false;
-                }
-                break;
             case ('t'):
                 try {
                     InterfaceEntregador e = this.info.getEntregador(cod);
                     r= e!=null && password.equals(e.getPassword());
                 }
-                catch (EntregadorInexistenteException d) {
+                catch (EntregadorInexistenteException d){
                     p.naoRegistado("Entregador");
                     r=false;
                 }
@@ -320,12 +311,7 @@ public class Controller implements InterfaceController, Serializable {
                 }
                 break;
             case ('l'):
-                try {
-                    r = menuLoja();
-                }
-                catch (LojaInexistenteException e){
-                    p.exception(e.getLocalizedMessage()+"op4");
-                }
+                r = menuLoja();
                 break;
         }
         return r;
@@ -357,7 +343,8 @@ public class Controller implements InterfaceController, Serializable {
                         stock = this.info.getStock(loja);
                     }
                     catch (NullPointerException e) {
-                        throw new LojaInexistenteException("Loja inexistente");
+                        p.exception("Loja inexistente");
+                        break;
                     }
                     p.askMedical();
                     boolean med = read.nextLine().toUpperCase().equals("S");
@@ -447,7 +434,7 @@ public class Controller implements InterfaceController, Serializable {
                                     if(pagina<1) pagina=1;
                                 } catch (NumberFormatException e)
                                 {
-                                    p.exception(e.getLocalizedMessage());
+                                    p.exception("Opção inválida");
                                 }
                                 break;
                         }
@@ -767,11 +754,10 @@ public class Controller implements InterfaceController, Serializable {
      * @throws LojaInexistenteException Loja não registada
      */
     @Override
-    public int menuLoja() throws LojaInexistenteException {
+    public int menuLoja() {
         String opcao;
         Scanner read = new Scanner(System.in);
         p.showLojaOptions();
-        InterfaceLoja loja = this.info.getLoja(codUser);
         while(!(opcao=read.nextLine()).equals("0")){
             switch (opcao){
                 case "1":
@@ -864,7 +850,7 @@ public class Controller implements InterfaceController, Serializable {
                                     if(pagina<1) pagina=1;
                                 } catch (NumberFormatException e)
                                 {
-                                    p.exception(e.getLocalizedMessage());
+                                    p.exception("Opção Inválida");
                                 }
                                 break;
                         }
