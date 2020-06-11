@@ -19,11 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9c6f001-bfbd-43b0-9baf-2bef6f7f7fc1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/Model/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/Model/Historico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Model/Historico.java" afterDir="false" />
-    </list>
+    <list default="true" id="d9c6f001-bfbd-43b0-9baf-2bef6f7f7fc1" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -142,7 +138,7 @@
       <workItem from="1591694776946" duration="22634000" />
       <workItem from="1591739540730" duration="2343000" />
       <workItem from="1591778467164" duration="14429000" />
-      <workItem from="1591863398032" duration="3529000" />
+      <workItem from="1591863398032" duration="3853000" />
     </task>
     <servers />
   </component>
