@@ -236,4 +236,31 @@ public class Utilizador extends BasicInfo implements InterfaceUtilizador, Serial
         return "x";
     }
 
+
+    /**
+     * Rejeita pedidos a mais
+     * @param enc encomenda com pedido a mais
+     */
+    @Override
+    public void rejeitaPedidos(String enc){
+        for (TriploPedido i : this.pedidos){
+            if (i.getEnc().getCodEncomenda().equals(enc)&&!i.getStat().equals("a")){
+                i.setStat("r");
+            }
+        }
+    }
+
+    /**
+     * Verifica se uma encomenda já foi aceite
+     * @param enc Encomenda a verificar
+     * @return resultado da verificaçao
+     */
+    @Override
+    public boolean isFree(String enc){
+        for (TriploPedido i : this.pedidos){
+            if (i.getEnc().getCodEncomenda().equals(enc)&&i.getStat().equals("a")) return false;
+        }
+        return true;
+    }
+
 }

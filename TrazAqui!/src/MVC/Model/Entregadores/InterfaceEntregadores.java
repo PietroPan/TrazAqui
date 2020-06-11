@@ -47,4 +47,8 @@ public interface InterfaceEntregadores {
     void classificaUser(String cod,float clas);
 
     Map<String,List<String>> checkEvent (LocalDateTime t);
+
+    String timeLeft(String ent,String enc,LocalDateTime l);
+
+    void rejeitaPedidos(String enc);
 }

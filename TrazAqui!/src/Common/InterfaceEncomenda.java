@@ -47,4 +47,6 @@ public interface InterfaceEncomenda {
     double calculaTempoDemorado();
 
     void removeProduto(String cod);
+
+    public String toString2();
 }

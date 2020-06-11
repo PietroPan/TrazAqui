@@ -133,13 +133,22 @@ public class Controller implements InterfaceController, Serializable {
                 }
                 break;
             case ('v'):
+                try {
+                    InterfaceEntregador e = this.info.getEntregador(cod);
+                    r= e!=null && password.equals(e.getPassword());
+                }
+                catch (EntregadorInexistenteException d){
+                    p.naoRegistado("Entregador");
+                    r=false;
+                }
+                break;
             case ('t'):
                 try {
                     InterfaceEntregador e = this.info.getEntregador(cod);
                     r= e!=null && password.equals(e.getPassword());
                 }
                 catch (EntregadorInexistenteException d) {
-                    p.naoRegistado("InterfaceEntregador");
+                    p.naoRegistado("Entregador");
                     r=false;
                 }
                 break;
@@ -494,9 +503,11 @@ public class Controller implements InterfaceController, Serializable {
                         p.askDataInicio();
                         String s = read.nextLine();
                         LocalDateTime l1 = this.StringToLocalDateTime(s);
+                        if (l1==null) break;
                         p.askDataFim();
                         s = read.nextLine();
                         LocalDateTime l2 = this.StringToLocalDateTime(s);
+                        if (l2==null) break;
                         l = this.info.getHistoricoByDate(l1,l2,l);
                     }
                     p.askByEnt();
@@ -513,11 +524,30 @@ public class Controller implements InterfaceController, Serializable {
                     p.askEntregadorId();
                     String eID = read.nextLine();
                     p.askClassificacao();
-                    float c = Float.parseFloat(read.nextLine());
-                    int res = this.info.classificaEnt(eID,codUser,c);
-                    p.classificacao(res);
+                    try {
+                        float c = Float.parseFloat(read.nextLine());
+                        int res = this.info.classificaEnt(eID,codUser,c);
+                        p.classificacao(res);
+                    }
+                    catch (NumberFormatException e){
+                        p.classInv();
+                    }
                     break;
                 case("5") :
+                    p.askCodEnc();
+                    String codEnc = read.nextLine();
+                    p.askEnt2();
+                    String codEnt = read.nextLine();
+                    if (codEnt.contains("t")){
+                        String stat = this.info.checkStatPedido(codEnc,codEnt,codUser);
+                        if (stat.equals("a")) System.out.println(this.info.timeLeft(codEnt,codEnc));
+                        else p.pedido(stat);
+                    }
+                    else if (codEnt.contains("v")){
+                        System.out.println(this.info.timeLeft(codEnt,codEnc));
+                    }
+                    break;
+                case("6") :
                     return 1;
                 default:
                     p.invalid("Opção");
@@ -554,12 +584,20 @@ public class Controller implements InterfaceController, Serializable {
                     if (!this.info.isAEntregar(codUser)){
                         p.askCodEnc();
                         String enc = read.nextLine();
-                        this.info.addEncomendaVol(this.info.getEncomenda(enc),codUser);
-                        p.pedidoAceite();
-                        p.fazerEncomenda();
-                        String r = read.nextLine();
-                        if (r.equals("s") || r.equals("S")) {
-                            this.info.fazerEncomenda(codUser);
+                        try {
+                            if (this.info.isFree(enc,this.info.getEncomenda(enc).getDestino())){
+                                this.info.addEncomendaVol(this.info.getEncomenda(enc),codUser);
+                                p.pedidoAceite();
+                                p.fazerEncomenda();
+                                String r = read.nextLine();
+                                if (r.equals("s") || r.equals("S")) {
+                                    this.info.fazerEncomenda(codUser);
+                                }
+                            }
+                            else p.foiAceite();
+                        }
+                        catch (NullPointerException e){
+                            p.encInv();
                         }
                     } else p.acaoIndesponivel();
                     break;
@@ -580,9 +618,11 @@ public class Controller implements InterfaceController, Serializable {
                         p.askDataInicio();
                         String s = read.nextLine();
                         LocalDateTime l1 = this.StringToLocalDateTime(s);
+                        if (l1==null) break;
                         p.askDataFim();
                         s = read.nextLine();
                         LocalDateTime l2 = this.StringToLocalDateTime(s);
+                        if (l2==null) break;
                         l = this.info.getHistoricoByDate(l1,l2,l);
                     }
                     p.printHist(l);
@@ -623,22 +663,32 @@ public class Controller implements InterfaceController, Serializable {
                     break;
                 case ("2"):
                     if (!this.info.isAEntregar(codUser)) {
-                        p.askCodEnc();
-                        String enc = read.nextLine();
-                        p.showValTransporte(this.info.getDistTotal(codUser, enc) * trans.getCustoKm());
+                        try {
+                            p.askCodEnc();
+                            String enc = read.nextLine();
+                            p.showValTransporte(this.info.getDistTotal(codUser, enc) * trans.getCustoKm());
+                        }
+                        catch (NullPointerException e){
+                            p.encInv();
+                        }
                     } else p.acaoIndesponivel();
                     break;
                 case ("3"):
                     if (!this.info.isAEntregar(codUser)) {
                         p.askCodEnc();
                         String enc = read.nextLine();
-                        if (this.info.existePedido(codUser,enc)) p.existePedido();
-                        else {
-                            List<Boolean> b = this.info.fazerPedido(this.info.getEncomenda(enc), codUser);
-                            if (!b.get(0)) p.naoRaio();
-                            if (!b.get(1)) p.naoMedical();
-                            if (!b.get(2)) p.naoPronto();
-                            if (b.get(0) && b.get(1) && b.get(2)) p.pedidoSucesso();
+                        try {
+                            if (this.info.existePedido(codUser,enc)) p.existePedido();
+                            else {
+                                List<Boolean> b = this.info.fazerPedido(this.info.getEncomenda(enc), codUser);
+                                if (!b.get(0)) p.naoRaio();
+                                if (!b.get(1)) p.naoMedical();
+                                if (!b.get(2)) p.naoPronto();
+                                if (b.get(0) && b.get(1) && b.get(2)) p.pedidoSucesso();
+                            }
+                        }
+                        catch (NullPointerException e){
+                            p.encInv();
                         }
 
                     } else p.acaoIndesponivel();
@@ -667,9 +717,11 @@ public class Controller implements InterfaceController, Serializable {
                         p.askDataInicio();
                         String s = read.nextLine();
                         LocalDateTime l1 = this.StringToLocalDateTime(s);
+                        if (l1==null) break;
                         p.askDataFim();
                         s = read.nextLine();
                         LocalDateTime l2 = this.StringToLocalDateTime(s);
+                        if (l2==null) break;
                         l = this.info.getHistoricoByDate(l1,l2,l);
                     }
                     p.printHist(l);
@@ -681,9 +733,11 @@ public class Controller implements InterfaceController, Serializable {
                         p.askDataInicio();
                         String s = read.nextLine();
                         LocalDateTime l1 = this.StringToLocalDateTime(s);
+                        if (l1==null) break;
                         p.askDataFim();
                         s = read.nextLine();
                         LocalDateTime l2 = this.StringToLocalDateTime(s);
+                        if (l2==null) break;
                         p.showTotalFat(this.info.totalFaturado(codUser,l1,l2));
                     }
                     break;
@@ -808,8 +862,6 @@ public class Controller implements InterfaceController, Serializable {
                     }
                     break;
                 case("2"):
-                    break;
-                case("3"):
                     return 1;
                 default:
                     p.invalid(opcao);

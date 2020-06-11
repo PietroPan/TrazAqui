@@ -9,6 +9,7 @@ package Common;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -245,6 +246,16 @@ public class Encomenda implements InterfaceEncomenda, Serializable {
         .append("\nEncomenda Médica: ").append(this.medical)
         .append("\nPeso(Kgs): ").append(this.peso)
         .append("\nPedido: ").append(this.pedido.toString());
+        return s.toString();
+    }
+
+    @Override
+    public String toString2() {
+        StringBuilder s = new StringBuilder();
+        s.append("\nCodigo de Encomenda: ").append(this.codEncomenda)
+                .append("\nInterfaceLoja de Origem: ").append(this.lojaOrigem)
+                .append("\nInterfaceUtilizador de Destino: ").append(this.userDestino)
+                .append("\nDemorou "+ ChronoUnit.MINUTES.between(this.dataInicio,this.dataEntrega)+ "minutos");
         return s.toString();
     }
 

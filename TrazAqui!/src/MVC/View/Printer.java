@@ -273,7 +273,7 @@ public class Printer implements Serializable
     /*Menu prints*/
 
     public void showMainMenu() {
-        System.out.println("1.Login" +
+        System.out.println("\n1.Login" +
                             "\n2.Criar conta" +
                             "\n3.Avançar tempo" +
                             "\n4.Opções do Sistema" +
@@ -281,7 +281,7 @@ public class Printer implements Serializable
     }
 
     public void showLoginOptions() {
-        System.out.println("1.Sou um Utilizador" +
+        System.out.println("\n1.Sou um Utilizador" +
                             "\n2.Sou um Voluntario" +
                             "\n3.Sou uma Transportadora"+
                             "\n4.Sou uma Loja" +
@@ -289,16 +289,17 @@ public class Printer implements Serializable
     }
 
     public void showUserOptions(){
-        System.out.println("1.Fazer encomenda" +
+        System.out.println("\n1.Fazer encomenda" +
                             "\n2.Verificar ofertas de transporte" +
                             "\n3.Ver Entregas efetuadas por tempo e por um Entregador" +
                             "\n4.Classificar entregadores" +
-                            "\n5.Logout" +
+                            "\n5.Verificar tempo de entrega de uma encomenda" +
+                            "\n6.Logout" +
                             "\n0.Sair" );
     }
 
     public void showVoluntarioOptions() {
-        System.out.println("1.Ver pedidos de entrega" +
+        System.out.println("\n1.Ver pedidos de entrega" +
                             "\n2.Pedir Entrega"+
                             "\n3.Fazer Entrega"+
                             "\n4.Histórico de entregas efetuadas"+
@@ -307,7 +308,7 @@ public class Printer implements Serializable
     }
 
     public void showTransportadoraOptions() {
-        System.out.println("1.Ver pedidos de entrega" +
+        System.out.println("\n1.Ver pedidos de entrega" +
                 "\n2.Calcular preco de transporte"+
                 "\n3.Propor Entrega"+
                 "\n4.Verificar Pedidos Propostos"+
@@ -319,14 +320,13 @@ public class Printer implements Serializable
     }
 
     public void showLojaOptions(){
-        System.out.println("1.Atualizar Stock" +
-                "\n2.Trabalhar numa Encomenda" +
-                "\n3.Logout" +
-                "\n4.Sair");
+        System.out.println("\n1.Atualizar Stock" +
+                "\n2.Logout" +
+                "\n3.Sair");
     }
 
     public void showSystemMenu(){
-        System.out.println("1.Top 10 Utilizadores" +
+        System.out.println("\n1.Top 10 Utilizadores" +
                 "\n2.Top 10 Transportadoras"+
                 "\n3.Guardar estado" +
                 "\n4.Carregar estado" +
@@ -463,9 +463,11 @@ public class Printer implements Serializable
         int i=0;
         for (InterfaceEncomenda p : l) {
             i++;
-            System.out.println("#######Encomenda "+i +"#######");
-            System.out.println(p.toString());
-
+            System.out.println("\n#######Encomenda "+i +"#######");
+            System.out.println("Código Encomenda: "+p.getCodEncomenda());
+            System.out.println("Código Utilizador: "+p.getDestino());
+            System.out.println("Código Loja: "+p.getOrigem());
+            System.out.println("Peso: "+p.getPeso());
         }
     }
 
@@ -484,7 +486,9 @@ public class Printer implements Serializable
         for (Map.Entry<InterfaceEncomenda,String> p : l) {
             i++;
             System.out.println("\n#######Pedido "+i +"#######");
-            System.out.println(p.getKey().toString());
+            System.out.println("Código Encomenda: "+p.getKey().getCodEncomenda());
+            System.out.println("Código Utilizador: "+p.getKey().getDestino());
+            System.out.println("Código Loja: "+p.getKey().getOrigem());
             System.out.println("Status: "+printStatus(p.getValue()));
         }
     }
@@ -495,6 +499,16 @@ public class Printer implements Serializable
             i++;
             System.out.println("\n#######Entrega "+i +"#######");
             System.out.println(h.toString());
+        }
+    }
+
+    public void printHist2(List<TriploHist> l){
+        int i=0;
+        for (TriploHist h : l){
+            i++;
+            System.out.println("\n#######Entrega "+i +"#######");
+            System.out.println(h.toString());
+
         }
     }
 
@@ -565,7 +579,7 @@ public class Printer implements Serializable
     }
 
     public void fazerEncomenda(){
-        System.out.println("Deseja fazer a encomenda atual?");
+        System.out.println("Deseja fazer a encomenda atual? (s/S)");
     }
 
     public void pedidoAceite() {
@@ -609,6 +623,9 @@ public class Printer implements Serializable
             case ("c"):
                 System.out.println("Esse pedido foi cancelado");
                 break;
+            case ("r"):
+                System.out.println("Esse pedido já foi rejeitado");
+                break;
             default:
                 System.out.println("Erro no pedido");
         }
@@ -626,5 +643,21 @@ public class Printer implements Serializable
 
     public void LOL(){
         System.out.println("Nunca vai dar erro LOL");
+    }
+
+    public void askEnt2(){
+        System.out.println("Digite o código do Entregador");
+    }
+
+    public void classInv(){
+        System.out.println("Classificação inválida");
+    }
+
+    public void encInv(){
+        System.out.println("Encomenda inválida");
+    }
+
+    public void foiAceite(){
+        System.out.println("Encomenda já foi aceite");
     }
 }

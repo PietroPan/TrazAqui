@@ -188,4 +188,28 @@ public class Utilizadores implements InterfaceUtilizadores, Serializable {
             alteraTodosPedidosIf(i,"p","s");
         }
     }
+
+    /**
+     * Rejeita todos os pedidos a mais
+     * @param enc encomenda com pedidos a mais
+     */
+     @Override
+    public void rejeitaPedidos(String enc){
+        for (Map.Entry<String,InterfaceUtilizador> i : this.users.entrySet()){
+            InterfaceUtilizador aux = i.getValue();
+            aux.rejeitaPedidos(enc);
+            this.users.put(i.getKey(),aux);
+         }
+     }
+
+    /**
+     * Verifica se uma encomenda já foi aceite
+     * @param usr Utilizador a quem pertence a encomenda
+     * @param enc Encomenda a verificar
+     * @return resultado da verificação
+     */
+     @Override
+    public boolean isFree (String usr,String enc){
+         return this.users.get(usr).isFree(enc);
+     }
 }

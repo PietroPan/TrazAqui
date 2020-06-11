@@ -64,8 +64,9 @@ public class TriploPedido {
         switch (stat) {
             case "a": return "Aceite";
             case "p": return "Pendente";
-            case "c": return "Cancelad0";
+            case "c": return "Cancelado";
             case "s": return "Congelado";
+            case "r": return "Rejeitado";
             default: return "Error";
         }
     }

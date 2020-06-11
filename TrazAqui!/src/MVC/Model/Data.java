@@ -156,6 +156,8 @@ public class Data implements InterfaceData, Serializable
             this.entregadores.alteraTodosPedidosIf(trans,"s","p");
             this.users.alteraTodosPedidosIf(trans,"s","p");
        }
+        this.entregadores.rejeitaPedidos(enc.getCodEncomenda());
+        this.users.rejeitaPedidos(enc.getCodEncomenda());
    }
 
    @Override public InterfaceEncomenda getEncomenda(String id) {
@@ -209,7 +211,6 @@ public class Data implements InterfaceData, Serializable
     @Override public double getDistTotal(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         InterfaceEntregador e = getEntregador(idEntregador);
         InterfaceEncomenda enc = getEncomenda(idEnc);
-        if (enc==null) System.out.println("olaaa");
         return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),users.getUser(enc.getDestino()).getPosicao());
     }
 
@@ -340,7 +341,7 @@ public class Data implements InterfaceData, Serializable
         if (r.get(0) && r.get(1) && r.get(2)){
             this.entregadores.addPedido(enc,trans);
             this.users.addPedido(enc,trans);
-            this.users.addMessageToUser(enc.getDestino(),"Tem uma Proposta para encomenda de código "+enc.getCodEncomenda()+"da Transportadora "+trans);
+            this.users.addMessageToUser(enc.getDestino(),"Tem uma Proposta para encomenda de código "+enc.getCodEncomenda()+" da Transportadora "+trans);
         }
         return r;
     }
@@ -358,6 +359,11 @@ public class Data implements InterfaceData, Serializable
     @Override
     public String checkStatPedido(String enc,String trans,String user){
         return this.users.checkStatPedido(enc,trans,user);
+    }
+
+    @Override
+    public boolean isFree(String enc,String user){
+        return this.users.isFree(user,enc);
     }
 
     @Override
@@ -491,5 +497,10 @@ public class Data implements InterfaceData, Serializable
     @Override
     public void removeFromStock(String loja, String cod){
         this.lojas.removeFromStock(loja,cod);
+    }
+
+    @Override
+    public String timeLeft(String ent,String enc){
+        return this.entregadores.timeLeft(ent,enc,this.getHoras());
     }
 }

@@ -417,4 +417,38 @@ public class Transportadora extends Entregador implements InterfaceTransportador
        }
        return false;
    }
+
+    /**
+     * Verifica o tempo que falta para a entrega de uma encomenda
+     * @param enc encomenda a verificar
+     * @param l tempo atual
+     * @return mensagem com o resultado
+     */
+   @Override
+    public String timeLeft(String enc,LocalDateTime l){
+       for (InterfaceEncomenda i : this.encomendaAtual){
+           if (i.getCodEncomenda().equals(enc)){
+               if (this.isAEntregar()){
+                   return "Faltam cerca de " + ChronoUnit.MINUTES.between(l,i.getDataEntrega()) + " minutos para a sua encomenda chegar";
+               } else {
+                   return "Encomenda não está em movimento";
+               }
+           }
+       }
+       return "Informação não disponivel";
+   }
+
+    /**
+     * Reijeita pedidos a mais
+     * @param enc encomenda com pedidos a mais
+     */
+   @Override
+   public void rejeitaPedidos(String enc){
+       List<InterfaceEncomenda> aux = new ArrayList<>();
+       for (Map.Entry<InterfaceEncomenda,String> i : this.pedidos){
+           if (!i.getValue().equals("a")&&i.getKey().getCodEncomenda().equals(enc)) aux.add(i.getKey());
+       }
+       this.pedidos.removeIf(i->!i.getValue().equals("a")&&i.getKey().getCodEncomenda().equals(enc));
+       this.addPedidos(aux,"r");
+   }
 }

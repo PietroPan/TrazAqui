@@ -52,4 +52,8 @@ public interface InterfaceTransportadora extends InterfaceBasicInfo, InterfaceEn
     boolean existePedido (String enc);
 
     Map<String,String> checkEvent(LocalDateTime t);
+
+    String timeLeft(String enc,LocalDateTime l);
+
+    void rejeitaPedidos(String enc);
 }

@@ -115,9 +115,8 @@ public class TriploHist {
      */
     @Override
     public String toString() {
-        String aux="";
-        if (this.enc.toString().contains("l")||this.enc.toString().contains("u")) aux = "\nEntregador: " + ent;
-        return this.enc.toString() + aux + printStat(this.isStat());
+        if (this.ent.contains("l")||this.ent.contains("u")) return this.enc.toString() + "\nEntregador: " + ent + printStat(this.isStat());
+        else return this.enc.toString2() + printStat(this.isStat());
     }
 
     /**

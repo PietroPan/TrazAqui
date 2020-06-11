@@ -38,7 +38,7 @@ public abstract class Entregador extends BasicInfo implements InterfaceEntregado
         this.levaMedical=false;
         this.velocidadeDeEntrega=0;
         this.vezesClassificado=0;
-        this.classificacao=0;
+        this.classificacao=5;
         this.aEntregar=false;
     }
 

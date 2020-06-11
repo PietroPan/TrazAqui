@@ -33,4 +33,8 @@ public interface InterfaceUtilizadores {
     String checkStatPedido(String enc,String trans,String user);
 
     void atualizaPedidos(List<String> trans);
+
+    void rejeitaPedidos(String enc);
+
+    boolean isFree (String usr,String enc);
 }

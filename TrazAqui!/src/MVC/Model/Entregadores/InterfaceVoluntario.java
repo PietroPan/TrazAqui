@@ -22,4 +22,6 @@ public interface InterfaceVoluntario extends InterfaceBasicInfo, InterfaceEntreg
     void atualizaAtual(InterfaceEncomenda enc);
 
     Map.Entry<String,String> checkEvent(LocalDateTime t);
+
+    String timeLeft(String enc,LocalDateTime l);
 }

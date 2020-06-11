@@ -43,4 +43,8 @@ public interface InterfaceUtilizador extends InterfaceBasicInfo {
     void addPedidos(List<InterfaceEncomenda> encs,String trans,String stat);
 
     String checkStatPedido(String enc,String trans);
+
+    void rejeitaPedidos(String enc);
+
+    boolean isFree(String enc);
 }

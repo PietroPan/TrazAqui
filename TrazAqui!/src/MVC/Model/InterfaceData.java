@@ -104,4 +104,8 @@ public interface InterfaceData {
     void addToStock(String loja,InterfaceLinhaEncomenda l);
 
     void removeFromStock(String loja, String cod);
+
+    String timeLeft(String ent,String enc);
+
+    boolean isFree(String enc,String user);
 }

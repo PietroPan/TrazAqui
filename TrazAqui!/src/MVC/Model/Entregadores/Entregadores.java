@@ -288,4 +288,39 @@ public class Entregadores implements InterfaceEntregadores, Serializable {
         }
         return r;
     }
+
+    /**
+     * Verifica o tempo que falta para uma encomenda ser entregue
+     * @param ent Codigo do entregador que tem a encomenda
+     * @param enc Codigo da encomenda a verificar
+     * @param l Tempo atual
+     * @return mensagem com o resultado da comparação
+     */
+    @Override
+    public String timeLeft(String ent,String enc,LocalDateTime l){
+        if (ent.contains("v")){
+            InterfaceVoluntario vol = (InterfaceVoluntario)this.entregadores.get(ent);
+            return vol.timeLeft(enc,l);
+        } else {
+            InterfaceTransportadora trans = (InterfaceTransportadora)this.entregadores.get(ent);
+            return trans.timeLeft(enc,l);
+        }
+    }
+
+    /**
+     * Rejeita pedidos a mais
+     * @param enc Codigo de encomenda com pedidos a mais
+     */
+    @Override
+    public void rejeitaPedidos(String enc){
+        Map<String,InterfaceEntregador> aux = new HashMap<>();
+        for (Map.Entry<String,InterfaceEntregador> i : this.entregadores.entrySet()){
+            if (i.getKey().contains("t")){
+                InterfaceTransportadora transAux = (InterfaceTransportadora)i.getValue();
+                transAux.rejeitaPedidos(enc);
+                aux.put(i.getKey(),transAux);
+            }
+        }
+        this.entregadores.putAll(aux);
+    }
 }
