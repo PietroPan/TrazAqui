@@ -205,7 +205,7 @@ public interface InterfacePrinter {
 
     void encomendaEntregue();
 
-    void acaoIndesponivel();
+    void acaoIndisponivel();
 
     void pedido(String stat);
 

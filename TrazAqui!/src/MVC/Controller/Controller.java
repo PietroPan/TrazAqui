@@ -579,7 +579,7 @@ public class Controller implements InterfaceController, Serializable {
                     if (!this.info.isAEntregar(codUser)) {
                         List<InterfaceEncomenda> ls = this.info.getEncomendasDisp(codUser);
                         p.apresentaStockAll(ls);
-                    } else p.acaoIndesponivel();
+                    } else p.acaoIndisponivel();
                     break;
                 case ("2"):
                     if (!this.info.isAEntregar(codUser)){
@@ -600,7 +600,7 @@ public class Controller implements InterfaceController, Serializable {
                         catch (NullPointerException e){
                             p.encInv();
                         }
-                    } else p.acaoIndesponivel();
+                    } else p.acaoIndisponivel();
                     break;
                 case ("3"):
                     if (!this.info.isAEntregar(codUser)) {
@@ -609,7 +609,7 @@ public class Controller implements InterfaceController, Serializable {
                         if (r.equals("s") || r.equals("S")) {
                             this.info.fazerEncomenda(codUser);
                         }
-                    } else p.acaoIndesponivel();
+                    } else p.acaoIndisponivel();
                     break;
                 case ("4"):
                     List<TriploHist> l = this.info.getHistorico(codUser);
@@ -660,7 +660,7 @@ public class Controller implements InterfaceController, Serializable {
                     if (!this.info.isAEntregar(codUser)){
                         List<InterfaceEncomenda> ls = this.info.getEncomendasDisp(codUser);
                         p.apresentaStockAll(ls);
-                    } else p.acaoIndesponivel();
+                    } else p.acaoIndisponivel();
                     break;
                 case ("2"):
                     if (!this.info.isAEntregar(codUser)) {
@@ -672,7 +672,7 @@ public class Controller implements InterfaceController, Serializable {
                         catch (NullPointerException e){
                             p.encInv();
                         }
-                    } else p.acaoIndesponivel();
+                    } else p.acaoIndisponivel();
                     break;
                 case ("3"):
                     if (!this.info.isAEntregar(codUser)) {
@@ -692,23 +692,29 @@ public class Controller implements InterfaceController, Serializable {
                             p.encInv();
                         }
 
-                    } else p.acaoIndesponivel();
+                    } else p.acaoIndisponivel();
                     break;
                 case ("4"):
                     if (!this.info.isAEntregar(codUser)){
                         trans = (InterfaceTransportadora) this.info.getEntregador(codUser);
                         p.apresentaPedidos2(trans.getPedidos());
-                    } else p.acaoIndesponivel();
+                    } else p.acaoIndisponivel();
                     break;
                 case ("5"):
                     if (!this.info.isAEntregar(codUser)) {
-                        p.fazerEncomenda();
-                        String r = read.nextLine();
-                        if (r.equals("s") || r.equals("S")) {
-                            this.info.fazerEncomenda(codUser);
-                            p.encomendaEntregue();
+                        if (((InterfaceTransportadora) this.info.getEntregador(codUser)).getEncomendaAtual().size()!=0) {
+                            p.fazerEncomenda();
+                            String r = read.nextLine();
+                            if (r.equals("s") || r.equals("S")) {
+                                this.info.fazerEncomenda(codUser);
+                                p.encomendaEntregue();
+                            }
                         }
-                    } else p.acaoIndesponivel();
+                        else {
+                            p.nadaAApresentar();
+                            break;
+                        }
+                    } else p.acaoIndisponivel();
                     break;
                 case ("6"):
                     List<TriploHist> l = this.info.getHistorico(codUser);

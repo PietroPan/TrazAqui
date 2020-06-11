@@ -112,10 +112,14 @@ public class Data implements InterfaceData, Serializable
         BufferedReader bufferAll = new BufferedReader (new FileReader(Const.fileToRead));
         String buffer;
         Random r = new Random();
+        String[] tokens = {};
         Point2D pos;
         while((buffer=bufferAll.readLine())!=null) {
            String [] idAndInfo = buffer.split(":",2);
-           String[] tokens=idAndInfo[1].split(",",0);
+           if (idAndInfo.length>1) {
+               tokens = idAndInfo[1].split(",", 0);
+               if (tokens[0].length() < 1 || tokens[0].charAt(0) == '<') continue;
+           }
            switch (idAndInfo[0]) {
                case ("Utilizador") :
                     pos =new Point2D.Double(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
@@ -158,6 +162,8 @@ public class Data implements InterfaceData, Serializable
                    this.lojas.removeNotReady(iE);
                    this.lojas.addPronta(iE);
                break;
+               default:
+                   break;
             }
        }
    }

@@ -698,8 +698,8 @@ public class Printer implements InterfacePrinter, Serializable {
     }
 
     @Override
-    public void acaoIndesponivel(){
-        System.out.println("Acão indesponível, está a ser efetuada uma entrega");
+    public void acaoIndisponivel(){
+        System.out.println("Acão indisponível, está a ser efetuada uma entrega");
     }
 
     @Override

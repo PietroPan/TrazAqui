@@ -1,3 +1,46 @@
+===============================================================================
+Preambulo /Legenda
+===============================================================================
+
+--Utilizadores
+
+Utilizador:<CodUtilizador>,<Nome>,<GPS>
+
+    GPS = x,y
+
+
+--VoluntÃ¡rios 
+
+Voluntario:<CodVoluntÃ¡rio>, <Nome>,<GPS> ,<Raio>Â 
+
+
+--Transportadoras 
+
+Transportadora:<CodEmpresa>,<NomeEmpresa>,<GPS>,<NIF>,<raio>,<preco-por-km>
+
+
+-- Lojas
+
+Loja:<CodLoja>, <NomeLoja>,<GPS>
+
+
+-- Encomenda
+
+Encomenda:<CodEncomenda>, <CodUtilizador>, <CodLoja>, <Peso>, <LinhaEncomenda>+
+
+-- LinhaEncomenda
+
+<CodProduto>, <DescriÃ§Ã£o>, <Quantidade>, <ValorUnitÃ¡rio>
+
+
+-- Encomendas Aceites
+
+Aceite:<CodEccomenda>
+
+===============================================================================
+Dados de LOGS:
+===============================================================================
+
 Utilizador:u48,Francisco EgÃ­dio Coutinho Martins Correia,-97.28862,59.067047
 Utilizador:u97,Pedro Filipe Carvalho Barbosa,-68.78327,-50.26914
 Utilizador:u82,Hugo AndrÃ© Coelho Cardoso,57.245117,19.557358
