@@ -28,8 +28,6 @@ public interface InterfaceUtilizador extends InterfaceBasicInfo {
 
     void addEntregue(String cod);
 
-    void addMessage(String message);
-
     void atualizaEstado(InterfaceEncomenda e);
 
     void addPedido(InterfaceEncomenda enc,String trans);

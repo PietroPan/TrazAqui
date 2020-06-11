@@ -252,7 +252,9 @@ public class Controller implements InterfaceController, Serializable {
         int tF = Integer.parseInt(read.nextLine());
         p.askTempoAtendimento();
         float t = Float.parseFloat(read.nextLine());
-        this.info.addLoja(new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>(),new HashMap<>(),new HashMap<>()));
+        InterfaceLoja loja = new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>(),new HashMap<>(),new HashMap<>());
+        loja.addMessage("User cridado com sucesso\nCódigo: "+cod+"\nBem Vindo!");
+        this.info.addLoja(loja);
         return cod;
     }
 
@@ -361,7 +363,7 @@ public class Controller implements InterfaceController, Serializable {
                     boolean med = read.nextLine().toUpperCase().equals("S");
                     List<Map.Entry<String,Double>> list=new ArrayList<>();
                     List<InterfaceLinhaEncomenda> lista = new ArrayList<>();
-                    InterfaceEncomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,lista, this.info.getHoras(),this.info.getHoras());
+                    InterfaceEncomenda enc = new Encomenda(this.info.gerarCodEnc(),med,0,loja,codUser,lista, this.info.getHoras(),this.info.getHoras());
 
                     p.apresentaTotalProdutosStock(stock);
 

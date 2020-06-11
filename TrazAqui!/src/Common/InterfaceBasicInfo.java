@@ -18,4 +18,6 @@ public interface InterfaceBasicInfo {
     String getCodigo();
 
     void setCodigo(String codigo);
+
+    void addMessage(String message);
 }
