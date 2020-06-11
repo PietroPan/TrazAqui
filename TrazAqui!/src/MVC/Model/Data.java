@@ -1,11 +1,4 @@
 package MVC.Model;
-/**
- * Write a description of class Programa here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -27,7 +20,10 @@ public class Data implements InterfaceData, Serializable
     InterfaceEntregadores entregadores;
     LocalDateTime horas;
     InterfaceHistorico historico;
-    
+
+    /**
+     * Construtor vazio
+     */
     public Data() {
      this.users=new Utilizadores();
      this.lojas=new Lojas();
@@ -35,40 +31,82 @@ public class Data implements InterfaceData, Serializable
      this.horas=LocalDateTime.now();
     }
 
+    /**
+     * Getter para o paramtero horas
+     * @return horas
+     */
     @Override
     public LocalDateTime getHoras() {
         return this.horas;
     }
 
+    /**
+     * Setter para o parametro horas
+     * @param d horas
+     */
     @Override
     public void setHoras(LocalDateTime d) {
         this.horas=d;
     }
 
+    /**
+     * Getter para um user no parametro users
+     * @param cod código do user
+     * @return Utilizador caso exista
+     * @throws UtilizadorInexistenteException caso não exista
+     */
     @Override public InterfaceUtilizador getUser(String cod) throws UtilizadorInexistenteException {
         return users.getUser(cod);
     }
 
+    /**
+     * Adicionar um urilizador
+     * @param u utilizador a adicionar
+     */
     @Override public void addUser(InterfaceUtilizador u) {
         this.users.addUser(u);
     }
 
+    /**
+     * Getter para um entregador no parametro entregadores
+     * @param cod codigo do entregador
+     * @return o entregador caso exista
+     * @throws EntregadorInexistenteException caso não exista
+     */
     @Override public InterfaceEntregador getEntregador(String cod) throws EntregadorInexistenteException {
         return this.entregadores.getEntregador(cod);
     }
 
+    /**
+     * Adicionar um entregador
+     * @param e entregador
+     */
     @Override public void addEntregador(InterfaceEntregador e) {
         this.entregadores.setEntregador(e.getCodigo(),e.clone());
     }
 
+    /**
+     * Getter para uma loja no parametro lojas
+     * @param cod codigo da loja a procurar
+     * @return loja caso exista
+     * @throws LojaInexistenteException caso não exista
+     */
     @Override public InterfaceLoja getLoja(String cod) throws LojaInexistenteException {
         return this.lojas.getLoja(cod);
     }
 
+    /**
+     * Adicionar loja
+     * @param l loja
+     */
     @Override public void addLoja(InterfaceLoja l) {
         this.lojas.setLoja(l.getCodigo(),l);
     }
 
+    /**
+     * Função responsável por dar parsing e ler o ficheiro de logs
+     * @throws java.io.IOException caso o ficheiro não exista ou esteja corrompido
+     */
     @Override public void readFile() throws java.io.IOException {
         this.historico=new Historico();
         BufferedReader bufferAll = new BufferedReader (new FileReader(Const.fileToRead));
@@ -124,17 +162,37 @@ public class Data implements InterfaceData, Serializable
        }
    }
 
+    /**
+     * Verifica se um encomenda de um utilizador está em espera ou pronta
+     * @param id codigo da encomenda
+     * @param user codigo do user
+     * @return true se estiver em espera
+     */
    @Override
    public boolean encomendaNotReady(String id,String user) {
         InterfaceEncomenda a = getEncomenda(id);
         return this.lojas.encomendaNotReady(id,a.getOrigem()) && a.getDestino().equals(user);
    }
 
+    /**
+     * Método que recebe varios codigos de produtos e quantidades e com isto forma linhas de encomenda indo a loja
+     * @param loja codigo da loja onde procurar
+     * @param l lista de
+     * @return
+     * @throws ProductNotAvailableException
+     */
    @Override
    public List<InterfaceLinhaEncomenda> formaListaDeLinhasEncomenda(String loja, List<Map.Entry<String, Double>> l) throws ProductNotAvailableException {
         return lojas.formaListadeLinhasEncomenda(loja,l);
    }
 
+    /**
+     * Método que coloca uma encomenda
+     * @param e encomenda
+     * @param preco preço
+     * @throws NotEnoughMoneyException caso o utilizador não tenha dinheiro
+     * @throws LojaInexistenteException loja onde encomenda não existe
+     */
    @Override
    public void encomenda(InterfaceEncomenda e, double preco) throws NotEnoughMoneyException, LojaInexistenteException {
         InterfaceLoja l = this.lojas.getLoja(e.getOrigem());
@@ -145,6 +203,11 @@ public class Data implements InterfaceData, Serializable
        this.users.pay(e.getDestino(),preco);
    }
 
+    /**
+     * Método que aceita os pedidos
+     * @param enc encomenda a aceitar
+     * @param trans transportadora que aceitou os pedidos
+     */
    @Override
    public void aceitarPedido(InterfaceEncomenda enc,String trans) {
         enc.setDataEntrega(LocalDateTime.now().plusYears(10));
@@ -160,6 +223,11 @@ public class Data implements InterfaceData, Serializable
         this.users.rejeitaPedidos(enc.getCodEncomenda());
    }
 
+    /**
+     * Método que procura uma encomenda com código id
+     * @param id código da encomenda
+     * @return encomenda
+     */
    @Override public InterfaceEncomenda getEncomenda(String id) {
         InterfaceEncomenda r;
         for (InterfaceLoja l : this.lojas.getLojas().values()) {
@@ -173,12 +241,26 @@ public class Data implements InterfaceData, Serializable
         return null;
    }
 
+    /**
+     * Método que calcula a distância entre 3 pontos
+     * @param p1 ponto de origem (loja)
+     * @param p2 ponto de meio (entregador)
+     * @param p3 ponto de destino (user)
+     * @return distância total
+     */
    @Override public double calculaDistTotal(Point2D p1,Point2D p2,Point2D p3) {
        double d = p1.distance(p2);
        d += p2.distance(p3);
        return d;
    }
 
+    /**
+     * Getter para encomendas disponíveis a um entregador
+     * @param cod código de entregador onde procurar
+     * @return lista com as encomendas
+     * @throws EntregadorInexistenteException caso não exista
+     * @throws UtilizadorInexistenteException caso não exista
+     */
     @Override
     public List<InterfaceEncomenda> getEncomendasDisp(String cod) throws EntregadorInexistenteException, UtilizadorInexistenteException {
         List<InterfaceEncomenda> r = new ArrayList<>();
@@ -193,11 +275,25 @@ public class Data implements InterfaceData, Serializable
         return r;
     }
 
+    /**
+     * Método que verifica se uma loja e um utilizador estão dentro do raio de um entregador
+     * @param cod entregador
+     * @param loja loja
+     * @param uti utilizador
+     * @return true caso esteja dentro do raio, false otherwise
+     */
     @Override
     public boolean isNear (InterfaceEntregador cod,InterfaceLoja loja,InterfaceUtilizador uti){
         return ((cod.getPosicao().distance(loja.getPosicao()) < cod.getRaio())&&(cod.getPosicao().distance(uti.getPosicao()) < cod.getRaio() ));
     }
 
+    /**
+     * Método que classifica entregador
+     * @param ent codigo de entregador a classificar
+     * @param user codigo de utilizador que quer classificar
+     * @param clas classifcação que quer dar
+     * @return 0 caso ainda não tivesse classificado
+     */
     @Override
     public int classificaEnt(String ent,String user,float clas){
         int i=this.historico.checkClass(ent,user);
@@ -208,12 +304,25 @@ public class Data implements InterfaceData, Serializable
         return i;
     }
 
+    /**
+     * Getter para a distância total
+     * @param idEntregador entregador
+     * @param idEnc encomenda
+     * @return distancia total de entregador a encomenda
+     * @throws EntregadorInexistenteException caso não exista
+     * @throws LojaInexistenteException caso não exista
+     * @throws UtilizadorInexistenteException caso não exista
+     */
     @Override public double getDistTotal(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         InterfaceEntregador e = getEntregador(idEntregador);
         InterfaceEncomenda enc = getEncomenda(idEnc);
         return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),users.getUser(enc.getDestino()).getPosicao());
     }
 
+    /**
+     * Método que dá reset as mensagens de um entregador ou de utilizador
+     * @param cod codigo
+     */
     @Override public void resetMessages(String cod) {
         if (cod.contains("u")) {
             this.users.resetMessages(cod);
@@ -224,11 +333,19 @@ public class Data implements InterfaceData, Serializable
 
     }
 
+    /**
+     * Mudar a hora
+     * @param horas horas
+     * @param minutos minutos
+     */
     @Override
     public void maquinaTempo(int horas, int minutos) {
         this.horas=this.horas.plusMinutes(horas*60+minutos);
     }
 
+    /**
+     * Atualizar estado consoante o tempo
+     */
     @Override
     public void atualizaEstado() {
         this.users.atualizaEstado(this.lojas.atualizaEstado(getHoras()));
@@ -237,16 +354,30 @@ public class Data implements InterfaceData, Serializable
         this.users.atualizaEstado(this.entregadores.checkEvent(getHoras()));
     }
 
+    /**
+     * Atualizar pedidos
+     * @param trans trasnportadora
+     */
     @Override
     public void atualizaPedidos(List<String> trans){
         this.users.atualizaPedidos(trans);
     }
 
+    /**
+     * Getter para o stock de uma loja
+     * @param l codigo de loja
+     * @return lista de stock
+     * @throws NullPointerException caso não exista stock
+     */
     @Override
     public List<InterfaceLinhaEncomenda> getStock(String l) throws NullPointerException {
         return this.lojas.getStock(l);
     }
 
+    /**
+     * Método que gera código para o user
+     * @return codigo gerado
+     */
     @Override
     public String gerarCodUser() {
         Random rand = new Random();
@@ -260,6 +391,10 @@ public class Data implements InterfaceData, Serializable
         return cod;
     }
 
+    /**
+     * Método que gera código para a loja
+     * @return codigo gerado
+     */
     @Override
     public String gerarCodLoja() {
         Random rand = new Random();
@@ -273,6 +408,10 @@ public class Data implements InterfaceData, Serializable
         return cod;
     }
 
+    /**
+     * Método que gera código para o voluntario
+     * @return codigo gerado
+     */
     @Override
     public String gerarCodVol() {
         Random rand = new Random();
@@ -286,6 +425,10 @@ public class Data implements InterfaceData, Serializable
         return cod;
     }
 
+    /**
+     * Método que gera código para a transportadora
+     * @return codigo gerado
+     */
     @Override
     public String gerarCodTrans() {
         Random rand = new Random();
@@ -298,6 +441,14 @@ public class Data implements InterfaceData, Serializable
         }
         return cod;
     }
+
+    /**
+     * Método que realiza uma encomenda
+     * @param cod codigo de entregador
+     * @throws EntregadorInexistenteException caso não exista
+     * @throws LojaInexistenteException caso não exista
+     * @throws UtilizadorInexistenteException caso não exista
+     */
     @Override
     public void fazerEncomenda(String cod) throws EntregadorInexistenteException , LojaInexistenteException, UtilizadorInexistenteException{
         double sec=0;
@@ -330,6 +481,16 @@ public class Data implements InterfaceData, Serializable
 
         }
     }
+
+    /**
+     * Fazer pedido a um utilizador por parte de trasnportadora
+     * @param enc codigo de encomenda
+     * @param trans transportadora responsável pela encomenda
+     * @return lista de booleans para verificar todas as caracteristicas de encomenda (distancia, medical,espaço)
+     * @throws EntregadorInexistenteException caso não exista
+     * @throws LojaInexistenteException caso não exista
+     * @throws UtilizadorInexistenteException caso não exista
+     */
     @Override
     public List<Boolean> fazerPedido(InterfaceEncomenda enc,String trans) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         InterfaceEntregador t = this.entregadores.getEntregador(trans);
@@ -346,31 +507,65 @@ public class Data implements InterfaceData, Serializable
         return r;
     }
 
+    /**
+     * Adicionar uma encomenda
+     * @param enc encomenda
+     * @param vol codigo de voluntario
+     */
     @Override
     public void addEncomendaVol (InterfaceEncomenda enc,String vol){
         this.entregadores.addEncomenda(vol,enc);
     }
 
+    /**
+     * Método para verificar se uma encomenda está a entregar
+     * @param cod codigo de encomenda a procurar
+     * @return true se estiver a entregar
+     */
     @Override
     public boolean isAEntregar(String cod){
         return this.entregadores.isAEntregar(cod);
     }
 
+    /**
+     * Verificar o estado do pedido
+     * @param enc codigo de encomenda
+     * @param trans codigo de transportadora
+     * @param user codigo de utilizador
+     * @return codigo do estado do pedido
+     */
     @Override
     public String checkStatPedido(String enc,String trans,String user){
         return this.users.checkStatPedido(enc,trans,user);
     }
 
+    /**
+     * Verifica se um entregador tem espaço para levar uma encomenda
+     * @param enc codigo de encomenda
+     * @param user codigo de utilizador
+     * @return true se tiver espaço
+     */
     @Override
     public boolean isFree(String enc,String user){
         return this.users.isFree(user,enc);
     }
 
+    /**
+     * Verifica se existe pedido
+     * @param trans codigo de transportadora
+     * @param enc codigo de encomenda
+     * @return true se existir um pedido
+     */
     @Override
     public boolean existePedido(String trans,String enc){
         return this.entregadores.existePedido(trans,enc);
     }
 
+    /**
+     * Getter para o historico de um entregador
+     * @param cod codigo de entregador
+     * @return lista que representa o historico
+     */
     @Override
     public List<TriploHist> getHistorico(String cod){
         if (cod.contains("v")||cod.contains("t")) return this.historico.getEnt(cod);
@@ -378,18 +573,35 @@ public class Data implements InterfaceData, Serializable
         else return this.historico.getLoja(cod);
     }
 
+    /**
+     * Getter para o historico por data
+     * @param after tempo final do periodo
+     * @param before tempo inicial do periodo
+     * @param l historico
+     * @return historico apenas no periodo dado
+     */
     @Override
     public List<TriploHist> getHistoricoByDate(LocalDateTime after,LocalDateTime before,List<TriploHist> l){
         Comparator<TriploHist> c = Comparator.comparing((TriploHist triploHist) -> triploHist.getEnc().getDataInicio()).thenComparing(triploHist -> triploHist.getEnc().getDataEntrega());
         return l.stream().filter(i->i.getEnc().getDataInicio().isAfter(after)&&i.getEnc().getDataEntrega().isBefore(before)).sorted(c).collect(Collectors.toList());
     }
 
+    /**
+     * Getter para o historico por entregadora
+     * @param ent codigo de entregador
+     * @param l hsitorico
+     * @return historico de encomednas realizadas por entregador
+     */
     @Override
     public List<TriploHist> getHistoricoByEnt(String ent,List<TriploHist> l){
         Comparator<TriploHist> c = Comparator.comparing(TriploHist::getEnt);
         return l.stream().filter(i -> i.getEnt().equals(ent)).sorted(c).collect(Collectors.toList());
     }
 
+    /**
+     * Atualizar historico
+     * @param m mapa de codigo de utilizador com as encomendas entregues a este
+     */
     @Override
     public void atualizaHistorico(Map<String,List<InterfaceEncomenda>> m){
         for(Map.Entry<String,List<InterfaceEncomenda>> i : m.entrySet()){
@@ -400,6 +612,14 @@ public class Data implements InterfaceData, Serializable
         }
     }
 
+    /**
+     * Historico por preço
+     * @param l historico
+     * @return historico por preço
+     * @throws EntregadorInexistenteException caso não exista
+     * @throws LojaInexistenteException caso não exista
+     * @throws UtilizadorInexistenteException caso não exista
+     */
     @Override
     public List<Map.Entry<Double,TriploPedido>> getByPreco (List<TriploPedido> l) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         List<Map.Entry<Double,TriploPedido>> r = new ArrayList<>();
@@ -413,6 +633,16 @@ public class Data implements InterfaceData, Serializable
         return r;
     }
 
+    /**
+     * Ver o total faturado
+     * @param trans transportadora
+     * @param after tempo de fim do periodo
+     * @param before tempo de inicio do periodo
+     * @return total faturado nesse periodo
+     * @throws EntregadorInexistenteException caso não exista
+     * @throws LojaInexistenteException caso não exista
+     * @throws UtilizadorInexistenteException caso não exista
+     */
     @Override
     public double totalFaturado(String trans,LocalDateTime after, LocalDateTime before) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         List<TriploHist> aux = this.getHistoricoByDate(after,before,this.getHistorico(trans));
@@ -425,6 +655,10 @@ public class Data implements InterfaceData, Serializable
         return r;
     }
 
+    /**
+     * Top 10 dos utilizadores
+     * @return lista de utilizador com encomendas entregues a ele
+     */
     @Override
     public List<Map.Entry<String,Integer>> top10Users(){
         Map<String,Integer> r = new HashMap<>();
@@ -450,6 +684,13 @@ public class Data implements InterfaceData, Serializable
         }
         return rList;    }
 
+    /**
+     * top 10 trnasportadoras encomendas realizadas
+     * @return lista de codigos de encomenda com distancia realizada
+     * @throws EntregadorInexistenteException caso não exista
+     * @throws LojaInexistenteException caso não exista
+     * @throws UtilizadorInexistenteException caso não exista
+     */
     @Override
     public List<Map.Entry<String,Double>> top10Trans() throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         Map<String,Double> r = new HashMap<>();
@@ -479,26 +720,54 @@ public class Data implements InterfaceData, Serializable
         return rList;
     }
 
+    /**
+     * Mudar o preço
+     * @param loja codigo de loja
+     * @param cod codigo de encomenda
+     * @param preco preço
+     */
     @Override
     public void mudarPreco(String loja, String cod, double preco){
         this.lojas.mudarPreco(loja,cod,preco);
     }
 
+    /**
+     * Mudar quantidade
+     * @param loja codigo de loja
+     * @param cod codigo de encomenda
+     * @param qnt quantidade
+     */
     @Override
     public void mudarQuantidade(String loja, String cod, double qnt){
         this.lojas.mudarQuantidade(loja,cod,qnt);
     }
 
+    /**
+     * Adicionar ao stock
+     * @param loja codigo de loja onde adicionar
+     * @param l linha de stock a adicionar
+     */
     @Override
     public void addToStock(String loja,InterfaceLinhaEncomenda l){
         this.lojas.addSToStock(loja,l);
     }
 
+    /**
+     * Remover de stock um produto
+     * @param loja loja
+     * @param cod codigo de produto a remover
+     */
     @Override
     public void removeFromStock(String loja, String cod){
         this.lojas.removeFromStock(loja,cod);
     }
 
+    /**
+     * Tempo que falta para a entrega de uma encomenda
+     * @param ent codigo de entregador
+     * @param enc codigo de encomenda
+     * @return string com o tempo que falta para uma entrega
+     */
     @Override
     public String timeLeft(String ent,String enc){
         return this.entregadores.timeLeft(ent,enc,this.getHoras());
