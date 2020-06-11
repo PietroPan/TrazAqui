@@ -334,7 +334,7 @@ public class Printer implements InterfacePrinter, Serializable {
                             "\n2.Sou um Voluntario" +
                             "\n3.Sou uma Transportadora"+
                             "\n4.Sou uma Loja" +
-                            "\n0.Sair");
+                            "\n0.Menu Principal");
     }
 
     @Override

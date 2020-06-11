@@ -60,7 +60,7 @@ public class Controller implements InterfaceController, Serializable {
 
     /**
      * Método responsável pelo sign in de uma entidade
-     * @return
+     * @return codigo de utulizador criado
      */
     @Override
     public String signIn() {
@@ -84,6 +84,8 @@ public class Controller implements InterfaceController, Serializable {
                     case (4):
                         cod = initLoja();
                         break;
+                    case (0):
+                        return null;
                     default:
                         p.invalid("Opção");
                         break;
@@ -270,6 +272,7 @@ public class Controller implements InterfaceController, Serializable {
             String option = read.nextLine().toUpperCase();
             if (option.equals("S")) {
                 cod=signIn();
+                if (cod==null) return null;
                 p.showObrigado();
                 break;
             }
@@ -928,10 +931,18 @@ public class Controller implements InterfaceController, Serializable {
             switch (read.nextLine()) {
                 case ("1"):
                     codUser = init();
+                    if (codUser==null)  {
+                        r=1;
+                        break;
+                    }
                     r=escolheMenu();
                     break;
                 case ("2"):
                     codUser= signIn();
+                    if (codUser==null) {
+                        r=1;
+                        break;
+                    }
                     r=escolheMenu();
                     break;
                 case("3"):
