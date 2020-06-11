@@ -248,12 +248,12 @@ public class Printer implements InterfacePrinter, Serializable {
 
     @Override
     public void askVelocidadeNormal() {
-        System.out.println("Insira a sua velocidade normal: (Use . para separa casas decimais)");
+        System.out.println("Insira a sua velocidade média(m/s): (Use . para separa casas decimais)");
     }
 
     @Override
     public void askRaio() {
-        System.out.println("Insira o seu raio de ação: ");
+        System.out.println("Insira o seu raio de ação(km): ");
     }
 
 
