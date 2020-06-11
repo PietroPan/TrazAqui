@@ -942,8 +942,8 @@ public class Controller implements InterfaceController, Serializable {
                         int minutos = Integer.parseInt(s[1]);
                         this.info.maquinaTempo(horas,minutos);
                     }
-                    catch (NumberFormatException | NullPointerException d) {
-                        p.exception(d.getLocalizedMessage());
+                    catch (NumberFormatException | NullPointerException | IndexOutOfBoundsException d) {
+                        p.exception("WRONG FORMAT");
                     }
                     break;
                 case("4"):

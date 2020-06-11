@@ -251,7 +251,7 @@ public class Data implements InterfaceData, Serializable
    @Override public double calculaDistTotal(Point2D p1,Point2D p2,Point2D p3) {
        double d = p1.distance(p2);
        d += p2.distance(p3);
-       return d;
+       return d*1000;
    }
 
     /**
@@ -313,7 +313,8 @@ public class Data implements InterfaceData, Serializable
      * @throws LojaInexistenteException caso não exista
      * @throws UtilizadorInexistenteException caso não exista
      */
-    @Override public double getDistTotal(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
+    @Override
+    public double getDistTotal(String idEntregador,String idEnc) throws EntregadorInexistenteException, LojaInexistenteException, UtilizadorInexistenteException {
         InterfaceEntregador e = getEntregador(idEntregador);
         InterfaceEncomenda enc = getEncomenda(idEnc);
         return calculaDistTotal(lojas.getLoja(enc.getOrigem()).getPosicao(),e.getPosicao(),users.getUser(enc.getDestino()).getPosicao());
