@@ -20,19 +20,17 @@ import MVC.Model.Utilizadores.*;
 import Common.*;
 import Exceptions.*;
 
-import javax.swing.*;
-
 public class Controller implements InterfaceController, Serializable {
     private InterfaceData info;
     private String codUser;
-    private Printer p;
+    private InterfacePrinter p;
 
     /**
      * Construtor parametrizado
      * @param model Modelo
      * @param p View
      */
-    public Controller(InterfaceData model, Printer p) {
+    public Controller(InterfaceData model, InterfacePrinter p) {
         this.info=model;
         this.codUser="";
         this.p=p;
