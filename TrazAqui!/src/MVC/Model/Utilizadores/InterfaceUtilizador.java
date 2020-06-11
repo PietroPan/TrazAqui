@@ -6,7 +6,6 @@ import java.util.Set;
 import Common.*;
 
 public interface InterfaceUtilizador extends InterfaceBasicInfo {
-    List<String> getMessages();
 
     void setMessages(List<String> messages);
 

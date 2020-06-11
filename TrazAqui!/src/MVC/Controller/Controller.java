@@ -292,14 +292,14 @@ public class Controller implements InterfaceController, Serializable {
                 try {
                     r = menuUser();
                 } catch (UtilizadorInexistenteException | LojaInexistenteException | EntregadorInexistenteException u) {
-                    p.exception(u.getLocalizedMessage()+"op1");
+                    p.exception(u.getLocalizedMessage()+" op1");
                 }
                 break;
             case ('v'):
                 try {
                     r = menuVoluntario();
                 } catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
-                    p.exception(e.getLocalizedMessage()+"op2");
+                    p.exception(e.getLocalizedMessage()+" op2");
                 }
                 break;
             case ('t'):
@@ -307,11 +307,15 @@ public class Controller implements InterfaceController, Serializable {
                     r = menuTransportadora();
                 }
                 catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
-                    p.exception(e.getLocalizedMessage()+"op3");
+                    p.exception(e.getLocalizedMessage()+" op3");
                 }
                 break;
             case ('l'):
-                r = menuLoja();
+                try {
+                    r = menuLoja();
+                } catch (LojaInexistenteException e) {
+                    p.exception(e.getLocalizedMessage()+" op4");
+                }
                 break;
         }
         return r;
@@ -753,9 +757,11 @@ public class Controller implements InterfaceController, Serializable {
      * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
      */
     @Override
-    public int menuLoja() {
+    public int menuLoja() throws LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
+        p.apresentaUnreadMessages(this.info.getLoja(codUser).getMessages());
+        this.info.resetMessages(codUser);
         p.showLojaOptions();
         while(!(opcao=read.nextLine()).equals("0")){
             switch (opcao){
