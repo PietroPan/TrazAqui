@@ -28,7 +28,7 @@ public class Printer implements InterfacePrinter, Serializable {
     @Override
     public void apresentaMenuTabelaLoja()
     {
-        System.out.println("[a] Adicionar Produto | [s] Mudar Quantidade | [c] Mudar Preco | [r] Remover Produto | [n] Proxima Pagina | [p] Pagina Anterior | [(numero)] Ir para pagina | [q] Terminar Alterações");
+        System.out.println("[a] Adicionar Produto | [s] Mudar Quantidade | [c] Mudar Preco | [r] Remover Produto [n] Proxima Pagina | [p] Pagina Anterior | [(numero)] Ir para pagina | [q] Terminar Alterações");
     }
 
     @Override
@@ -315,7 +315,7 @@ public class Printer implements InterfacePrinter, Serializable {
 
     @Override
     public void showMainMenu() {
-        System.out.println("1.Login" +
+        System.out.println("\n1.Login" +
                             "\n2.Criar conta" +
                             "\n3.Avançar tempo" +
                             "\n4.Opções do Sistema" +
@@ -344,7 +344,7 @@ public class Printer implements InterfacePrinter, Serializable {
 
     @Override
     public void showVoluntarioOptions() {
-        System.out.println("1.Ver pedidos de entrega" +
+        System.out.println("\n1.Ver pedidos de entrega" +
                             "\n2.Pedir Entrega"+
                             "\n3.Fazer Entrega"+
                             "\n4.Histórico de entregas efetuadas"+
@@ -354,7 +354,7 @@ public class Printer implements InterfacePrinter, Serializable {
 
     @Override
     public void showTransportadoraOptions() {
-        System.out.println("1.Ver pedidos de entrega" +
+        System.out.println("\n1.Ver pedidos de entrega" +
                 "\n2.Calcular preco de transporte"+
                 "\n3.Propor Entrega"+
                 "\n4.Verificar Pedidos Propostos"+
@@ -367,7 +367,7 @@ public class Printer implements InterfacePrinter, Serializable {
 
     @Override
     public void showLojaOptions(){
-        System.out.println("1.Atualizar Stock" +
+        System.out.println("\n1.Atualizar Stock" +
                 "\n2.Logout" +
                 "\n3.Sair");
     }
