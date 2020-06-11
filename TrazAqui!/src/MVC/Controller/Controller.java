@@ -415,6 +415,10 @@ public class Controller implements InterfaceController, Serializable {
                                     p.exception(e.getLocalizedMessage()+"\nCancelando linha de encomenda!\n");
                                     break;
                                 }
+                                if (qnt<=0) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
                                 AbstractMap.SimpleEntry<String,Double> l = new AbstractMap.SimpleEntry<>(codProd,qnt);
                                 peso+=rand.nextFloat()*5*qnt;
                                 list.add(l);
@@ -802,7 +806,7 @@ public class Controller implements InterfaceController, Serializable {
                     {
                         p.apresentaStock(stock,pagina,linhasTabela,colunasTabela);
                         p.apresentaMenuTabelaLoja(); opcaoMenuTabela = read.nextLine();
-
+                        npaginas = p.getNumeroPaginas(stock.size(),linhasTabela,colunasTabela);
                         switch(opcaoMenuTabela)
                         {
                             case "n": // proxima pagina
@@ -814,12 +818,23 @@ public class Controller implements InterfaceController, Serializable {
                                 if(pagina<1) pagina++;
                                 break;
                             case "a": // deseja adicionar produto
+                                double qnt;
                                 p.askDescricao();
                                 String des =read.nextLine();
                                 p.askPrecoProd();
                                 double preco = Double.parseDouble(read.nextLine());
                                 p.askQuantidadeProd();
-                                double qnt = Double.parseDouble(read.nextLine());
+                                try {
+                                    qnt = Double.parseDouble(read.nextLine());
+                                }
+                                catch (NumberFormatException e) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
+                                if (qnt<=0) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
                                 InterfaceLinhaEncomenda l = new LinhaEncomenda("",des,preco,qnt);
                                 this.info.addToStock(codUser,l);
                                 stock = this.info.getStock(codUser);
@@ -834,7 +849,17 @@ public class Controller implements InterfaceController, Serializable {
                                 p.askCodProdutoAlt();
                                 String codP = read.nextLine();
                                 p.askQuantidadeProd();
-                                qnt = Double.parseDouble(read.nextLine());
+                                try {
+                                    qnt = Double.parseDouble(read.nextLine());
+                                }
+                                catch (NumberFormatException e) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
+                                if (qnt<=0) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
                                 this.info.mudarQuantidade(codUser,codP,qnt);
                                 stock=this.info.getStock(codUser);
                                 break;
