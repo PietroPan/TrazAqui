@@ -377,7 +377,7 @@ public class Controller implements InterfaceController, Serializable {
 
                     if(colunasTabela>stock.size()) colunasTabela = stock.size();
                     if(colunasTabela<1||colunasTabela>5) colunasTabela = 3;
-                    if(linhasTabela<1) linhasTabela = 4;
+                    if(linhasTabela<1 || linhasTabela>5) linhasTabela = 4;
                     int npaginas = p.getNumeroPaginas(stock.size(),linhasTabela,colunasTabela);
 
                     int pagina = 1;
@@ -788,7 +788,7 @@ public class Controller implements InterfaceController, Serializable {
 
                     if(colunasTabela>stock.size()) colunasTabela = stock.size();
                     if(colunasTabela<1||colunasTabela>5) colunasTabela = 3;
-                    if(linhasTabela<1) linhasTabela = 4;
+                    if(linhasTabela<1 || linhasTabela>5) linhasTabela = 4;
                     int npaginas = p.getNumeroPaginas(stock.size(),linhasTabela,colunasTabela);
 
                     int pagina = 1;
