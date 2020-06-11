@@ -71,27 +71,27 @@ public class Controller implements InterfaceController, Serializable {
             p.showLoginOptions();
             try {
                 i = Integer.parseInt(read.nextLine());
+                switch (i) {
+                    case (1):
+                        cod = initUser();
+                        break;
+                    case (2):
+                        cod = initEntregador(1);
+                        break;
+                    case (3):
+                        cod = initEntregador(0);
+                        break;
+                    case (4):
+                        cod = initLoja();
+                        break;
+                    default:
+                        p.invalid("Opção");
+                        break;
+                }
             }
             catch (NumberFormatException f) {
                 p.invalid("Input");
                 i=5;
-            }
-            switch (i) {
-                case (1):
-                    cod = initUser();
-                    break;
-                case (2):
-                    cod = initEntregador(1);
-                    break;
-                case (3):
-                    cod = initEntregador(0);
-                    break;
-                case (4):
-                    cod = initLoja();
-                    break;
-                default:
-                    p.invalid("Opção");
-                    break;
             }
         }
         return cod;
