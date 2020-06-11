@@ -136,12 +136,6 @@ public class Printer implements InterfacePrinter, Serializable {
         System.out.println("Foi escolhido o voluntario livre que deve demorar menos tempo a entregar a sua encomenda");
     }
 
-    /*Questions*/
-    @Override
-    public void askUserCod() {
-        System.out.println("Insira o seu Codigo de Utilizador:");
-    }
-
     @Override
     public void askCod() {
         System.out.println("Insira o seu Código:");
@@ -158,7 +152,7 @@ public class Printer implements InterfacePrinter, Serializable {
 
     @Override
     public void askUserName() {
-        System.out.println("Insira o seu Nome de Utilizador:");
+        System.out.println("Insira o seu Nome:");
     }
     
     @Override

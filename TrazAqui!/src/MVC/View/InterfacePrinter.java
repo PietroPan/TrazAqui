@@ -36,9 +36,6 @@ public interface InterfacePrinter {
 
     void voluntarioLivre();
 
-    /*Questions*/
-    void askUserCod();
-
     void askCod();
 
     void askNew();
