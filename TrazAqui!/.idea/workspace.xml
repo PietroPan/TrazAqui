@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="TrazAqui!:jar" />
+      <artifact name="TrazAqui:jar" />
     </artifacts-to-build>
   </component>
   <component name="BranchesTreeState">
@@ -25,10 +25,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9c6f001-bfbd-43b0-9baf-2bef6f7f7fc1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/TrazAqui__jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MVC/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/Controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MVC/View/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MVC/View/Printer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

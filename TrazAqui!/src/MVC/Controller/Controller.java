@@ -751,7 +751,6 @@ public class Controller implements InterfaceController, Serializable {
     /**
      * Método responsável pela interação com a loja no seu menu
      * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
-     * @throws LojaInexistenteException Loja não registada
      */
     @Override
     public int menuLoja() {
@@ -858,8 +857,10 @@ public class Controller implements InterfaceController, Serializable {
                     break;
                 case("2"):
                     return 1;
+                case("3"):
+                    return 0;
                 default:
-                    p.invalid(opcao);
+                    p.invalid("Opção");
                     break;
             }
         }
