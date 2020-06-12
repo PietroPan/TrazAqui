@@ -108,4 +108,6 @@ public interface InterfaceData {
     String timeLeft(String ent,String enc);
 
     boolean isFree(String enc,String user);
+
+    String gerarCodEnc();
 }

@@ -450,6 +450,26 @@ public class Data implements InterfaceData, Serializable
     }
 
     /**
+     * Método que gera código para a encomenda
+     * @return codigo gerado
+     */
+    @Override
+    public String gerarCodEnc() {
+        Random rand = new Random();
+        String cod = "e";
+        boolean b=true;
+        while (b){
+            int num = rand.nextInt(9999);
+            cod=cod.concat(String.valueOf(num));
+            for (InterfaceLoja i : this.lojas.getLojas().values()){
+                b=i.getPedidos().containsKey(cod)||i.getPedidosEspera().containsKey(cod);
+                if (b) break;
+            }
+        }
+        return cod;
+    }
+
+    /**
      * Método que realiza uma encomenda
      * @param cod codigo de entregador
      * @throws EntregadorInexistenteException caso não exista

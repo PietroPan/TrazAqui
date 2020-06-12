@@ -46,6 +46,4 @@ public interface InterfaceEntregador extends InterfaceBasicInfo {
     void classifica(float c);
 
     List<InterfaceEncomenda> atualizaEstado(LocalDateTime t);
-
-    void addMessage(String message);
 }

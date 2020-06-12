@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TrazAqui:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TrazAqui.jar</output-path>
+    <root id="archive" name="TrazAqui!.jar">
+      <element id="module-output" name="TrazAqui!" />
+    </root>
+  </artifact>
+</component>

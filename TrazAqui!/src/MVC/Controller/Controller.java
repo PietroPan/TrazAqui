@@ -133,21 +133,12 @@ public class Controller implements InterfaceController, Serializable {
                 }
                 break;
             case ('v'):
-                try {
-                    InterfaceEntregador e = this.info.getEntregador(cod);
-                    r= e!=null && password.equals(e.getPassword());
-                }
-                catch (EntregadorInexistenteException d){
-                    p.naoRegistado("Entregador");
-                    r=false;
-                }
-                break;
             case ('t'):
                 try {
                     InterfaceEntregador e = this.info.getEntregador(cod);
                     r= e!=null && password.equals(e.getPassword());
                 }
-                catch (EntregadorInexistenteException d) {
+                catch (EntregadorInexistenteException d){
                     p.naoRegistado("Entregador");
                     r=false;
                 }
@@ -252,7 +243,9 @@ public class Controller implements InterfaceController, Serializable {
         int tF = Integer.parseInt(read.nextLine());
         p.askTempoAtendimento();
         float t = Float.parseFloat(read.nextLine());
-        this.info.addLoja(new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>(),new HashMap<>(),new HashMap<>()));
+        InterfaceLoja loja = new Loja(cod,name,new Point2D.Double(x,y),password,tF,t,new HashMap<>(),new HashMap<>(),new HashMap<>());
+        loja.addMessage("User cridado com sucesso\nCódigo: "+cod+"\nBem Vindo!");
+        this.info.addLoja(loja);
         return cod;
     }
 
@@ -299,14 +292,14 @@ public class Controller implements InterfaceController, Serializable {
                 try {
                     r = menuUser();
                 } catch (UtilizadorInexistenteException | LojaInexistenteException | EntregadorInexistenteException u) {
-                    p.exception(u.getLocalizedMessage()+"op1");
+                    p.exception(u.getLocalizedMessage()+" op1");
                 }
                 break;
             case ('v'):
                 try {
                     r = menuVoluntario();
                 } catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
-                    p.exception(e.getLocalizedMessage()+"op2");
+                    p.exception(e.getLocalizedMessage()+" op2");
                 }
                 break;
             case ('t'):
@@ -314,15 +307,14 @@ public class Controller implements InterfaceController, Serializable {
                     r = menuTransportadora();
                 }
                 catch (EntregadorInexistenteException | UtilizadorInexistenteException | LojaInexistenteException e) {
-                    p.exception(e.getLocalizedMessage()+"op3");
+                    p.exception(e.getLocalizedMessage()+" op3");
                 }
                 break;
             case ('l'):
                 try {
                     r = menuLoja();
-                }
-                catch (LojaInexistenteException e){
-                    p.exception(e.getLocalizedMessage()+"op4");
+                } catch (LojaInexistenteException e) {
+                    p.exception(e.getLocalizedMessage()+" op4");
                 }
                 break;
         }
@@ -355,13 +347,14 @@ public class Controller implements InterfaceController, Serializable {
                         stock = this.info.getStock(loja);
                     }
                     catch (NullPointerException e) {
-                        throw new LojaInexistenteException("Loja inexistente");
+                        p.exception("Loja inexistente");
+                        break;
                     }
                     p.askMedical();
                     boolean med = read.nextLine().toUpperCase().equals("S");
                     List<Map.Entry<String,Double>> list=new ArrayList<>();
                     List<InterfaceLinhaEncomenda> lista = new ArrayList<>();
-                    InterfaceEncomenda enc = new Encomenda("e"+rand.nextInt(10000),med,0,loja,codUser,lista, this.info.getHoras(),this.info.getHoras());
+                    InterfaceEncomenda enc = new Encomenda(this.info.gerarCodEnc(),med,0,loja,codUser,lista, this.info.getHoras(),this.info.getHoras());
 
                     p.apresentaTotalProdutosStock(stock);
 
@@ -422,6 +415,10 @@ public class Controller implements InterfaceController, Serializable {
                                     p.exception(e.getLocalizedMessage()+"\nCancelando linha de encomenda!\n");
                                     break;
                                 }
+                                if (qnt<=0) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
                                 AbstractMap.SimpleEntry<String,Double> l = new AbstractMap.SimpleEntry<>(codProd,qnt);
                                 peso+=rand.nextFloat()*5*qnt;
                                 list.add(l);
@@ -445,7 +442,7 @@ public class Controller implements InterfaceController, Serializable {
                                     if(pagina<1) pagina=1;
                                 } catch (NumberFormatException e)
                                 {
-                                    p.exception(e.getLocalizedMessage());
+                                    p.exception("Opção inválida");
                                 }
                                 break;
                         }
@@ -762,14 +759,14 @@ public class Controller implements InterfaceController, Serializable {
     /**
      * Método responsável pela interação com a loja no seu menu
      * @return 0 se decidiu sair 1 se ainda está a utilizar a aplicação
-     * @throws LojaInexistenteException Loja não registada
      */
     @Override
     public int menuLoja() throws LojaInexistenteException {
         String opcao;
         Scanner read = new Scanner(System.in);
+        p.apresentaUnreadMessages(this.info.getLoja(codUser).getMessages());
+        this.info.resetMessages(codUser);
         p.showLojaOptions();
-        InterfaceLoja loja = this.info.getLoja(codUser);
         while(!(opcao=read.nextLine()).equals("0")){
             switch (opcao){
                 case "1":
@@ -809,7 +806,7 @@ public class Controller implements InterfaceController, Serializable {
                     {
                         p.apresentaStock(stock,pagina,linhasTabela,colunasTabela);
                         p.apresentaMenuTabelaLoja(); opcaoMenuTabela = read.nextLine();
-
+                        npaginas = p.getNumeroPaginas(stock.size(),linhasTabela,colunasTabela);
                         switch(opcaoMenuTabela)
                         {
                             case "n": // proxima pagina
@@ -821,12 +818,23 @@ public class Controller implements InterfaceController, Serializable {
                                 if(pagina<1) pagina++;
                                 break;
                             case "a": // deseja adicionar produto
+                                double qnt;
                                 p.askDescricao();
                                 String des =read.nextLine();
                                 p.askPrecoProd();
                                 double preco = Double.parseDouble(read.nextLine());
                                 p.askQuantidadeProd();
-                                double qnt = Double.parseDouble(read.nextLine());
+                                try {
+                                    qnt = Double.parseDouble(read.nextLine());
+                                }
+                                catch (NumberFormatException e) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
+                                if (qnt<=0) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
                                 InterfaceLinhaEncomenda l = new LinhaEncomenda("",des,preco,qnt);
                                 this.info.addToStock(codUser,l);
                                 stock = this.info.getStock(codUser);
@@ -841,7 +849,17 @@ public class Controller implements InterfaceController, Serializable {
                                 p.askCodProdutoAlt();
                                 String codP = read.nextLine();
                                 p.askQuantidadeProd();
-                                qnt = Double.parseDouble(read.nextLine());
+                                try {
+                                    qnt = Double.parseDouble(read.nextLine());
+                                }
+                                catch (NumberFormatException e) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
+                                if (qnt<=0) {
+                                    p.exception("Quantidade inválida");
+                                    break;
+                                }
                                 this.info.mudarQuantidade(codUser,codP,qnt);
                                 stock=this.info.getStock(codUser);
                                 break;
@@ -862,7 +880,7 @@ public class Controller implements InterfaceController, Serializable {
                                     if(pagina<1) pagina=1;
                                 } catch (NumberFormatException e)
                                 {
-                                    p.exception(e.getLocalizedMessage());
+                                    p.exception("Opção Inválida");
                                 }
                                 break;
                         }
@@ -870,8 +888,10 @@ public class Controller implements InterfaceController, Serializable {
                     break;
                 case("2"):
                     return 1;
+                case("3"):
+                    return 0;
                 default:
-                    p.invalid(opcao);
+                    p.invalid("Opção");
                     break;
             }
         }

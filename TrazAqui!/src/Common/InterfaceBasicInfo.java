@@ -1,6 +1,7 @@
 package Common;
 
 import java.awt.geom.Point2D;
+import java.util.List;
 
 public interface InterfaceBasicInfo {
     String getPassword();
@@ -18,4 +19,8 @@ public interface InterfaceBasicInfo {
     String getCodigo();
 
     void setCodigo(String codigo);
+
+    void addMessage(String message);
+
+    List<String> getMessages();
 }
