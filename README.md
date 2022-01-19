@@ -1,6 +1,6 @@
-# TrasAqui
+Project carried out within the discipline of Object Oriented Programming  Computer Software Engeneiring masters degree at the University of Minho.
 
-Project carried out within the discipline of Object Oriented Programming of the Computer Software Engeneiring masters degree at the University of Minho.
+# TrasAqui
 
 Delivery service simulator writen in Java
 
